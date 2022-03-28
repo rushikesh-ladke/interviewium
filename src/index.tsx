@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import "bootstrap/dist/css/bootstrap.css";
 import './index.css';
 import { App , Login } from 'components';
 import reportWebVitals from './reportWebVitals';
