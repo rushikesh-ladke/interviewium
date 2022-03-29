@@ -1,6 +1,7 @@
 import styles from './styles.module.scss';
 import Logo from '../../images/Interviewiumlogo.svg'
 import G_Logo from '../../images/g_logo.svg'
+import { Input } from 'antd';
 
 export const Login = () => {
   return (
@@ -26,8 +27,8 @@ export const Login = () => {
             <div className={styles.L_or}>OR</div>
             <hr className={styles.right_rule} />
           </div>
-          <input type="email" className={styles.form_control} placeholder="name@example.com" />
-          <input type="password" className={styles.form_control} placeholder="enter password" />
+          <Input className={styles.form_control} placeholder="Basic usage" />
+          <Input.Password className={styles.form_control} placeholder="Input password" />
           <button className={styles.signBtn}>Sign In</button>
           <div className={styles.sh_back}>
             <h4 className={styles.forgot}><a href="/forgot">Forgot Password?</a></h4>
