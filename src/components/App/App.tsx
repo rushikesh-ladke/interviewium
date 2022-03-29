@@ -1,10 +1,7 @@
-import styles from './styles.module.scss';
+import { Login } from 'components/Login';
 
 export const App = () => {
-  return (
-    <div className={styles.App}>
-     App
-    </div>
-  );
+  return (<>
+    <Login />
+  </>);
 }
-
