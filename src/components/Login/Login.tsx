@@ -8,7 +8,7 @@ export const Login = () => {
       <header className={styles.header}>
         <div className={styles.left_col}></div>
         <div className={styles.center_col}>
-          <a target="_self" className={styles.c_link} href="#" rel="noopener noreferrer">
+          <a target="_self" className={styles.c_link} href="/login" rel="noopener noreferrer">
             <img alt="Interviewium" src={Logo} title="Interviewium" />
           </a>
         </div>
@@ -30,10 +30,10 @@ export const Login = () => {
           <input type="password" className={styles.form_control} placeholder="enter password" />
           <button className={styles.signBtn}>Sign In</button>
           <div className={styles.sh_back}>
-            <h4 className={styles.forgot}><a href="#">Forgot Password?</a></h4>
+            <h4 className={styles.forgot}><a href="/forgot">Forgot Password?</a></h4>
             <div className={styles.right_col}>
               <div className={styles.sideLink}>New to Interviewium? &nbsp;
-                <a target="_self" className={`${styles.createLink}`} href="#" rel="noopener noreferrer">Create an account</a>
+                <a target="_self" className={`${styles.createLink}`} href="/signup" rel="noopener noreferrer">Create an account</a>
               </div>
             </div>
           </div>
