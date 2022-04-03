@@ -4,10 +4,20 @@ type AuthenticatedUser = {
   children: ReactNode;
 };
 
+type User = {
+  user: string;
+  loggedIn: boolean;
+  role: string;
+};
+
 const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }: AuthenticatedUser) => {
-  const [auth, setAuth] = useState(false);
+  const [auth, setAuth] = useState<User>({
+    user: 'dasd',
+    loggedIn: true,
+    role: 'HR1',
+  });
 
   return (
     <AuthContext.Provider value={{ auth, setAuth }}>
@@ -16,4 +26,4 @@ export const AuthProvider = ({ children }: AuthenticatedUser) => {
   );
 };
 
-export default AuthProvider;
+export default AuthContext;
