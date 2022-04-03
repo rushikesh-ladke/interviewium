@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';
 
 import { App } from 'components';
-import AuthProvider from 'context/AuthProvider';
+import { AuthProvider } from 'context/AuthProvider';
 import { PATH } from 'constants/path';
 
 import 'bootstrap/dist/css/bootstrap.css';

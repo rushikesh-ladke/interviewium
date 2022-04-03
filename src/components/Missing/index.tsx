@@ -1,1 +1,1 @@
-export * from './Missing';
+export { Missing as default } from './Missing';
