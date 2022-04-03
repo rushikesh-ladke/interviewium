@@ -6,39 +6,71 @@ import AssignmentIndOutlinedIcon from '@mui/icons-material/AssignmentIndOutlined
 import PersonPinOutlinedIcon from '@mui/icons-material/PersonPinOutlined';
 import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
 import AppRegistrationOutlinedIcon from '@mui/icons-material/AppRegistrationOutlined';
+import CommentOutlinedIcon from '@mui/icons-material/CommentOutlined';
+import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
+import PowerSettingsNewOutlinedIcon from '@mui/icons-material/PowerSettingsNewOutlined';
+
 export const Sidebar = () => {
   return (
     <div className={`${styles.appMain}`}>
       <div className={styles.header}>
         <aside className={styles.aside}>
-          <a target="_self" className={styles.c_link} href="/login" rel="noopener noreferrer">
-            <img alt="Interviewium" src={Logo} title="Interviewium" />
-          </a>
           <ul>
-            <li>
-              <DashboardOutlinedIcon className={styles.icons} />
-              Dashboard
-            </li>
-            <li>
-              <WorkOutlineOutlinedIcon className={styles.icons} />
-              Jobs
-            </li>
-            <li>
-              <AssignmentIndOutlinedIcon className={styles.icons} />
-              Assign
-            </li>
-            <li>
-              <PersonPinOutlinedIcon className={styles.icons} />
-              Interviewer
-            </li>
-            <li>
-              <ListAltOutlinedIcon className={styles.icons} />
-              Ongoing<br /> Interviews
-            </li>
-            <li>
-              <AppRegistrationOutlinedIcon className={styles.icons} />
-              Previous<br /> Interviews
-            </li>
+            <h6>General</h6>
+            <div className='d-flex'>
+              <li className='col-6'>
+                <DashboardOutlinedIcon className={styles.icons} />
+                Dashboard
+              </li>
+              <li className='col-6'>
+                <WorkOutlineOutlinedIcon className={styles.icons} />
+                Jobs
+              </li>
+            </div>
+            <div className='d-flex'>
+              <li className='col-6'>
+                <AssignmentIndOutlinedIcon className={styles.icons} />
+                Assign
+              </li>
+              <li className='col-6'>
+                <PersonPinOutlinedIcon className={styles.icons} />
+                Interviewer
+              </li>
+            </div>
+            <div className='d-flex'>
+              <li className='col-6'>
+                <ListAltOutlinedIcon className={styles.icons} />
+                Ongoing<br /> Interviews
+              </li>
+              <li className='col-6'>
+                <AppRegistrationOutlinedIcon className={styles.icons} />
+                Previous<br /> Interviews
+              </li>
+            </div>
+          </ul>
+          <ul>
+            <h6>Account</h6>
+            <div className='d-flex'>
+              <li className='col-6'>
+                <CommentOutlinedIcon className={styles.icons} />
+                Feedback
+              </li>
+              <li className='col-6'>
+                <SettingsApplicationsIcon className={styles.icons} />
+                Settings
+              </li>
+            </div>
+            <div className='d-flex'>
+              <li className='col-6'>
+                <PowerSettingsNewOutlinedIcon className={styles.icons} />
+                Log out
+              </li>
+            </div>
+          </ul>
+          <ul>
+            <div className={styles.boxMain}>
+
+            </div>
           </ul>
         </aside>
       </div>
