@@ -1,9 +1,10 @@
 export const PATH = {
   GLOBAL: '/*',
-  HOME: '',
-  LOGIN: 'login',
-  SIDEBAR: 'sidebar',
-  REGISTER: 'register',
-  UNAUTHORIZED: 'unauthorized',
-  MISSING: 'missing',
+  HOME: '/',
+  LOGIN: '/',
+  SIDEBAR: '/sidebar',
+  SELECTROLE: '/select-role',
+  REGISTER: '/register',
+  UNAUTHORIZED: '/unauthorized',
+  MISSING: '/missing',
 };

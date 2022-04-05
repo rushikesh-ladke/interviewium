@@ -18,7 +18,7 @@ export const Login = () => {
         message: 'Login Success',
         description: 'Hello Rushikesh, Hope you are having a Good Day 🎃',
       });
-      navigate(PATH.HOME);
+      navigate(PATH.SELECTROLE);
     } catch (error: any) {
       notification['error']({
         message: 'Something went wrong',
@@ -43,7 +43,6 @@ export const Login = () => {
     }
   };
   const onFinish = (values: any) => {
-    console.log(values);
     signInWithEmailPassword(values);
   };
 

@@ -10,6 +10,7 @@ const Register = lazy(() => import('components/Register'));
 const Sidebar = lazy(() => import('components/Sidebar'));
 const Unauthorized = lazy(() => import('components/Unauthorized'));
 const Missing = lazy(() => import('components/Missing'));
+const SelectRole = lazy(() => import('components/SelectRole'));
 
 export const App = () => {
   return (
@@ -21,7 +22,8 @@ export const App = () => {
         <Route path={PATH.UNAUTHORIZED} element={<Unauthorized />} />
         {/* protected */}
         <Route element={<RequiredAuth role={ROLES.HR} />}>
-          <Route path={PATH.HOME} element={<Sidebar />} />
+          <Route path={PATH.SIDEBAR} element={<Sidebar />} />
+          <Route path={PATH.SELECTROLE} element={<SelectRole />} />
         </Route>
         {/* tobe added when new roles come in */}
 
