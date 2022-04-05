@@ -16,15 +16,13 @@ const DOMElement = document.getElementById('root')!;
 const root = createRoot(DOMElement);
 
 root.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <AuthProvider>
-        <Routes>
-          <Route path={PATH.GLOBAL} element={<App />} />
-        </Routes>
-      </AuthProvider>
-    </BrowserRouter>
-  </React.StrictMode>
+  <BrowserRouter>
+    <AuthProvider>
+      <Routes>
+        <Route path={PATH.GLOBAL} element={<App />} />
+      </Routes>
+    </AuthProvider>
+  </BrowserRouter>
 );
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
