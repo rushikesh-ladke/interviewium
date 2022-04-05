@@ -17,32 +17,32 @@ export const Sidebar = () => {
           <ul>
             <h6>General</h6>
             <div className='d-flex'>
-              <li className='col-6'>
+              <li className={`col-6`}>
                 <DashboardOutlinedIcon className={styles.icons} />
                 Dashboard
               </li>
-              <li className='col-6'>
+              <li className={`col-6  ${styles.active}`}>
                 <WorkOutlineOutlinedIcon className={styles.icons} />
                 Jobs
               </li>
             </div>
             <div className='d-flex'>
-              <li className='col-6'>
+              <li className={`col-6 `}>
                 <AssignmentIndOutlinedIcon className={styles.icons} />
                 Assign
               </li>
-              <li className='col-6'>
+              <li className={`col-6 `}>
                 <PersonPinOutlinedIcon className={styles.icons} />
                 Interviewer
               </li>
             </div>
             <div className='d-flex'>
-              <li className='col-6'>
+              <li className={`col-6 `}>
                 <ListAltOutlinedIcon className={styles.icons} />
                 Ongoing
                 <br /> Interviews
               </li>
-              <li className='col-6'>
+              <li className={`col-6 `}>
                 <AppRegistrationOutlinedIcon className={styles.icons} />
                 Previous
                 <br /> Interviews
@@ -52,17 +52,17 @@ export const Sidebar = () => {
           <ul>
             <h6>Account</h6>
             <div className='d-flex'>
-              <li className='col-6'>
+              <li className={`col-6 `}>
                 <CommentOutlinedIcon className={styles.icons} />
                 Feedback
               </li>
-              <li className='col-6'>
+              <li className={`col-6 `}>
                 <SettingsApplicationsIcon className={styles.icons} />
                 Settings
               </li>
             </div>
             <div className='d-flex'>
-              <li className='col-6'>
+              <li className={`col-6 `}>
                 <PowerSettingsNewOutlinedIcon className={styles.icons} />
                 Log out
               </li>

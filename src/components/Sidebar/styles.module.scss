@@ -35,6 +35,12 @@
                     color: #fff;
                     font-weight: 700;
                     font-size: 12px;
+                    &.active {
+                        color: #f7cc1b;
+                        .icons {
+                            background-color: #f7cc1b;
+                        }
+                    }
                     .icons {
                         margin-bottom: 8px;
                         border: none;
