@@ -1,0 +1,35 @@
+.mainSelectRole {
+    background-color: #1e90ff;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .rolesMain {
+        display: flex;
+        .firstr {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            .imgR {
+                width: 100%;
+                max-width: 240px;
+                &.sImg {
+                    max-width: 225px;
+                }
+            }
+            .rolbtn {
+                border: none;
+                color: #3c3b3b;
+                background-color: #ffffffe3;
+                padding: 5px 20px;
+                border-radius: 8px;
+                margin-top: 20px;
+                font-size: 16px;
+            }
+        }
+    }
+}
