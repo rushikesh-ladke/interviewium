@@ -15,7 +15,7 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
 import Accordion from 'react-bootstrap/Accordion'
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
-
+import G_Logo from '../../images/g_logo.svg';
 export const Sidebar = () => {
   return (
     <div className={`${styles.appMain}`}>
@@ -130,7 +130,7 @@ export const Sidebar = () => {
                     <div className='row'>
                       <div className='col-lg-1'>
                         <div className={styles.cphoto}>
-
+                          <img src={G_Logo} />
                         </div>
                       </div>
                       <div className='col-lg-8 ps-4'>
@@ -171,7 +171,7 @@ export const Sidebar = () => {
                     <div className='row'>
                       <div className='col-lg-1'>
                         <div className={styles.cphoto}>
-
+                          <img src={G_Logo} />
                         </div>
                       </div>
                       <div className='col-lg-8 ps-4'>
@@ -212,7 +212,7 @@ export const Sidebar = () => {
                     <div className='row'>
                       <div className='col-lg-1'>
                         <div className={styles.cphoto}>
-
+                          <img src={G_Logo} />
                         </div>
                       </div>
                       <div className='col-lg-8 ps-4'>
@@ -253,7 +253,7 @@ export const Sidebar = () => {
                     <div className='row'>
                       <div className='col-lg-1'>
                         <div className={styles.cphoto}>
-
+                          <img src={G_Logo} />
                         </div>
                       </div>
                       <div className='col-lg-8 ps-4'>
@@ -294,7 +294,7 @@ export const Sidebar = () => {
                     <div className='row'>
                       <div className='col-lg-1'>
                         <div className={styles.cphoto}>
-
+                          <img src={G_Logo} />
                         </div>
                       </div>
                       <div className='col-lg-8 ps-4'>
@@ -335,7 +335,7 @@ export const Sidebar = () => {
                     <div className='row'>
                       <div className='col-lg-1'>
                         <div className={styles.cphoto}>
-
+                          <img src={G_Logo} />
                         </div>
                       </div>
                       <div className='col-lg-8 ps-4'>
@@ -379,7 +379,9 @@ export const Sidebar = () => {
               <div className={styles.ManiG}>
                 <div className={styles.comanyRight}>
                   <div className={styles.detailInfo}>
-                    <div className={styles.cphoto}></div>
+                    <div className={styles.cphoto}>
+                      <img src={G_Logo} />
+                    </div>
                     <h6>UX Designer,<br />Google Pay</h6>
                     <p>Google Inc., Shanghai China</p>
                   </div>
