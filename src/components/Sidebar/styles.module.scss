@@ -41,6 +41,12 @@
                             background-color: #f7cc1b;
                         }
                     }
+                    &:hover {
+                        color: #f7cc1b;
+                        .icons {
+                            background-color: #f7cc1b;
+                        }
+                    }
                     .icons {
                         margin-bottom: 8px;
                         border: none;
