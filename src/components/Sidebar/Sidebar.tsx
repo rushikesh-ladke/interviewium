@@ -8,6 +8,13 @@ import AppRegistrationOutlinedIcon from '@mui/icons-material/AppRegistrationOutl
 import CommentOutlinedIcon from '@mui/icons-material/CommentOutlined';
 import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
 import PowerSettingsNewOutlinedIcon from '@mui/icons-material/PowerSettingsNewOutlined';
+import SearchIcon from '@mui/icons-material/Search';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
+import Accordion from 'react-bootstrap/Accordion'
+import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 
 export const Sidebar = () => {
   return (
@@ -74,43 +81,352 @@ export const Sidebar = () => {
         </aside>
       </div>
       <div className={styles.appBody}>
-        <p>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book. It has survived not only
-          five centuries, but also the leap into electronic typesetting,
-          remaining essentially unchanged. It was popularised in the 1960s with
-          the release of Letraset sheets containing Lorem Ipsum passages, and
-          more recently with desktop publishing software like Aldus PageMaker
-          including versions of Lorem Ipsum. Why do we use it? It is a long
-          established fact that a reader will be distracted by the readable
-          content of a page when looking at its layout. The point of using Lorem
-          Ipsum is that it has a more-or-less normal distribution of letters, as
-          opposed to using 'Content here, content here', making it look like
-          readable English. Many desktop publishing packages and web page
-          editors now use Lorem Ipsum as their default model text, and a search
-          for 'lorem ipsum' will uncover many web sites still in their infancy.
-          Various versions have evolved over the years, sometimes by accident,
-          sometimes on purpose (injected humour and the like). Where does it
-          come from? Contrary to popular belief, Lorem Ipsum is not simply
-          random text. It has roots in a piece of classical Latin literature
-          from 45 BC, making it over 2000 years old. Richard McClintock, a Latin
-          professor at Hampden-Sydney College in Virginia, looked up one of the
-          more obscure Latin words, consectetur, from a Lorem Ipsum passage, and
-          going through the cites of the word in classical literature,
-          discovered the undoubtable source. Lorem Ipsum comes from sections
-          1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes
-          of Good and Evil) by Cicero, written in 45 BC. This book is a treatise
-          on the theory of ethics, very popular during the Renaissance. The
-          first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from
-          a line in section 1.10.32. The standard chunk of Lorem Ipsum used
-          since the 1500s is reproduced below for those interested. Sections
-          1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are
-          also reproduced in their exact original form, accompanied by English
-          versions from the 1914 translation by H. Rackham.
-        </p>
+        <div className={styles.dataBody}>
+          <div className='row'>
+            <div className="col-lg-8">
+              <div className={styles.middleB}>
+                {/* search */}
+                <div className={styles.searchD}>
+                  <div className={`input-group mb-3 ${styles.searchBox}`}>
+                    <input type="text" className={`form-control ${styles.Sinput}`} placeholder="Search by Category, Company or..." aria-label="Search by Category, Company or..." aria-describedby="button-addon2" />
+                    <button className={`btn ${styles.searchBtn}`} type="button" id="button-addon2"><SearchIcon /></button>
+                    <FilterAltOutlinedIcon className={`${styles.filtericon}`} />
+                  </div>
+                </div>
+                {/* filter */}
+                <div className={styles.filter}>
+                  <div className={styles.fresult}>
+                    <div className={styles.fcards}>
+                      UI Designers
+                    </div>
+                    <div className={`${styles.fcards} ${styles.active}`}>
+                      Product Designers
+                    </div>
+                    <div className={styles.fcards}>
+                      Web Developers
+                    </div>
+                  </div>
+                  <div className={styles.cresult}>
+                    <p>Clear filters</p>
+                  </div>
+                </div>
+                {/* sort */}
+                <div className={styles.sort}>
+                  <div className={styles.jobF}>
+                    <h6>Job For You:<span> Popular</span></h6>
+                  </div>
+                  <div className={styles.sortTab}>
+                    sort:  <select className={`form-select ${styles.Dselect}`}>
+                      <option selected>Choose...</option>
+                      <option value="1">Newest</option>
+                      <option value="2">Popular</option>
+                      <option value="3">Old</option>
+                    </select>
+                  </div>
+                </div>
+                {/* Main cards */}
+                <div className={styles.companyList}>
+                  <div className={styles.companyCard}>
+                    <div className='row'>
+                      <div className='col-lg-1'>
+                        <div className={styles.cphoto}>
+
+                        </div>
+                      </div>
+                      <div className='col-lg-8 ps-4'>
+                        <div className={styles.companyI}>
+                          <h4>Google Inc.</h4>
+                          <h6>UX Designer, Google Pay</h6>
+                          <div className='d-flex'>
+                            <div className={styles.Locate}>
+                              <LocationOnIcon className={styles.icon} />
+                              &nbsp;New York, US
+                            </div>
+                            <div className={`${styles.Locate} ms-3`}>
+                              <RemoveRedEyeOutlinedIcon className={styles.icon} />
+                              &nbsp;Views
+                            </div>
+                          </div>
+                          <h6 className={styles.dot}>Today &bull; Full-time &bull; 5 applied</h6>
+                        </div>
+                      </div>
+                      <div className='col-lg-3'>
+                        <div className={styles.info}>
+                          <div className={styles.infoI}>
+                            <BookmarkBorderOutlinedIcon className={styles.icon} />
+                            <InfoOutlinedIcon className={styles.icon} />
+                          </div>
+                          <div className={styles.infoDetail}>
+                            <p>Team</p>
+                            <h6>Product and Design</h6>
+                            <h6 className={styles.package}>
+                              <strong>$120k</strong> / year
+                            </h6>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className={styles.companyCard}>
+                    <div className='row'>
+                      <div className='col-lg-1'>
+                        <div className={styles.cphoto}>
+
+                        </div>
+                      </div>
+                      <div className='col-lg-8 ps-4'>
+                        <div className={styles.companyI}>
+                          <h4>Google Inc.</h4>
+                          <h6>UX Designer, Google Pay</h6>
+                          <div className='d-flex'>
+                            <div className={styles.Locate}>
+                              <LocationOnIcon className={styles.icon} />
+                              &nbsp;New York, US
+                            </div>
+                            <div className={`${styles.Locate} ms-3`}>
+                              <RemoveRedEyeOutlinedIcon className={styles.icon} />
+                              &nbsp;Views
+                            </div>
+                          </div>
+                          <h6 className={styles.dot}>Today &bull; Full-time &bull; 5 applied</h6>
+                        </div>
+                      </div>
+                      <div className='col-lg-3'>
+                        <div className={styles.info}>
+                          <div className={styles.infoI}>
+                            <BookmarkBorderOutlinedIcon className={styles.icon} />
+                            <InfoOutlinedIcon className={styles.icon} />
+                          </div>
+                          <div className={styles.infoDetail}>
+                            <p>Team</p>
+                            <h6>Product and Design</h6>
+                            <h6 className={styles.package}>
+                              <strong>$120k</strong> / year
+                            </h6>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className={styles.companyCard}>
+                    <div className='row'>
+                      <div className='col-lg-1'>
+                        <div className={styles.cphoto}>
+
+                        </div>
+                      </div>
+                      <div className='col-lg-8 ps-4'>
+                        <div className={styles.companyI}>
+                          <h4>Google Inc.</h4>
+                          <h6>UX Designer, Google Pay</h6>
+                          <div className='d-flex'>
+                            <div className={styles.Locate}>
+                              <LocationOnIcon className={styles.icon} />
+                              &nbsp;New York, US
+                            </div>
+                            <div className={`${styles.Locate} ms-3`}>
+                              <RemoveRedEyeOutlinedIcon className={styles.icon} />
+                              &nbsp;Views
+                            </div>
+                          </div>
+                          <h6 className={styles.dot}>Today &bull; Full-time &bull; 5 applied</h6>
+                        </div>
+                      </div>
+                      <div className='col-lg-3'>
+                        <div className={styles.info}>
+                          <div className={styles.infoI}>
+                            <BookmarkBorderOutlinedIcon className={styles.icon} />
+                            <InfoOutlinedIcon className={styles.icon} />
+                          </div>
+                          <div className={styles.infoDetail}>
+                            <p>Team</p>
+                            <h6>Product and Design</h6>
+                            <h6 className={styles.package}>
+                              <strong>$120k</strong> / year
+                            </h6>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className={styles.companyCard}>
+                    <div className='row'>
+                      <div className='col-lg-1'>
+                        <div className={styles.cphoto}>
+
+                        </div>
+                      </div>
+                      <div className='col-lg-8 ps-4'>
+                        <div className={styles.companyI}>
+                          <h4>Google Inc.</h4>
+                          <h6>UX Designer, Google Pay</h6>
+                          <div className='d-flex'>
+                            <div className={styles.Locate}>
+                              <LocationOnIcon className={styles.icon} />
+                              &nbsp;New York, US
+                            </div>
+                            <div className={`${styles.Locate} ms-3`}>
+                              <RemoveRedEyeOutlinedIcon className={styles.icon} />
+                              &nbsp;Views
+                            </div>
+                          </div>
+                          <h6 className={styles.dot}>Today &bull; Full-time &bull; 5 applied</h6>
+                        </div>
+                      </div>
+                      <div className='col-lg-3'>
+                        <div className={styles.info}>
+                          <div className={styles.infoI}>
+                            <BookmarkBorderOutlinedIcon className={styles.icon} />
+                            <InfoOutlinedIcon className={styles.icon} />
+                          </div>
+                          <div className={styles.infoDetail}>
+                            <p>Team</p>
+                            <h6>Product and Design</h6>
+                            <h6 className={styles.package}>
+                              <strong>$120k</strong> / year
+                            </h6>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className={`${styles.companyCard} ${styles.active}`}>
+                    <div className='row'>
+                      <div className='col-lg-1'>
+                        <div className={styles.cphoto}>
+
+                        </div>
+                      </div>
+                      <div className='col-lg-8 ps-4'>
+                        <div className={styles.companyI}>
+                          <h4>Google Inc.</h4>
+                          <h6>UX Designer, Google Pay</h6>
+                          <div className='d-flex'>
+                            <div className={styles.Locate}>
+                              <LocationOnIcon className={styles.icon} />
+                              &nbsp;New York, US
+                            </div>
+                            <div className={`${styles.Locate} ms-3`}>
+                              <RemoveRedEyeOutlinedIcon className={styles.icon} />
+                              &nbsp;Views
+                            </div>
+                          </div>
+                          <h6 className={styles.dot}>Today &bull; Full-time &bull; 5 applied</h6>
+                        </div>
+                      </div>
+                      <div className='col-lg-3'>
+                        <div className={styles.info}>
+                          <div className={styles.infoI}>
+                            <BookmarkBorderOutlinedIcon className={styles.icon} />
+                            <InfoOutlinedIcon className={styles.icon} />
+                          </div>
+                          <div className={styles.infoDetail}>
+                            <p>Team</p>
+                            <h6>Product and Design</h6>
+                            <h6 className={styles.package}>
+                              <strong>$120k</strong> / year
+                            </h6>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className={styles.companyCard}>
+                    <div className='row'>
+                      <div className='col-lg-1'>
+                        <div className={styles.cphoto}>
+
+                        </div>
+                      </div>
+                      <div className='col-lg-8 ps-4'>
+                        <div className={styles.companyI}>
+                          <h4>Google Inc.</h4>
+                          <h6>UX Designer, Google Pay</h6>
+                          <div className='d-flex'>
+                            <div className={styles.Locate}>
+                              <LocationOnIcon className={styles.icon} />
+                              &nbsp;New York, US
+                            </div>
+                            <div className={`${styles.Locate} ms-3`}>
+                              <RemoveRedEyeOutlinedIcon className={styles.icon} />
+                              &nbsp;Views
+                            </div>
+                          </div>
+                          <h6 className={styles.dot}>Today &bull; Full-time &bull; 5 applied</h6>
+                        </div>
+                      </div>
+                      <div className='col-lg-3'>
+                        <div className={styles.info}>
+                          <div className={styles.infoI}>
+                            <BookmarkBorderOutlinedIcon className={styles.icon} />
+                            <InfoOutlinedIcon className={styles.icon} />
+                          </div>
+                          <div className={styles.infoDetail}>
+                            <p>Team</p>
+                            <h6>Product and Design</h6>
+                            <h6 className={styles.package}>
+                              <strong>$120k</strong> / year
+                            </h6>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col-lg-4">
+              <div className={styles.ManiG}>
+                <div className={styles.comanyRight}>
+                  <div className={styles.detailInfo}>
+                    <div className={styles.cphoto}></div>
+                    <h6>UX Designer,<br />Google Pay</h6>
+                    <p>Google Inc., Shanghai China</p>
+                  </div>
+                  <hr />
+                  <div className={styles.minimumMain}>
+                    <div className={styles.minimumD}>
+                      <h6>Minimum Qualifications</h6>
+                      <p><h6>-</h6>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. </p>
+                      <p><h6>-</h6>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. </p>
+                      <p><h6>-</h6>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. </p>
+
+                      <hr />
+                    </div>
+                    <div className={styles.minimumD}>
+                      <h6>About the Job:</h6>
+                      <p>                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+                        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                        cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+                        est laborum.</p>
+                    </div>
+                    <Accordion className={styles.acc}>
+                      <Accordion.Item eventKey="0">
+                        <Accordion.Header>Read More</Accordion.Header>
+                        <Accordion.Body>
+                          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                          veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                          commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+                          velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                          cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+                          est laborum.
+                        </Accordion.Body>
+                      </Accordion.Item>
+                    </Accordion>
+                  </div>
+                </div>
+                <div className={styles.apply}>
+                  <button className={styles.applyBtn}>Apply Now</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </div >
   );
 };
