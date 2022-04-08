@@ -2,10 +2,12 @@ import { Button, Form, Input } from 'antd';
 
 import styles from './styles.module.scss';
 import Logo from '../../images/Interviewiumlogo.svg';
+import { saveCompanyData } from './register-api';
 
 export const Register = () => {
   const onFinish = (values: any) => {
     console.log(values);
+    saveCompanyData(values);
   };
 
   return (
