@@ -5,9 +5,12 @@ import Logo from '../../images/Interviewiumlogo.svg';
 import { saveCompanyData } from './register-api';
 
 export const Register = () => {
+  const [form] = Form.useForm();
+
   const onFinish = (values: any) => {
     console.log(values);
     saveCompanyData(values);
+    form.resetFields();
   };
 
   return (
@@ -46,6 +49,7 @@ export const Register = () => {
             className='login-form'
             initialValues={{ remember: true }}
             onFinish={onFinish}
+            form={form}
           >
             <div className='row'>
               <div className='col-12 col-sm-6'>
