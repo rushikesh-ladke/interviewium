@@ -108,6 +108,7 @@ export const Login = () => {
               name='password'
               rules={[
                 { required: true, message: 'Please input your Password..' },
+                { min: 10, message: 'Minimum 10 characters Required' },
               ]}
             >
               <Input.Password
