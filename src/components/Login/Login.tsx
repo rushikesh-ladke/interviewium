@@ -1,14 +1,26 @@
-import styles from './styles.module.scss';
+import { Button, Form, Input, notification } from 'antd';
+import { useNavigate } from 'react-router-dom';
+
 import Logo from '../../images/Interviewiumlogo.svg';
 import G_Logo from '../../images/g_logo.svg';
-import { Button, Form, Input, notification } from 'antd';
 import { popup, signIn } from './login-api';
-import { useNavigate } from 'react-router-dom';
 import { PATH } from 'constants/path';
 import { TAGS } from './tags';
+import useAuth from 'hooks/useAuth';
+
+import styles from './styles.module.scss';
+import { useEffect } from 'react';
 
 export const Login = () => {
   const navigate = useNavigate();
+  const { auth, setAuth }: any = useAuth();
+
+  useEffect(() => {
+    setAuth({});
+    window.localStorage.removeItem('uid');
+    window.localStorage.removeItem('accessToken');
+    window.localStorage.removeItem('userData');
+  }, [setAuth]);
 
   const saveDataToLocalStorage = (user: any) => {
     const userData: any = {
@@ -20,6 +32,12 @@ export const Login = () => {
     window.localStorage.setItem('uid', user.uid);
     window.localStorage.setItem('accessToken', user.accessToken);
     window.localStorage.setItem('userData', JSON.stringify(userData));
+    setAuth({
+      ...auth,
+      user: user.uid,
+      loggedIn: true,
+      role: 'HR',
+    });
   };
 
   const signInWithEmailPassword = async (values: any) => {
