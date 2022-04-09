@@ -14,7 +14,6 @@ import Avatar from '../../images/avatar.svg';
 import Tabs, { tabsClasses } from '@mui/material/Tabs';
 
 export const Assign = () => {
-
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: any, newValue: React.SetStateAction<number>) => {
@@ -89,8 +88,8 @@ export const Assign = () => {
           <Tabs
             value={value}
             onChange={handleChange}
-            variant="scrollable"
-            scrollButtons="auto"
+            variant='scrollable'
+            scrollButtons='auto'
             className={styles.TabScroll}
             sx={{
               [`& .${tabsClasses.scrollButtons}`]: {
@@ -100,69 +99,201 @@ export const Assign = () => {
           >
             <div className={styles.studentCard}>
               <h6>Doris Bailey</h6>
-              <div className='d-flex'><div className={styles.profile}><div className={styles.dot}></div>Senior Designer</div></div>
-              <div className={styles.activeStatus}><TimelapseOutlinedIcon className={styles.time} /> 3 days ago</div>
-              <div className='d-flex justify-content-center'><img src={Avatar} alt="Profile-photo" className={styles.profilePic} /></div>
+              <div className='d-flex'>
+                <div className={styles.profile}>
+                  <div className={styles.dot}></div>Senior Designer
+                </div>
+              </div>
+              <div className={styles.activeStatus}>
+                <TimelapseOutlinedIcon className={styles.time} /> 3 days ago
+              </div>
+              <div className='d-flex justify-content-center'>
+                <img
+                  src={Avatar}
+                  alt='Profile'
+                  className={styles.profilePic}
+                />
+              </div>
             </div>
             <div className={styles.studentCard}>
               <h6>Doris Bailey</h6>
-              <div className='d-flex'><div className={styles.profile}><div className={styles.dot}></div>Senior Designer</div></div>
-              <div className={styles.activeStatus}><TimelapseOutlinedIcon className={styles.time} /> 3 days ago</div>
-              <div className='d-flex justify-content-center'><img src={Avatar} alt="Profile-photo" className={styles.profilePic} /></div>
+              <div className='d-flex'>
+                <div className={styles.profile}>
+                  <div className={styles.dot}></div>Senior Designer
+                </div>
+              </div>
+              <div className={styles.activeStatus}>
+                <TimelapseOutlinedIcon className={styles.time} /> 3 days ago
+              </div>
+              <div className='d-flex justify-content-center'>
+                <img
+                  src={Avatar}
+                  alt='Profile'
+                  className={styles.profilePic}
+                />
+              </div>
             </div>
             <div className={styles.studentCard}>
               <h6>Doris Bailey</h6>
-              <div className='d-flex'><div className={styles.profile}><div className={styles.dot}></div>Senior Designer</div></div>
-              <div className={styles.activeStatus}><TimelapseOutlinedIcon className={styles.time} /> 3 days ago</div>
-              <div className='d-flex justify-content-center'><img src={Avatar} alt="Profile-photo" className={styles.profilePic} /></div>
+              <div className='d-flex'>
+                <div className={styles.profile}>
+                  <div className={styles.dot}></div>Senior Designer
+                </div>
+              </div>
+              <div className={styles.activeStatus}>
+                <TimelapseOutlinedIcon className={styles.time} /> 3 days ago
+              </div>
+              <div className='d-flex justify-content-center'>
+                <img
+                  src={Avatar}
+                  alt='Profile'
+                  className={styles.profilePic}
+                />
+              </div>
             </div>
             <div className={styles.studentCard}>
               <h6>Doris Bailey</h6>
-              <div className='d-flex'><div className={styles.profile}><div className={styles.dot}></div>Senior Designer</div></div>
-              <div className={styles.activeStatus}><TimelapseOutlinedIcon className={styles.time} /> 3 days ago</div>
-              <div className='d-flex justify-content-center'><img src={Avatar} alt="Profile-photo" className={styles.profilePic} /></div>
+              <div className='d-flex'>
+                <div className={styles.profile}>
+                  <div className={styles.dot}></div>Senior Designer
+                </div>
+              </div>
+              <div className={styles.activeStatus}>
+                <TimelapseOutlinedIcon className={styles.time} /> 3 days ago
+              </div>
+              <div className='d-flex justify-content-center'>
+                <img
+                  src={Avatar}
+                  alt='Profile'
+                  className={styles.profilePic}
+                />
+              </div>
             </div>
             <div className={styles.studentCard}>
               <h6>Doris Bailey</h6>
-              <div className='d-flex'><div className={styles.profile}><div className={styles.dot}></div>Senior Designer</div></div>
-              <div className={styles.activeStatus}><TimelapseOutlinedIcon className={styles.time} /> 3 days ago</div>
-              <div className='d-flex justify-content-center'><img src={Avatar} alt="Profile-photo" className={styles.profilePic} /></div>
+              <div className='d-flex'>
+                <div className={styles.profile}>
+                  <div className={styles.dot}></div>Senior Designer
+                </div>
+              </div>
+              <div className={styles.activeStatus}>
+                <TimelapseOutlinedIcon className={styles.time} /> 3 days ago
+              </div>
+              <div className='d-flex justify-content-center'>
+                <img
+                  src={Avatar}
+                  alt='Profile'
+                  className={styles.profilePic}
+                />
+              </div>
             </div>
             <div className={styles.studentCard}>
               <h6>Doris Bailey</h6>
-              <div className='d-flex'><div className={styles.profile}><div className={styles.dot}></div>Senior Designer</div></div>
-              <div className={styles.activeStatus}><TimelapseOutlinedIcon className={styles.time} /> 3 days ago</div>
-              <div className='d-flex justify-content-center'><img src={Avatar} alt="Profile-photo" className={styles.profilePic} /></div>
+              <div className='d-flex'>
+                <div className={styles.profile}>
+                  <div className={styles.dot}></div>Senior Designer
+                </div>
+              </div>
+              <div className={styles.activeStatus}>
+                <TimelapseOutlinedIcon className={styles.time} /> 3 days ago
+              </div>
+              <div className='d-flex justify-content-center'>
+                <img
+                  src={Avatar}
+                  alt='Profile'
+                  className={styles.profilePic}
+                />
+              </div>
             </div>
             <div className={styles.studentCard}>
               <h6>Doris Bailey</h6>
-              <div className='d-flex'><div className={styles.profile}><div className={styles.dot}></div>Senior Designer</div></div>
-              <div className={styles.activeStatus}><TimelapseOutlinedIcon className={styles.time} /> 3 days ago</div>
-              <div className='d-flex justify-content-center'><img src={Avatar} alt="Profile-photo" className={styles.profilePic} /></div>
+              <div className='d-flex'>
+                <div className={styles.profile}>
+                  <div className={styles.dot}></div>Senior Designer
+                </div>
+              </div>
+              <div className={styles.activeStatus}>
+                <TimelapseOutlinedIcon className={styles.time} /> 3 days ago
+              </div>
+              <div className='d-flex justify-content-center'>
+                <img
+                  src={Avatar}
+                  alt='Profile'
+                  className={styles.profilePic}
+                />
+              </div>
             </div>
             <div className={styles.studentCard}>
               <h6>Doris Bailey</h6>
-              <div className='d-flex'><div className={styles.profile}><div className={styles.dot}></div>Senior Designer</div></div>
-              <div className={styles.activeStatus}><TimelapseOutlinedIcon className={styles.time} /> 3 days ago</div>
-              <div className='d-flex justify-content-center'><img src={Avatar} alt="Profile-photo" className={styles.profilePic} /></div>
+              <div className='d-flex'>
+                <div className={styles.profile}>
+                  <div className={styles.dot}></div>Senior Designer
+                </div>
+              </div>
+              <div className={styles.activeStatus}>
+                <TimelapseOutlinedIcon className={styles.time} /> 3 days ago
+              </div>
+              <div className='d-flex justify-content-center'>
+                <img
+                  src={Avatar}
+                  alt='Profile'
+                  className={styles.profilePic}
+                />
+              </div>
             </div>
             <div className={styles.studentCard}>
               <h6>Doris Bailey</h6>
-              <div className='d-flex'><div className={styles.profile}><div className={styles.dot}></div>Senior Designer</div></div>
-              <div className={styles.activeStatus}><TimelapseOutlinedIcon className={styles.time} /> 3 days ago</div>
-              <div className='d-flex justify-content-center'><img src={Avatar} alt="Profile-photo" className={styles.profilePic} /></div>
+              <div className='d-flex'>
+                <div className={styles.profile}>
+                  <div className={styles.dot}></div>Senior Designer
+                </div>
+              </div>
+              <div className={styles.activeStatus}>
+                <TimelapseOutlinedIcon className={styles.time} /> 3 days ago
+              </div>
+              <div className='d-flex justify-content-center'>
+                <img
+                  src={Avatar}
+                  alt='Profile'
+                  className={styles.profilePic}
+                />
+              </div>
             </div>
             <div className={styles.studentCard}>
               <h6>Doris Bailey</h6>
-              <div className='d-flex'><div className={styles.profile}><div className={styles.dot}></div>Senior Designer</div></div>
-              <div className={styles.activeStatus}><TimelapseOutlinedIcon className={styles.time} /> 3 days ago</div>
-              <div className='d-flex justify-content-center'><img src={Avatar} alt="Profile-photo" className={styles.profilePic} /></div>
+              <div className='d-flex'>
+                <div className={styles.profile}>
+                  <div className={styles.dot}></div>Senior Designer
+                </div>
+              </div>
+              <div className={styles.activeStatus}>
+                <TimelapseOutlinedIcon className={styles.time} /> 3 days ago
+              </div>
+              <div className='d-flex justify-content-center'>
+                <img
+                  src={Avatar}
+                  alt='Profile'
+                  className={styles.profilePic}
+                />
+              </div>
             </div>
             <div className={styles.studentCard}>
               <h6>Doris Bailey</h6>
-              <div className='d-flex'><div className={styles.profile}><div className={styles.dot}></div>Senior Designer</div></div>
-              <div className={styles.activeStatus}><TimelapseOutlinedIcon className={styles.time} /> 3 days ago</div>
-              <div className='d-flex justify-content-center'><img src={Avatar} alt="Profile-photo" className={styles.profilePic} /></div>
+              <div className='d-flex'>
+                <div className={styles.profile}>
+                  <div className={styles.dot}></div>Senior Designer
+                </div>
+              </div>
+              <div className={styles.activeStatus}>
+                <TimelapseOutlinedIcon className={styles.time} /> 3 days ago
+              </div>
+              <div className='d-flex justify-content-center'>
+                <img
+                  src={Avatar}
+                  alt='Profile'
+                  className={styles.profilePic}
+                />
+              </div>
             </div>
           </Tabs>
         </div>
@@ -171,49 +302,121 @@ export const Assign = () => {
           <div className={styles.assignCards}>
             <div className={styles.studentCard}>
               <h6>Doris Bailey</h6>
-              <div className='d-flex'><div className={styles.profile}><div className={styles.dot}></div>Senior Designer</div></div>
-              <div className={styles.activeStatus}><TimelapseOutlinedIcon className={styles.time} /> 3 days ago</div>
-              <div className='d-flex justify-content-center'><img src={Avatar} alt="Profile-photo" className={styles.profilePic} /></div>
+              <div className='d-flex'>
+                <div className={styles.profile}>
+                  <div className={styles.dot}></div>Senior Designer
+                </div>
+              </div>
+              <div className={styles.activeStatus}>
+                <TimelapseOutlinedIcon className={styles.time} /> 3 days ago
+              </div>
+              <div className='d-flex justify-content-center'>
+                <img
+                  src={Avatar}
+                  alt='Profile'
+                  className={styles.profilePic}
+                />
+              </div>
             </div>
           </div>
           <div className={styles.assignCards}>
             <div className={styles.studentCard}>
               <h6>Doris Bailey</h6>
-              <div className='d-flex'><div className={styles.profile}><div className={styles.dot}></div>Senior Designer</div></div>
-              <div className={styles.activeStatus}><TimelapseOutlinedIcon className={styles.time} /> 3 days ago</div>
-              <div className='d-flex justify-content-center'><img src={Avatar} alt="Profile-photo" className={styles.profilePic} /></div>
+              <div className='d-flex'>
+                <div className={styles.profile}>
+                  <div className={styles.dot}></div>Senior Designer
+                </div>
+              </div>
+              <div className={styles.activeStatus}>
+                <TimelapseOutlinedIcon className={styles.time} /> 3 days ago
+              </div>
+              <div className='d-flex justify-content-center'>
+                <img
+                  src={Avatar}
+                  alt='Profile'
+                  className={styles.profilePic}
+                />
+              </div>
             </div>
           </div>
           <div className={styles.assignCards}>
             <div className={styles.studentCard}>
               <h6>Doris Bailey</h6>
-              <div className='d-flex'><div className={styles.profile}><div className={styles.dot}></div>Senior Designer</div></div>
-              <div className={styles.activeStatus}><TimelapseOutlinedIcon className={styles.time} /> 3 days ago</div>
-              <div className='d-flex justify-content-center'><img src={Avatar} alt="Profile-photo" className={styles.profilePic} /></div>
+              <div className='d-flex'>
+                <div className={styles.profile}>
+                  <div className={styles.dot}></div>Senior Designer
+                </div>
+              </div>
+              <div className={styles.activeStatus}>
+                <TimelapseOutlinedIcon className={styles.time} /> 3 days ago
+              </div>
+              <div className='d-flex justify-content-center'>
+                <img
+                  src={Avatar}
+                  alt='Profile'
+                  className={styles.profilePic}
+                />
+              </div>
             </div>
           </div>
           <div className={styles.assignCards}>
             <div className={styles.studentCard}>
               <h6>Doris Bailey</h6>
-              <div className='d-flex'><div className={styles.profile}><div className={styles.dot}></div>Senior Designer</div></div>
-              <div className={styles.activeStatus}><TimelapseOutlinedIcon className={styles.time} /> 3 days ago</div>
-              <div className='d-flex justify-content-center'><img src={Avatar} alt="Profile-photo" className={styles.profilePic} /></div>
+              <div className='d-flex'>
+                <div className={styles.profile}>
+                  <div className={styles.dot}></div>Senior Designer
+                </div>
+              </div>
+              <div className={styles.activeStatus}>
+                <TimelapseOutlinedIcon className={styles.time} /> 3 days ago
+              </div>
+              <div className='d-flex justify-content-center'>
+                <img
+                  src={Avatar}
+                  alt='Profile'
+                  className={styles.profilePic}
+                />
+              </div>
             </div>
           </div>
           <div className={styles.assignCards}>
             <div className={styles.studentCard}>
               <h6>Doris Bailey</h6>
-              <div className='d-flex'><div className={styles.profile}><div className={styles.dot}></div>Senior Designer</div></div>
-              <div className={styles.activeStatus}><TimelapseOutlinedIcon className={styles.time} /> 3 days ago</div>
-              <div className='d-flex justify-content-center'><img src={Avatar} alt="Profile-photo" className={styles.profilePic} /></div>
+              <div className='d-flex'>
+                <div className={styles.profile}>
+                  <div className={styles.dot}></div>Senior Designer
+                </div>
+              </div>
+              <div className={styles.activeStatus}>
+                <TimelapseOutlinedIcon className={styles.time} /> 3 days ago
+              </div>
+              <div className='d-flex justify-content-center'>
+                <img
+                  src={Avatar}
+                  alt='Profile'
+                  className={styles.profilePic}
+                />
+              </div>
             </div>
           </div>
           <div className={styles.assignCards}>
             <div className={styles.studentCard}>
               <h6>Doris Bailey</h6>
-              <div className='d-flex'><div className={styles.profile}><div className={styles.dot}></div>Senior Designer</div></div>
-              <div className={styles.activeStatus}><TimelapseOutlinedIcon className={styles.time} /> 3 days ago</div>
-              <div className='d-flex justify-content-center'><img src={Avatar} alt="Profile-photo" className={styles.profilePic} /></div>
+              <div className='d-flex'>
+                <div className={styles.profile}>
+                  <div className={styles.dot}></div>Senior Designer
+                </div>
+              </div>
+              <div className={styles.activeStatus}>
+                <TimelapseOutlinedIcon className={styles.time} /> 3 days ago
+              </div>
+              <div className='d-flex justify-content-center'>
+                <img
+                  src={Avatar}
+                  alt='Profile'
+                  className={styles.profilePic}
+                />
+              </div>
             </div>
           </div>
         </div>
