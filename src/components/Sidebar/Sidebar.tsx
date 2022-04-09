@@ -443,19 +443,19 @@ export const Sidebar = () => {
                     <div className={styles.minimumD}>
                       <h6>Minimum Qualifications</h6>
                       <p>
-                        <h6>-</h6>Lorem Ipsum has been the industry's standard
+                        <p>-</p>Lorem Ipsum has been the industry's standard
                         dummy text ever since the 1500s, when an unknown printer
                         took a galley of type and scrambled it to make a type
                         specimen book.{' '}
                       </p>
                       <p>
-                        <h6>-</h6>Lorem Ipsum has been the industry's standard
+                        <p>-</p>Lorem Ipsum has been the industry's standard
                         dummy text ever since the 1500s, when an unknown printer
                         took a galley of type and scrambled it to make a type
                         specimen book.{' '}
                       </p>
                       <p>
-                        <h6>-</h6>Lorem Ipsum has been the industry's standard
+                        <p>-</p>Lorem Ipsum has been the industry's standard
                         dummy text ever since the 1500s, when an unknown printer
                         took a galley of type and scrambled it to make a type
                         specimen book.{' '}
