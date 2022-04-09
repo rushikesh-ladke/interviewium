@@ -5,18 +5,33 @@ import { Button, Form, Input, notification } from 'antd';
 import { popup, signIn } from './login-api';
 import { useNavigate } from 'react-router-dom';
 import { PATH } from 'constants/path';
+import { TAGS } from './tags';
 
 export const Login = () => {
   const navigate = useNavigate();
 
+  const saveDataToLocalStorage = (user: any) => {
+    const userData: any = {
+      photoURL: user.photoURL,
+      displayName: user.displayName,
+      email: user.email,
+      metadata: user.metadata,
+    };
+    window.localStorage.setItem('uid', user.uid);
+    window.localStorage.setItem('accessToken', user.accessToken);
+    window.localStorage.setItem('userData', JSON.stringify(userData));
+  };
+
   const signInWithEmailPassword = async (values: any) => {
     try {
-      const signInData = await signIn(values.email, values.password);
-      const { status, data }: any = signInData;
-      console.log(status, data);
+      const signInData: any = await signIn(values.email, values.password);
+      const { user } = signInData;
+      saveDataToLocalStorage(user);
       notification['success']({
-        message: 'Login Success',
-        description: 'Hello Rushikesh, Hope you are having a Good Day 🎃',
+        message: TAGS.loginSuccess,
+        description: `Hello ${user.displayName ? user.displayName : ''}, ${
+          TAGS.goodDay
+        }`,
       });
       navigate(PATH.ASSIGN);
     } catch (error: any) {
@@ -30,11 +45,17 @@ export const Login = () => {
     try {
       const signInData = await popup();
       console.log(signInData);
-      notification['success']({
-        message: 'Login Success',
-        description: 'Hello Rushikesh, Hope you are having a Good Day 🎃',
-      });
-      navigate(PATH.HOME);
+      if (signInData) {
+        const { user } = signInData;
+        saveDataToLocalStorage(user);
+        notification['success']({
+          message: TAGS.loginSuccess,
+          description: `Hello ${user.displayName ? user.displayName : ''}, ${
+            TAGS.goodDay
+          }`,
+        });
+        navigate(PATH.SIDEBAR);
+      }
     } catch (error: any) {
       notification['error']({
         message: 'Something went wrong',
