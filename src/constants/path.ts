@@ -4,6 +4,7 @@ export const PATH = {
   LOGIN: '/',
   SIDEBAR: '/sidebar',
   ASSIGN: '/assign',
+  DASHBOARD: '/dashboard',
   SELECTROLE: '/select-role',
   REGISTER: '/register',
   UNAUTHORIZED: '/unauthorized',
