@@ -1,0 +1,197 @@
+.appMain {
+    display: flex;
+    .header {
+        .c_link {
+            img {
+                width: 100px;
+            }
+        }
+        .aside {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            transition: width 0.3s, left 0.3s;
+            z-index: 600;
+            width: 220px;
+            top: 0;
+            padding: 20px 0;
+            background-color: #4285f4;
+            ul {
+                list-style: none;
+                padding: 0 20px;
+                margin-bottom: 5px;
+                h6 {
+                    color: #fff;
+                    font-weight: 800;
+                    margin-bottom: 20px;
+                }
+                li {
+                    text-align: center;
+                    cursor: pointer;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    margin-bottom: 18px;
+                    color: #fff;
+                    font-weight: 700;
+                    font-size: 12px;
+                    &.active {
+                        color: #f7cc1b;
+                        .icons {
+                            background-color: #f7cc1b;
+                        }
+                    }
+                    &:hover {
+                        color: #f7cc1b;
+                        .icons {
+                            background-color: #f7cc1b;
+                        }
+                    }
+                    .icons {
+                        margin-bottom: 8px;
+                        border: none;
+                        padding: 8px;
+                        width: 38px;
+                        height: 38px;
+                        background: #cec7c780;
+                        border-radius: 5px;
+                        fill: #fff;
+                    }
+                }
+                .boxMain {
+                    width: 100%;
+                    margin: 0 auto;
+                    height: 150px;
+                    border-radius: 8px;
+                    background-color: #ffffff9c;
+                }
+            }
+        }
+    }
+    .appBody {
+        background-color: #f7f7f7;
+        width: 100%;
+        padding: 20px 20px 20px 240px;
+        overflow-x: hidden;
+        .dashBleft {
+            border-right: 1px solid #cecece;
+            padding-right: 30px;
+            .profileName {
+                font-size: 22px;
+                font-weight: 700;
+                color: #3c3c3c;
+                margin-bottom: 40px;
+            }
+            .twoCards {
+                display: flex;
+                .TCards {
+                    border-radius: 5px;
+                    padding: 20px;
+                    color: #fff;
+                    font-size: 18px;
+                    font-weight: 700;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-end;
+                    .socialL {
+                        margin-top: 15px;
+                        .avatar {
+                            width: 25px;
+                            border-radius: 50%;
+                            border: 2px solid #fff;
+                        }
+                    }
+                    &.Cone {
+                        background-color: #70b2ff;
+                        margin-right: 15px;
+                    }
+                    &.Ctwo {
+                        display: flex;
+                        background-color: #ff7f50;
+                        flex-direction: row;
+                        align-items: flex-end;
+                    }
+                    .Rocket {
+                        width: 150px;
+                    }
+                }
+            }
+            .monthlyT {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin: 40px 0;
+                h5 {
+                    font-size: 18px;
+                    font-weight: 700;
+                }
+                .twoBtn {
+                    display: flex;
+                    .NewBtn {
+                        padding: 8px 20px;
+                        background-color: #4285f4;
+                        border: unset;
+                        border-radius: 25px;
+                        color: #fff;
+                        font-weight: 700;
+                        display: flex;
+                        align-items: center;
+                        &.ActiveBtn {
+                            background-color: #70b2ff33;
+                            color: #3c3c3c;
+                            margin-right: 8px;
+                        }
+                        .AddIcon {
+                            width: 18px;
+                            height: 18px;
+                            margin-right: 5px;
+                        }
+                    }
+                }
+            }
+            .activeT {
+                .todayS {
+                    h6 {
+                        color: #868686;
+                        margin-bottom: 20px;
+                        font-size: 16px;
+                        font-weight: 700;
+                    }
+                    .BelowSec {
+                        display: flex;
+                        margin-bottom: 30px;
+                        .cphoto {
+                            width: 70px;
+                            height: 70px;
+                            background-color: #eee;
+                            border-radius: 15px;
+                            margin-right: 15px;
+                        }
+                    }
+                    .socialApp {
+                        margin-right: 30px;
+                        h6 {
+                            font-size: 18px;
+                            font-weight: 700;
+                            color: #3c3c3c;
+                            margin-bottom: 10px;
+                        }
+                        p {
+                            font-size: 14px;
+                            color: #868686;
+                            margin-bottom: 0;
+                        }
+                    }
+                    .socialL {
+                        margin-top: 15px;
+                        .avatar {
+                            width: 30px;
+                            border-radius: 50%;
+                            border: 2px solid #fff;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
