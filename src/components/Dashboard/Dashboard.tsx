@@ -88,16 +88,16 @@ export const Dashboard = () => {
               <div className={`${styles.Cone} ${styles.TCards}`}>
                 R&D for New Banking<br />Mobile App
                 <div className={styles.socialL}>
-                  <img className={styles.avatar} src={Avatar} />
+                  <img className={styles.avatar} src={Avatar} alt="img"/>
                 </div>
               </div>
               <div className={`${styles.Ctwo} ${styles.TCards}`}>
                 <div> Create Signup<br /> Page
                   <div className={styles.socialL}>
-                    <img className={styles.avatar} src={Avatar} />
+                    <img className={styles.avatar} src={Avatar} alt="img"/>
                   </div>
                 </div>
-                <img className={styles.Rocket} src={Rocket} />
+                <img className={styles.Rocket} src={Rocket} alt="img"/>
 
               </div>
             </div>
@@ -120,7 +120,7 @@ export const Dashboard = () => {
                     <p>Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control</p>
                   </div>
                   <div className={styles.socialL}>
-                    <img className={styles.avatar} src={Avatar} />
+                    <img className={styles.avatar} src={Avatar}  alt="img"/>
                   </div>
                 </div>
                 <div className={styles.BelowSec}>
@@ -132,7 +132,7 @@ export const Dashboard = () => {
                     <p>Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control</p>
                   </div>
                   <div className={styles.socialL}>
-                    <img className={styles.avatar} src={Avatar} />
+                    <img className={styles.avatar} src={Avatar}  alt="img"/>
                   </div>
                 </div>
                 <div className={styles.BelowSec}>
@@ -144,7 +144,7 @@ export const Dashboard = () => {
                     <p>Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control</p>
                   </div>
                   <div className={styles.socialL}>
-                    <img className={styles.avatar} src={Avatar} />
+                    <img className={styles.avatar} src={Avatar}  alt="img"/>
                   </div>
                 </div>
 
@@ -160,7 +160,7 @@ export const Dashboard = () => {
                     <p>Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control</p>
                   </div>
                   <div className={styles.socialL}>
-                    <img className={styles.avatar} src={Avatar} />
+                    <img className={styles.avatar} src={Avatar}  alt="img"/>
                   </div>
                 </div>
               </div>
