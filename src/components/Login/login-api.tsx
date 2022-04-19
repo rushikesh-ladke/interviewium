@@ -15,5 +15,5 @@ export const popup = () => {
     login_hint: 'user@example.com',
   });
 
-  signInWithPopup(auth, provider);
+  return signInWithPopup(auth, provider);
 };

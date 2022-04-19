@@ -5,41 +5,73 @@ import { Button, Form, Input, notification } from 'antd';
 import { popup, signIn } from './login-api';
 import { useNavigate } from 'react-router-dom';
 import { PATH } from 'constants/path';
+import { saveToLocalStorage } from 'shared/util';
+import useAuth from 'hooks/useAuth';
 
 export const Login = () => {
   const navigate = useNavigate();
+  const { auth, setAuth }: any = useAuth();
+  const getDataAndStoreToLocalStorage = (user: any) => {
+    console.log(user);
+    const save = {
+      accessToken: user.accessToken,
+      uid: user.uid,
+      user: JSON.stringify({
+        email: user.email,
+        displayName: user.displayName,
+        metadata: user.metadata,
+        photoURL: user.photoURL,
+      }),
+    };
+    saveToLocalStorage(save);
+    setAuth({ ...auth, userId: user.uid, loggedIn: true, role: 'HR' });
+  };
 
-  const signInWithEmailPassword = async (values: any) => {
-    try {
-      const signInData = await signIn(values.email, values.password);
-      const { status, data }: any = signInData;
-      console.log(status, data);
+  const notificationAlert = {
+    success: (name: any) => {
       notification['success']({
         message: 'Login Success',
-        description: 'Hello Rushikesh, Hope you are having a Good Day 🎃',
+        description: `Hello ${name}, Hope you are having a Good Day 🎃`,
       });
-      navigate(PATH.ASSIGN);
-    } catch (error: any) {
+    },
+    error: (error: any) => {
       notification['error']({
         message: 'Something went wrong',
         description: error.message,
       });
+    },
+  };
+
+  const getUserName = (user: any) => {
+    try {
+      return user.displayName ? user.displayName : user.email.split('@')[0];
+    } catch {
+      return '';
+    }
+  };
+
+  const signInWithEmailPassword = async (values: any) => {
+    try {
+      const signInData = await signIn(values.email, values.password);
+      const { user }: any = signInData;
+      getDataAndStoreToLocalStorage(user);
+      notificationAlert.success(getUserName(user));
+      navigate(PATH.ASSIGN);
+    } catch (error: any) {
+      notificationAlert.error(error);
     }
   };
   const signInWithPopUp = async () => {
     try {
       const signInData = await popup();
-      console.log(signInData);
-      notification['success']({
-        message: 'Login Success',
-        description: 'Hello Rushikesh, Hope you are having a Good Day 🎃',
-      });
-      navigate(PATH.HOME);
+      if (signInData) {
+        const { user }: any = signInData;
+        getDataAndStoreToLocalStorage(user);
+        notificationAlert.success(getUserName(user));
+        navigate(PATH.ASSIGN);
+      }
     } catch (error: any) {
-      notification['error']({
-        message: 'Something went wrong',
-        description: error.message,
-      });
+      notificationAlert.error(error);
     }
   };
   const onFinish = (values: any) => {
