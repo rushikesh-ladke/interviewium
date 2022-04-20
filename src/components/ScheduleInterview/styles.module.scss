@@ -1,0 +1,146 @@
+.appMain {
+    display: flex;
+    .header {
+        .c_link {
+            img {
+                width: 100px;
+            }
+        }
+        .aside {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            transition: width 0.3s, left 0.3s;
+            z-index: 600;
+            width: 220px;
+            top: 0;
+            padding: 20px 0;
+            background-color: #4285f4;
+            ul {
+                list-style: none;
+                padding: 0 20px;
+                margin-bottom: 5px;
+                h6 {
+                    color: #fff;
+                    font-weight: 800;
+                    margin-bottom: 20px;
+                }
+                li {
+                    text-align: center;
+                    cursor: pointer;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    margin-bottom: 18px;
+                    color: #fff;
+                    font-weight: 700;
+                    font-size: 12px;
+                    &.active {
+                        color: #f7cc1b;
+                        .icons {
+                            background-color: #f7cc1b;
+                        }
+                    }
+                    &:hover {
+                        color: #f7cc1b;
+                        .icons {
+                            background-color: #f7cc1b;
+                        }
+                    }
+                    .icons {
+                        margin-bottom: 8px;
+                        border: none;
+                        padding: 8px;
+                        width: 38px;
+                        height: 38px;
+                        background: #cec7c780;
+                        border-radius: 5px;
+                        fill: #fff;
+                    }
+                }
+                .boxMain {
+                    width: 100%;
+                    margin: 0 auto;
+                    height: 150px;
+                    border-radius: 8px;
+                    background-color: #ffffff9c;
+                }
+            }
+        }
+    }
+    .appBody {
+        background-color: #f7f7f7;
+        width: 100%;
+        padding: 20px 20px 20px 240px;
+        overflow-x: hidden;
+        .scheduleInt {
+            h6 {
+                font-size: 18px;
+                color: #6c757d;
+                font-weight: 700;
+            }
+            h4 {
+                font-size: 34px;
+                color: #000;
+                font-weight: 800;
+            }
+            .TimeG {
+                display: flex;
+                align-items: center;
+                margin-bottom: 10px;
+                .Icons {
+                    fill: #6c757d;
+                }
+                p {
+                    color: #6c757d;
+                    margin-left: 10px;
+                    margin-bottom: 0;
+                    font-size: 16px;
+                    font-weight: 700;
+                }
+            }
+        }
+        .dateName {
+            font-size: 18px;
+            color: #000;
+        }
+        .Time {
+            border: 1px solid #4285f4;
+            border-radius: 5px;
+            padding: 12px 120px;
+            background: #fff;
+            font-weight: 600;
+            font-size: 16px;
+            margin-top: 30px;
+        }
+        .calender {
+            :global(.ant-picker-calendar-header) {
+                padding: 25px;
+                :global(.ant-select) {
+                    :global(.ant-select-selector) {
+                        padding: 8px;
+                        height: 39px;
+                        border-radius: 5px;
+                    }
+                }
+                :global(.ant-radio-group) {
+                    :global(.ant-radio-button-wrapper) {
+                        height: 39px;
+                        border-radius: 5px 0 0 5px;
+                        line-height: 38px;
+                    }
+                    :global(.ant-radio-button-wrapper:last-child) {
+                        border-radius: 0 5px 5px 0;
+                    }
+                }
+            }
+            // :global(.ant-picker-content) {
+            //     :global(tbody) {
+            //         :global(.ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner) {
+
+            //         }
+            //     }
+            // }
+        }
+    }
+}

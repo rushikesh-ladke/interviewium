@@ -13,6 +13,7 @@ const Missing = lazy(() => import('components/Missing'));
 const SelectRole = lazy(() => import('components/SelectRole'));
 const Assign = lazy(() => import('components/Assign'));
 const Dashboard = lazy(() => import('components/Dashboard'));
+const ScheduleInterview = lazy(() => import('components/ScheduleInterview'));
 
 export const App = () => {
   return (
@@ -28,6 +29,7 @@ export const App = () => {
           <Route path={PATH.SELECTROLE} element={<SelectRole />} />
           <Route path={PATH.ASSIGN} element={<Assign />} />
           <Route path={PATH.DASHBOARD} element={<Dashboard />} />
+          <Route path={PATH.SCHEDULE_INTERVIEW} element={<ScheduleInterview />} />
         </Route>
         {/* tobe added when new roles come in */}
 
@@ -45,3 +47,4 @@ export const App = () => {
     </Routes>
   );
 };
+

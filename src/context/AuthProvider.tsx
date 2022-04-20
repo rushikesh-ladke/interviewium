@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }: AuthenticatedUser) => {
   const [auth, setAuth] = useState<User>({
     userId: '',
     loggedIn: false,
-    role: '',
+    role: 'HR',
   });
 
   return (
