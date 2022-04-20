@@ -5,7 +5,7 @@ import { PATH } from 'constants/path';
 import { Layout } from './Layout/Layout';
 import RequiredAuth from './RequiredAuth/RequiredAuth';
 import { ROLES } from 'constants/roles';
-const Login = lazy(() => import('components/Login'));
+const Login = lazy(() => import('pages/user/Login'));
 const Register = lazy(() => import('components/Register'));
 const Sidebar = lazy(() => import('components/Sidebar'));
 const Unauthorized = lazy(() => import('components/Unauthorized'));

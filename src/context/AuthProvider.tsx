@@ -5,7 +5,7 @@ type AuthenticatedUser = {
 };
 
 type User = {
-  user: string;
+  userId: string;
   loggedIn: boolean;
   role: string;
 };
@@ -14,9 +14,9 @@ const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }: AuthenticatedUser) => {
   const [auth, setAuth] = useState<User>({
-    user: 'dasd',
-    loggedIn: true,
-    role: 'HR',
+    userId: '',
+    loggedIn: false,
+    role: '',
   });
 
   return (
