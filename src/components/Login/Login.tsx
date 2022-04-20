@@ -2,13 +2,18 @@ import styles from './styles.module.scss';
 import Logo from '../../images/Interviewiumlogo.svg';
 import G_Logo from '../../images/g_logo.svg';
 import { Button, Form, Input, notification } from 'antd';
-import { popup, signIn } from './login-api';
+import { checkUserExist, popup, signIn } from './login-api';
 import { useNavigate } from 'react-router-dom';
 import { PATH } from 'constants/path';
 import { saveToLocalStorage } from 'shared/util';
 import useAuth from 'hooks/useAuth';
 
-export const Login = () => {
+interface LoginProps {
+  title: string;
+  signInPage: boolean;
+}
+
+export const Login = ({ title, signInPage }: LoginProps) => {
   const navigate = useNavigate();
   const { auth, setAuth }: any = useAuth();
   const getDataAndStoreToLocalStorage = (user: any) => {
@@ -94,7 +99,7 @@ export const Login = () => {
         </div>
       </header>
       <section className={styles.SubBodyL}>
-        <h2>Sign in to Interviewium</h2>
+        <h2>{title} to Interviewium</h2>
         <div className={styles.subh}>
           We suggest using the{' '}
           <strong>email address that you use at work.</strong>
@@ -105,7 +110,8 @@ export const Login = () => {
             id='google_login_button'
             data-qa='base_google_login_button'
             type='button'
-            onClick={() => signInWithPopUp()}
+            // onClick={() => signInWithPopUp()}
+            onClick={() => checkUserExist()}
           >
             <img src={G_Logo} alt='G logo' />
             <span className={styles.gLabel}>
@@ -158,7 +164,10 @@ export const Login = () => {
 
           <div className={styles.sh_back}>
             <h4 className={styles.forgot}>
-              <a href='/forgot'>Forgot Password?</a>
+              <a href={signInPage ? PATH.LOGIN : PATH.LOGIN}>
+                {' '}
+                {signInPage ? 'Forgot Password?' : 'Already have an account?'}
+              </a>
             </h4>
             <div className={styles.right_col}>
               <div className={styles.sideLink}>
@@ -166,10 +175,10 @@ export const Login = () => {
                 <a
                   target='_self'
                   className={`${styles.createLink}`}
-                  href='/signup'
+                  href={signInPage ? PATH.REGISTER : PATH.REGISTER_COMPANY}
                   rel='noopener noreferrer'
                 >
-                  Create an account
+                  {signInPage ? 'Create an account' : 'Register Company'}
                 </a>
               </div>
             </div>

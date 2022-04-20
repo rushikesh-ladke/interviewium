@@ -6,7 +6,8 @@ import { Layout } from './Layout/Layout';
 import RequiredAuth from './RequiredAuth/RequiredAuth';
 import { ROLES } from 'constants/roles';
 const Login = lazy(() => import('pages/user/Login'));
-const Register = lazy(() => import('components/Register'));
+const Register = lazy(() => import('pages/user/Register'));
+const RegisterCompany = lazy(() => import('components/Register'));
 const Sidebar = lazy(() => import('components/Sidebar'));
 const Unauthorized = lazy(() => import('components/Unauthorized'));
 const Missing = lazy(() => import('components/Missing'));
@@ -20,6 +21,7 @@ export const App = () => {
       <Route path={PATH.HOME} element={<Layout />}>
         {/* public */}
         <Route path={PATH.LOGIN} element={<Login />} />
+        <Route path={PATH.REGISTER_COMPANY} element={<RegisterCompany />} />
         <Route path={PATH.REGISTER} element={<Register />} />
         <Route path={PATH.UNAUTHORIZED} element={<Unauthorized />} />
         {/* protected */}
