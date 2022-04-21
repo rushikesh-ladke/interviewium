@@ -16,11 +16,15 @@ interface LoginProps {
 export const Login = ({ title, signInPage }: LoginProps) => {
   const navigate = useNavigate();
   const { auth, setAuth }: any = useAuth();
-  const getDataAndStoreToLocalStorage = (user: any) => {
+
+  const getDataAndStoreToLocalStorage = async (user: any) => {
     console.log(user);
+    const userData: any = await checkUserExist(user.uid); //check if user exists in the DB
+
     const save = {
       accessToken: user.accessToken,
       uid: user.uid,
+      role: userData.role,
       user: JSON.stringify({
         email: user.email,
         displayName: user.displayName,
@@ -29,7 +33,7 @@ export const Login = ({ title, signInPage }: LoginProps) => {
       }),
     };
     saveToLocalStorage(save);
-    setAuth({ ...auth, userId: user.uid, loggedIn: true, role: 'HR' });
+    setAuth({ ...auth, userId: user.uid, loggedIn: true, role: userData.role });
   };
 
   const notificationAlert = {
@@ -59,13 +63,14 @@ export const Login = ({ title, signInPage }: LoginProps) => {
     try {
       const signInData = await signIn(values.email, values.password);
       const { user }: any = signInData;
-      getDataAndStoreToLocalStorage(user);
+      await getDataAndStoreToLocalStorage(user);
       notificationAlert.success(getUserName(user));
       navigate(PATH.ASSIGN);
     } catch (error: any) {
       notificationAlert.error(error);
     }
   };
+
   const signInWithPopUp = async () => {
     try {
       const signInData = await popup();
@@ -79,8 +84,15 @@ export const Login = ({ title, signInPage }: LoginProps) => {
       notificationAlert.error(error);
     }
   };
+
   const onFinish = (values: any) => {
-    signInWithEmailPassword(values);
+    if (signInPage) {
+      signInWithEmailPassword(values);
+    } else {
+      //todo : write new fuction for signup
+      // signInData = await signUp(values.email, values.password);
+      // addNewUserToDB(signInData?.user?.uid, signInData?.user?.email);
+    }
   };
 
   return (
@@ -110,8 +122,7 @@ export const Login = ({ title, signInPage }: LoginProps) => {
             id='google_login_button'
             data-qa='base_google_login_button'
             type='button'
-            // onClick={() => signInWithPopUp()}
-            onClick={() => checkUserExist()}
+            onClick={() => signInWithPopUp()}
           >
             <img src={G_Logo} alt='G logo' />
             <span className={styles.gLabel}>

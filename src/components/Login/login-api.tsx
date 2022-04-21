@@ -1,19 +1,20 @@
-import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
-import app, { auth, db } from 'shared/firebase-config';
-import { GoogleAuthProvider } from 'firebase/auth';
 import {
-  collection,
-  getDoc,
-  getDocs,
-  query,
-  QuerySnapshot,
-  setDoc,
-  where,
-} from 'firebase/firestore';
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  createUserWithEmailAndPassword,
+} from 'firebase/auth';
+import { auth, db } from 'shared/firebase-config';
+import { GoogleAuthProvider } from 'firebase/auth';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import 'firebase/firestore';
-import { ConnectingAirportsOutlined } from '@mui/icons-material';
+import { DOCUMENTS } from 'constants/firebase-docs';
+
 export function signIn(email: string, password: string) {
   return signInWithEmailAndPassword(auth, email, password);
+}
+
+export function signUp(email: string, password: string) {
+  return createUserWithEmailAndPassword(auth, email, password);
 }
 
 export const popup = () => {
@@ -28,19 +29,23 @@ export const popup = () => {
   return signInWithPopup(auth, provider);
 };
 
-export const checkUserExist = async () => {
-  const colRef: any = query(
-    collection(db, 'users'),
-    where('active', '==', true)
-  );
+export const checkUserExist = async (userId: any) => {
+  //@ref : query format
+  // const colRef: any = query(collection(db, 'users'), where('id', '==', userId));
+  const docRef: any = doc(db, 'users', userId);
+  const userData: any = await getDoc(docRef);
+  if (userData.exists()) {
+    return userData.data();
+  } else {
+    console.log('No such document!');
+  }
+};
 
-  getDocs(colRef).then((e: any) => {
-    console.log(e.docs);
-    let a: any = [];
+export const addNewUserToDB = async (userId: any, email: any) => {
+  const userData = {
+    email,
+  };
 
-    e.docs.forEach((E: any) => {
-      a.push({ ...E.data(), id: E.id });
-    });
-    console.log(a);
-  });
+  const newUser = await setDoc(doc(db, DOCUMENTS.USERS, userId), userData);
+  console.log(newUser);
 };
