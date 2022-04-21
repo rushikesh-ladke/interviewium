@@ -16,6 +16,42 @@ const Assign = lazy(() => import('components/Assign'));
 const Dashboard = lazy(() => import('components/Dashboard'));
 
 export const App = () => {
+  const userRole: any = localStorage.getItem('role');
+
+  const userRoutes = {
+    HR: () => {
+      return (
+        <Route element={<RequiredAuth role={ROLES.HR} />}>
+          <Route path={PATH.SIDEBAR} element={<Sidebar />} />
+          <Route path={PATH.SELECTROLE} element={<SelectRole />} />
+          <Route path={PATH.ASSIGN} element={<Assign />} />
+          <Route path={PATH.DASHBOARD} element={<Dashboard />} />
+        </Route>
+      );
+    },
+    TEMPUSER: () => {
+      return (
+        <Route element={<RequiredAuth role={ROLES.TEMPUSER} />}>
+          <Route path={PATH.SELECTROLE} element={<SelectRole />} />
+        </Route>
+      );
+    },
+    INTERVIEWEE: () => {
+      return (
+        <Route element={<RequiredAuth role={ROLES.INTERVIEWEE} />}>
+          <Route path={PATH.DASHBOARD} element={<Dashboard />} />
+        </Route>
+      );
+    },
+    INTERVIEWER: () => {
+      return (
+        <Route element={<RequiredAuth role={ROLES.INTERVIEWER} />}>
+          <Route path={PATH.SELECTROLE} element={<SelectRole />} />
+        </Route>
+      );
+    },
+  };
+
   return (
     <Routes>
       <Route path={PATH.HOME} element={<Layout />}>
@@ -25,12 +61,15 @@ export const App = () => {
         <Route path={PATH.REGISTER} element={<Register />} />
         <Route path={PATH.UNAUTHORIZED} element={<Unauthorized />} />
         {/* protected */}
-        <Route element={<RequiredAuth role={ROLES.HR} />}>
-          <Route path={PATH.SIDEBAR} element={<Sidebar />} />
-          <Route path={PATH.SELECTROLE} element={<SelectRole />} />
-          <Route path={PATH.ASSIGN} element={<Assign />} />
-          <Route path={PATH.DASHBOARD} element={<Dashboard />} />
-        </Route>
+        {userRole === ROLES.HR
+          ? userRoutes.HR()
+          : userRole === ROLES.TEMPUSER
+          ? userRoutes.TEMPUSER()
+          : userRole === ROLES.INTERVIEWEE
+          ? userRoutes.INTERVIEWEE()
+          : userRole === ROLES.INTERVIEWER
+          ? userRoutes.INTERVIEWER()
+          : null}
         {/* tobe added when new roles come in */}
 
         {/* <Route element={<RequiredAuth role={ROLES.INTERVIEWER}  />}>

@@ -5,9 +5,8 @@ import {
 } from 'firebase/auth';
 import { auth, db } from 'shared/firebase-config';
 import { GoogleAuthProvider } from 'firebase/auth';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
 import 'firebase/firestore';
-import { DOCUMENTS } from 'constants/firebase-docs';
 
 export function signIn(email: string, password: string) {
   return signInWithEmailAndPassword(auth, email, password);
@@ -39,13 +38,4 @@ export const checkUserExist = async (userId: any) => {
   } else {
     console.log('No such document!');
   }
-};
-
-export const addNewUserToDB = async (userId: any, email: any) => {
-  const userData = {
-    email,
-  };
-
-  const newUser = await setDoc(doc(db, DOCUMENTS.USERS, userId), userData);
-  console.log(newUser);
 };

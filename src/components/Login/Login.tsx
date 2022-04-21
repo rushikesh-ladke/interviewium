@@ -2,7 +2,7 @@ import styles from './styles.module.scss';
 import Logo from '../../images/Interviewiumlogo.svg';
 import G_Logo from '../../images/g_logo.svg';
 import { Button, Form, Input, notification } from 'antd';
-import { checkUserExist, popup, signIn } from './login-api';
+import { checkUserExist, popup, signIn, signUp } from './login-api';
 import { useNavigate } from 'react-router-dom';
 import { PATH } from 'constants/path';
 import { saveToLocalStorage } from 'shared/util';
@@ -24,7 +24,7 @@ export const Login = ({ title, signInPage }: LoginProps) => {
     const save = {
       accessToken: user.accessToken,
       uid: user.uid,
-      role: userData.role,
+      role: userData ? userData.role : 'tempUser',
       user: JSON.stringify({
         email: user.email,
         displayName: user.displayName,
@@ -33,7 +33,12 @@ export const Login = ({ title, signInPage }: LoginProps) => {
       }),
     };
     saveToLocalStorage(save);
-    setAuth({ ...auth, userId: user.uid, loggedIn: true, role: userData.role });
+    setAuth({
+      ...auth,
+      userId: user.uid,
+      loggedIn: true,
+      role: userData ? userData.role : 'tempUser',
+    });
   };
 
   const notificationAlert = {
@@ -76,10 +81,23 @@ export const Login = ({ title, signInPage }: LoginProps) => {
       const signInData = await popup();
       if (signInData) {
         const { user }: any = signInData;
-        getDataAndStoreToLocalStorage(user);
+        await getDataAndStoreToLocalStorage(user);
         notificationAlert.success(getUserName(user));
         navigate(PATH.ASSIGN);
       }
+    } catch (error: any) {
+      notificationAlert.error(error);
+    }
+  };
+
+  const signUpWithEmailPassword = async (values: any) => {
+    try {
+      const signInData = await signUp(values.email, values.password);
+      // addNewUserToDB(signInData?.user?.uid, signInData?.user?.email);
+      const { user }: any = signInData;
+      await getDataAndStoreToLocalStorage(user);
+      notificationAlert.success(getUserName(user));
+      navigate(PATH.SELECTROLE);
     } catch (error: any) {
       notificationAlert.error(error);
     }
@@ -90,8 +108,7 @@ export const Login = ({ title, signInPage }: LoginProps) => {
       signInWithEmailPassword(values);
     } else {
       //todo : write new fuction for signup
-      // signInData = await signUp(values.email, values.password);
-      // addNewUserToDB(signInData?.user?.uid, signInData?.user?.email);
+      signUpWithEmailPassword(values);
     }
   };
 
@@ -168,7 +185,7 @@ export const Login = ({ title, signInPage }: LoginProps) => {
             </Form.Item>
             <Form.Item>
               <Button className={styles.signBtn} htmlType='submit'>
-                Sign In
+                {signInPage ? 'Sign In' : 'Sign up'}
               </Button>
             </Form.Item>
           </Form>
