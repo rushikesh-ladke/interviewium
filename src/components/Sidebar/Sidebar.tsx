@@ -1,4 +1,7 @@
+import React, { useState } from 'react';
 import styles from './styles.module.scss';
+import { Modal, Button, Space } from 'antd';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
 import AssignmentIndOutlinedIcon from '@mui/icons-material/AssignmentIndOutlined';
@@ -18,6 +21,19 @@ import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import G_Logo from '../../images/g_logo.svg';
 import { Badge } from 'antd';
 export const Sidebar = () => {
+
+  function confirm () {
+    Modal.confirm({
+      title: 'Confirm',
+      icon: <ExclamationCircleOutlined />,
+      content: 'Are you sure you want to log out?',
+      okText: 'Yes',
+      cancelText: 'No',
+    });
+  }
+
+
+
   return (
     <div className={`${styles.appMain}`}>
       <div className={styles.header}>
@@ -70,7 +86,7 @@ export const Sidebar = () => {
               </li>
             </div>
             <div className='d-flex'>
-              <li className={`col-6 `}>
+              <li className={`col-6 `} onClick={confirm}>
                 <PowerSettingsNewOutlinedIcon className={styles.icons} />
                 Log out
               </li>
@@ -81,6 +97,7 @@ export const Sidebar = () => {
           </ul>
         </aside>
       </div>
+
       <div className={styles.appBody}>
         <div className={styles.dataBody}>
           <div className='row'>
