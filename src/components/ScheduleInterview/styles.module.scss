@@ -134,13 +134,30 @@
                     }
                 }
             }
-            // :global(.ant-picker-content) {
-            //     :global(tbody) {
-            //         :global(.ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner) {
-
-            //         }
-            //     }
-            // }
+            :global(.ant-picker-content) {
+                :global(thead) {
+                    :global(tr) {
+                        height: 40px;
+                    }
+                }
+                :global(tbody) {
+                    :global(.ant-picker-cell .ant-picker-cell-inner) {
+                        min-width: 50px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        height: 58px;
+                        border-radius: 50%;
+                    }
+                    :global(.ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before) {
+                        border-radius: 50%;
+                        border-color: #f7cc1b;
+                    }
+                    :global(.ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner) {
+                        background: #f7cc1b;
+                    }
+                }
+            }
         }
     }
 }
