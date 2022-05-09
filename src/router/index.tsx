@@ -1,5 +1,6 @@
 import Assign from "components/Assign";
 import Dashboard from "components/Dashboard";
+import Home from "components/Home";
 import Login from "components/Login";
 import Missing from "components/Missing";
 import { PATH } from "constants/path";
@@ -18,6 +19,14 @@ import { PublicRoute } from "./PublicRoute";
 export const Router = () => {
   return (
     <Routes>
+       <Route
+        path={PATH.HOMEPAGE}
+        element={
+          <PublicRoute>
+            <Home/>
+          </PublicRoute>
+        }
+      />
       <Route
         path={PATH.HOME}
         element={

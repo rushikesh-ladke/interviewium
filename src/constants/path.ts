@@ -1,6 +1,7 @@
 export const PATH = {
   GLOBAL: '/*',
   HOME: '/',
+  HOMEPAGE: '/homepage',
   LOGIN: '/',
   SIDEBAR: '/sidebar',
   ASSIGN: '/assign',
