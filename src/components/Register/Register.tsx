@@ -3,6 +3,7 @@ import { Button, Form, Input } from 'antd';
 import styles from './styles.module.scss';
 import Logo from '../../images/Interviewiumlogo.svg';
 import { saveCompanyData } from './register-api';
+import { PATH } from 'constants/path';
 
 export const Register = () => {
   const [form] = Form.useForm();
@@ -136,7 +137,7 @@ export const Register = () => {
                 <a
                   target='_self'
                   className={`${styles.createLink}`}
-                  href='/signin'
+                  href={PATH.LOGIN}
                   rel='noopener noreferrer'
                 >
                   Sign in to an existing workspace

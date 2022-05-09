@@ -2,20 +2,29 @@ import styles from './styles.module.scss';
 import Logo from '../../images/Interviewiumlogo.svg';
 import G_Logo from '../../images/g_logo.svg';
 import { Button, Form, Input, notification } from 'antd';
-import { popup, signIn } from './login-api';
+import { checkUserExist, popup, signIn, signUp } from './login-api';
 import { useNavigate } from 'react-router-dom';
 import { PATH } from 'constants/path';
 import { saveToLocalStorage } from 'shared/util';
 import useAuth from 'hooks/useAuth';
 
-export const Login = () => {
+interface LoginProps {
+  title: string;
+  signInPage: boolean;
+}
+
+export const Login = ({ title, signInPage }: LoginProps) => {
   const navigate = useNavigate();
   const { auth, setAuth }: any = useAuth();
-  const getDataAndStoreToLocalStorage = (user: any) => {
+
+  const getDataAndStoreToLocalStorage = async (user: any) => {
     console.log(user);
+    const userData: any = await checkUserExist(user.uid); //check if user exists in the DB
+
     const save = {
       accessToken: user.accessToken,
       uid: user.uid,
+      role: userData ? userData.role : 'tempUser',
       user: JSON.stringify({
         email: user.email,
         displayName: user.displayName,
@@ -24,7 +33,12 @@ export const Login = () => {
       }),
     };
     saveToLocalStorage(save);
-    setAuth({ ...auth, userId: user.uid, loggedIn: true, role: 'HR' });
+    setAuth({
+      ...auth,
+      userId: user.uid,
+      loggedIn: true,
+      role: userData ? userData.role : 'tempUser',
+    });
   };
 
   const notificationAlert = {
@@ -54,19 +68,20 @@ export const Login = () => {
     try {
       const signInData = await signIn(values.email, values.password);
       const { user }: any = signInData;
-      getDataAndStoreToLocalStorage(user);
+      await getDataAndStoreToLocalStorage(user);
       notificationAlert.success(getUserName(user));
       navigate(PATH.ASSIGN);
     } catch (error: any) {
       notificationAlert.error(error);
     }
   };
+
   const signInWithPopUp = async () => {
     try {
       const signInData = await popup();
       if (signInData) {
         const { user }: any = signInData;
-        getDataAndStoreToLocalStorage(user);
+        await getDataAndStoreToLocalStorage(user);
         notificationAlert.success(getUserName(user));
         navigate(PATH.ASSIGN);
       }
@@ -74,8 +89,27 @@ export const Login = () => {
       notificationAlert.error(error);
     }
   };
+
+  const signUpWithEmailPassword = async (values: any) => {
+    try {
+      const signInData = await signUp(values.email, values.password);
+      // addNewUserToDB(signInData?.user?.uid, signInData?.user?.email);
+      const { user }: any = signInData;
+      await getDataAndStoreToLocalStorage(user);
+      notificationAlert.success(getUserName(user));
+      navigate(PATH.SELECTROLE);
+    } catch (error: any) {
+      notificationAlert.error(error);
+    }
+  };
+
   const onFinish = (values: any) => {
-    signInWithEmailPassword(values);
+    if (signInPage) {
+      signInWithEmailPassword(values);
+    } else {
+      //todo : write new fuction for signup
+      signUpWithEmailPassword(values);
+    }
   };
 
   return (
@@ -94,7 +128,7 @@ export const Login = () => {
         </div>
       </header>
       <section className={styles.SubBodyL}>
-        <h2>Sign in to Interviewium</h2>
+        <h2>{title} to Interviewium</h2>
         <div className={styles.subh}>
           We suggest using the{' '}
           <strong>email address that you use at work.</strong>
@@ -151,14 +185,17 @@ export const Login = () => {
             </Form.Item>
             <Form.Item>
               <Button className={styles.signBtn} htmlType='submit'>
-                Sign In
+                {signInPage ? 'Sign In' : 'Sign up'}
               </Button>
             </Form.Item>
           </Form>
 
           <div className={styles.sh_back}>
             <h4 className={styles.forgot}>
-              <a href='/forgot'>Forgot Password?</a>
+              <a href={signInPage ? PATH.LOGIN : PATH.LOGIN}>
+                {' '}
+                {signInPage ? 'Forgot Password?' : 'Already have an account?'}
+              </a>
             </h4>
             <div className={styles.right_col}>
               <div className={styles.sideLink}>
@@ -166,10 +203,10 @@ export const Login = () => {
                 <a
                   target='_self'
                   className={`${styles.createLink}`}
-                  href='/signup'
+                  href={signInPage ? PATH.REGISTER : PATH.REGISTER_COMPANY}
                   rel='noopener noreferrer'
                 >
-                  Create an account
+                  {signInPage ? 'Create an account' : 'Register Company'}
                 </a>
               </div>
             </div>
