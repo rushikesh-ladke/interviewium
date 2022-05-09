@@ -5,6 +5,7 @@ import { PATH } from 'constants/path';
 import { Layout } from './Layout/Layout';
 import RequiredAuth from './RequiredAuth/RequiredAuth';
 import { ROLES } from 'constants/roles';
+import { Router } from 'router';
 const Login = lazy(() => import('pages/user/Login'));
 const Register = lazy(() => import('pages/user/Register'));
 const RegisterCompany = lazy(() => import('components/Register'));
@@ -53,36 +54,6 @@ export const App = () => {
   };
 
   return (
-    <Routes>
-      <Route path={PATH.HOME} element={<Layout />}>
-        {/* public */}
-        <Route path={PATH.LOGIN} element={<Login />} />
-        <Route path={PATH.REGISTER_COMPANY} element={<RegisterCompany />} />
-        <Route path={PATH.REGISTER} element={<Register />} />
-        <Route path={PATH.UNAUTHORIZED} element={<Unauthorized />} />
-        {/* protected */}
-        {userRole === ROLES.HR
-          ? userRoutes.HR()
-          : userRole === ROLES.TEMPUSER
-          ? userRoutes.TEMPUSER()
-          : userRole === ROLES.INTERVIEWEE
-          ? userRoutes.INTERVIEWEE()
-          : userRole === ROLES.INTERVIEWER
-          ? userRoutes.INTERVIEWER()
-          : null}
-        {/* tobe added when new roles come in */}
-
-        {/* <Route element={<RequiredAuth role={ROLES.INTERVIEWER}  />}>
-          <Route path={PATH.HOME} element={<Sidebar />} />
-        </Route>
-
-        <Route element={<RequiredAuth role={ROLES.INTERVIEWEE}  />}>
-          <Route path={PATH.HOME} element={<Sidebar />} />
-        </Route> */}
-
-        {/* catch all */}
-        <Route path={PATH.MISSING} element={<Missing />} />
-      </Route>
-    </Routes>
+        <Router />
   );
 };
