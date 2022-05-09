@@ -1,0 +1,61 @@
+.HomepageMain {
+    background-color: #fff;
+    padding-bottom: 30px;
+    .header {
+        padding: 25px 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 40px;
+        .contactBtn {
+            border: 2px solid #4285f4;
+            background-color: transparent;
+            padding: 7px 25px;
+            color: #4285f4;
+            font-weight: 500;
+            font-size: 16px;
+        }
+        .logo {
+            width: 130px;
+        }
+    }
+    .bannerSection {
+        h1 {
+            font-size: 56px;
+            font-weight: 700;
+        }
+        .getStartedBtn {
+            background-color: #000;
+            border-radius: 5px;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            margin-top: 25px;
+            margin-right: auto;
+            font-size: 16px;
+        }
+        .HomeBanner {
+            width: 100%;
+            border-radius: 10px;
+        }
+    }
+    .bottom_section {
+        background-color: #4285f4;
+        border-radius: 10px;
+        padding: 40px;
+        color: #fff;
+        margin-top: 80px;
+
+        .barMain {
+            display: flex;
+            align-items: flex-start;
+            h4 {
+                color: #fff;
+                font-weight: 700;
+            }
+            p {
+                margin-bottom: 0;
+            }
+        }
+    }
+}
