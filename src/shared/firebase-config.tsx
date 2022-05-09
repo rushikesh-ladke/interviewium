@@ -3,8 +3,8 @@ import { getAuth } from 'firebase/auth';
 
 import { firebaseConfig } from 'env/env.dev';
 import { getFirestore } from 'firebase/firestore';
-
-const app = initializeApp(firebaseConfig);
+import 'firebase/firestore';
+const app: any = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
-export const db = getFirestore(app);
+export const db: any = getFirestore(app);
 export default app;
