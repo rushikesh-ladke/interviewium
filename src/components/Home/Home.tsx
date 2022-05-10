@@ -1,8 +1,22 @@
+import React, { useState } from 'react';
+import { Modal } from 'antd';
 import styles from './styles.module.scss';
 import Logo from '../../images/Interviewiumlogo.svg';
 import HomeBanner from '../../images/homebanner.svg';
 export const Home = () => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
   return (<>
     <div className={`${styles.HomepageMain} container`}>
       <header className={styles.header}>
@@ -13,7 +27,12 @@ export const Home = () => {
         <div className="row">
           <div className="col-md-6 d-flex flex-column justify-content-center">
             <h1>Let's start<br /> something<br /> With us.</h1>
-            <button className={styles.getStartedBtn}>Get Started</button>
+            <button className={styles.getStartedBtn} onClick={showModal}>Get Started</button>
+            {/* <Modal text title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+              <p>Some contents...</p>
+              <p>Some contents...</p>
+              <p>Some contents...</p>
+            </Modal> */}
           </div>
           <div className="col-md-6">
             <img className={styles.HomeBanner} src={HomeBanner} alt="HomeBanner" />
