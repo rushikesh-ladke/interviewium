@@ -3,6 +3,10 @@ import { Modal } from 'antd';
 import styles from './styles.module.scss';
 import Logo from '../../images/Interviewiumlogo.svg';
 import HomeBanner from '../../images/homebanner.svg';
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+import EnhancedEncryptionIcon from '@mui/icons-material/EnhancedEncryption';
+import AddchartIcon from '@mui/icons-material/Addchart';
+import GroupWorkIcon from '@mui/icons-material/GroupWork';
 export const Home = () => {
 
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -37,19 +41,36 @@ export const Home = () => {
                 <br /> something
                 <br /> With us.
               </h1>
-              <button className={styles.getStartedBtn} onClick={showModal}>
+              <button className={styles.getStartedBtn} >
                 Get Started
               </button>
               <ModalAntd
                 text
-                title='Basic Modal'
+                title='Get in Touch'
                 visible={isModalVisible}
                 onOk={() => handleOk()}
                 onCancel={() => handleCancel()}
+                className={styles.modalAnt}
               >
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
+                <h4>Schedule an Appointment</h4>
+
+                <div className={styles.message}>
+                  <p>Hey, my name is <input type="text" placeholder='Type Here' /> and I'm looking for
+                    <select>
+                      <option>Message1</option>
+                      <option>Message1</option>
+                      <option>Message1</option>
+
+                    </select>
+                    <br />
+                  </p>
+                  <p>
+                    Get in touch with me at <input type="email" placeholder='Your email ID here' />!
+                  </p>
+                </div>
+                <button className={styles.getStartedBtn} >
+                  Send Enquiry  <ArrowRightAltIcon />
+                </button>
               </ModalAntd>
             </div>
             <div className='col-md-6'>
@@ -65,6 +86,7 @@ export const Home = () => {
           <div className='row'>
             <div className='col-lg-4'>
               <div className={styles.barMain}>
+                <AddchartIcon className="me-3" />
                 <div>
                   <h4>Transfer money</h4>
                   <p>
@@ -76,6 +98,7 @@ export const Home = () => {
             </div>
             <div className='col-lg-4'>
               <div className={styles.barMain}>
+                <EnhancedEncryptionIcon className="me-3" />
                 <div>
                   <h4>Safe Transfer</h4>
                   <p>
@@ -87,6 +110,7 @@ export const Home = () => {
             </div>
             <div className='col-lg-4'>
               <div className={styles.barMain}>
+                <GroupWorkIcon className="me-3" />
                 <div>
                   <h4>Real Partnership</h4>
                   <p>
