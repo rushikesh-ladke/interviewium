@@ -63,7 +63,7 @@
     width: 635px !important;
     :global(.ant-modal-content) {
         :global(.ant-modal-header) {
-            background: linear-gradient(to right, #67b26f, #4ca2cd);
+             background: linear-gradient(to right, #a1ffce, #faffd1);
             border-bottom: unset;
             padding: 30px;
             :global(.ant-modal-title) {
@@ -71,7 +71,7 @@
             }
         }
         :global(.ant-modal-body) {
-            background: linear-gradient(to right, #67b26f, #4ca2cd);
+             background: linear-gradient(to right, #a1ffce, #faffd1);
             padding: 0 30px 30px 30px;
             h4 {
                 font-size: 30px;
