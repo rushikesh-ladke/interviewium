@@ -1,0 +1,116 @@
+.HomepageMain {
+    background-color: #fff;
+    padding-bottom: 30px;
+    .header {
+        padding: 25px 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 40px;
+        .contactBtn {
+            border: 2px solid #4285f4;
+            background-color: transparent;
+            padding: 7px 25px;
+            color: #4285f4;
+            font-weight: 500;
+            font-size: 16px;
+        }
+        .logo {
+            width: 130px;
+        }
+    }
+    .bannerSection {
+        h1 {
+            font-size: 56px;
+            font-weight: 700;
+        }
+        .getStartedBtn {
+            background-color: #000;
+            border-radius: 5px;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            margin-top: 25px;
+            margin-right: auto;
+            font-size: 16px;
+        }
+        .HomeBanner {
+            width: 100%;
+            border-radius: 10px;
+        }
+    }
+    .bottom_section {
+        background-color: #4285f4;
+        border-radius: 10px;
+        padding: 40px;
+        color: #fff;
+        margin-top: 80px;
+
+        .barMain {
+            display: flex;
+            align-items: flex-start;
+            h4 {
+                color: #fff;
+                font-weight: 700;
+            }
+            p {
+                margin-bottom: 0;
+            }
+        }
+    }
+}
+.modalAnt {
+    width: 635px !important;
+    :global(.ant-modal-content) {
+        :global(.ant-modal-header) {
+             background: linear-gradient(to right, #a1ffce, #faffd1);
+            border-bottom: unset;
+            padding: 30px;
+            :global(.ant-modal-title) {
+                font-size: 18px;
+            }
+        }
+        :global(.ant-modal-body) {
+             background: linear-gradient(to right, #a1ffce, #faffd1);
+            padding: 0 30px 30px 30px;
+            h4 {
+                font-size: 30px;
+                font-weight: 800;
+                margin-bottom: 40px;
+            }
+            .message {
+                p {
+                    font-size: 16px;
+                    font-weight: 600;
+                    input {
+                        border: unset;
+                        border-bottom: 1px solid #000;
+                        padding: 5px;
+                        background-color: transparent;
+                        color: #000;
+                    }
+                    select {
+                        border: unset;
+                        border-bottom: 1px solid #000;
+                        padding: 5px;
+                        color: #000;
+                        background-color: transparent;
+                    }
+                }
+            }
+        }
+        .getStartedBtn {
+            background-color: #000;
+            border-radius: 5px;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            margin-top: 25px;
+            margin-right: auto;
+            font-size: 16px;
+        }
+        :global(.ant-modal-footer) {
+            display: none;
+        }
+    }
+}
