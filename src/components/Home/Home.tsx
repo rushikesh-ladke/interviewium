@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Modal } from 'antd';
 import styles from './styles.module.scss';
 import Logo from '../../images/Interviewiumlogo.svg';
@@ -7,8 +7,11 @@ import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import EnhancedEncryptionIcon from '@mui/icons-material/EnhancedEncryption';
 import AddchartIcon from '@mui/icons-material/Addchart';
 import GroupWorkIcon from '@mui/icons-material/GroupWork';
+import { useNavigate  } from 'react-router-dom';
+
 export const Home = () => {
 
+  const navigate = useNavigate()
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const ModalAntd: any = Modal;
@@ -41,7 +44,7 @@ export const Home = () => {
                 <br /> something
                 <br /> With us.
               </h1>
-              <button className={styles.getStartedBtn} >
+              <button className={styles.getStartedBtn} onClick={() => navigate('/')}>
                 Get Started
               </button>
               <ModalAntd
