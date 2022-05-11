@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { Modal } from 'antd';
 import styles from './styles.module.scss';
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
@@ -15,9 +17,27 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
 import Accordion from 'react-bootstrap/Accordion';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import G_Logo from '../../images/g_logo.svg';
 import { Badge } from 'antd';
 export const Sidebar = () => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const ModalAntd: any = Modal;
+
+  const showModal = () => {
+    setIsModalVisible(!isModalVisible);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+
   return (
     <div className={`${styles.appMain}`}>
       <div className={styles.header}>
@@ -134,6 +154,64 @@ export const Sidebar = () => {
                       <option value='2'>Popular</option>
                       <option value='3'>Old</option>
                     </select>
+                    <div className={styles.twoBtn}>
+                      <button className={styles.NewBtn} onClick={() => showModal()}><AddOutlinedIcon className={styles.AddIcon} />New</button>
+                      <ModalAntd
+                        text
+                        title='Create a free job'
+                        visible={isModalVisible}
+                        onOk={() => handleOk()}
+                        onCancel={() => handleCancel()}
+                        className={styles.modalAnt}
+                      >
+                        <h6><strong>Find a great hire, fast</strong></h6>
+                        <div className={styles.formAll}>
+                          <label className="form-label">Email address*</label>
+                          <input type="email" className="form-control" placeholder='Add the title you are hiring for'/>
+                        </div>
+                        <div className={styles.formAll}>
+                          <label className="form-label">Company*</label>
+                          <input type="text" className="form-control" id="Company" placeholder='Freelance'/>
+                        </div>
+                        <div className={styles.formAll}>
+                          <label className="form-label">Workplace type*</label>
+                          <select  className="form-select">
+                            <option>
+                              <h6>On-site</h6>
+                              <p>Employess come to work in-person.</p>
+                            </option>
+                            <option>
+                              <h6>Hybrid</h6>
+                              <p>Employess work on-site and off-site.</p>
+                            </option>
+                            <option>
+                              <h6>Remote</h6>
+                              <p>Employess work off-site.</p>
+                            </option>
+                          </select>
+                        </div>
+                        <div className={styles.formAll}>
+                          <label className="form-label">Job location*</label>
+                          <input type="email" className="form-control" placeholder='City or metro area'/>
+                        </div>
+                        <div className={styles.formAll}>
+                          <label className="form-label">Job type*</label>
+                          <select  className="form-select">
+                            <option>Full-time</option>
+                            <option>Part-time</option>
+                            <option>Contract</option>
+                            <option>Temporary</option>
+                            <option>Other</option>
+                            <option>Volunteer</option>
+                            <option>Internship</option>
+                          </select>
+                        </div>
+                        <div className={styles.formAll}>
+                          <label className="form-label">Description*</label>
+                          <textarea className="form-control" placeholder="Add the skills and requirements you're looking for" />
+                        </div>
+                      </ModalAntd>
+                    </div>
                   </div>
                 </div>
                 {/* Main cards */}
