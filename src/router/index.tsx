@@ -1,13 +1,23 @@
 import Assign from "components/Assign";
 import Dashboard from "components/Dashboard";
 import Home from "components/Home";
-import Login from "components/Login";
+// import Login from "components/Login";
 import Missing from "components/Missing";
 import { PATH } from "constants/path";
 import { ROLES } from "constants/roles";
+import { lazy } from "react";
 import { Route, Routes } from "react-router-dom";
 import { AuthRoute } from "./AuthRoute";
 import { PublicRoute } from "./PublicRoute";
+// const RegisterCompany = lazy(() => import('components/Register'));
+const Login = lazy(() => import('components/Login'));
+const Sidebar = lazy(() => import('components/Sidebar'));
+// const Sidebar = lazy(() => import('components/Sidebar'));
+// const Unauthorized = lazy(() => import('components/Unauthorized'));
+// const Missing = lazy(() => import('components/Missing'));
+// const SelectRole = lazy(() => import('components/SelectRole'));
+// const Assign = lazy(() => import('components/Assign'));
+// const Dashboard = lazy(() => import('components/Dashboard'));
 
 
 /**
@@ -48,6 +58,14 @@ export const Router = () => {
         element={
           <AuthRoute roles={[ROLES.HR]}>
             <Dashboard />
+          </AuthRoute>
+        }
+      />
+      <Route
+        path={PATH.JOBS}
+        element={
+          <AuthRoute roles={[ROLES.HR]}>
+            <Sidebar />
           </AuthRoute>
         }
       />
