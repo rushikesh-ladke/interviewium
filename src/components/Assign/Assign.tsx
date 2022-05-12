@@ -1,6 +1,4 @@
 import * as React from 'react';
-import { useState } from 'react';
-import { Modal } from 'antd';
 import styles from './styles.module.scss';
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
@@ -21,21 +19,7 @@ export const Assign = () => {
   const handleChange = (event: any, newValue: React.SetStateAction<number>) => {
     setValue(newValue);
   };
-  const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const ModalAntd: any = Modal;
-
-  const showModal = () => {
-    setIsModalVisible(!isModalVisible);
-  };
-
-  const handleOk = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
   return (
     <div className={`${styles.appMain}`}>
       <div className={styles.header}>
@@ -78,7 +62,7 @@ export const Assign = () => {
           <ul>
             <h6>Account</h6>
             <div className='d-flex'>
-              <li className={`col-6 `} onClick={() => showModal()}>
+              <li className={`col-6 `}>
                 <CommentOutlinedIcon className={styles.icons} />
                 Feedback
               </li>
@@ -94,14 +78,6 @@ export const Assign = () => {
               </li>
             </div>
           </ul>
-          <ModalAntd
-            text
-            title='Get in Touch'
-            visible={isModalVisible}
-            onOk={() => handleOk()}
-            onCancel={() => handleCancel()}
-            className={styles.modalAnt}
-          ></ModalAntd>
           <ul>
             <div className={styles.boxMain}></div>
           </ul>
