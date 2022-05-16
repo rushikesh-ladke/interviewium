@@ -1,17 +1,22 @@
 .HomepageMain {
-    background-color: #fff;
+    background: linear-gradient(180deg, #2f6ed3 5%, #5095e4 20%, #5095e4 60%, #2f6ed3 95%);
     padding-bottom: 30px;
+    height: 100vh;
+    overflow: hidden;
+    .contain {
+        height: 100vh;
+        position: relative;
+    }
     .header {
-        padding: 25px 0;
+        padding: 25px 0 0;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-bottom: 40px;
         .contactBtn {
-            border: 2px solid #4285f4;
+            border: 2px solid #f7cc1b;
             background-color: transparent;
             padding: 7px 25px;
-            color: #4285f4;
+            color: #f7cc1b;
             font-weight: 500;
             font-size: 16px;
         }
@@ -20,41 +25,92 @@
         }
     }
     .bannerSection {
-        h1 {
-            font-size: 56px;
-            font-weight: 700;
-        }
-        .getStartedBtn {
-            background-color: #000;
-            border-radius: 5px;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            margin-top: 25px;
-            margin-right: auto;
-            font-size: 16px;
-        }
-        .HomeBanner {
-            width: 100%;
-            border-radius: 10px;
+        transform: translate(0, -50%);
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        .textBg {
+            position: relative;
+            .textR {
+                position: absolute;
+                width: 100%;
+                top: -10rem;
+                opacity: 0.2;
+                left: -5rem;
+            }
+            h1 {
+                font-size: 65px;
+                font-weight: 700;
+                color: #27374c;
+                z-index: 99;
+            }
+            .getStartedBtn {
+                border-radius: 5px;
+
+                padding: 10px 20px;
+                border: none;
+                margin-top: 25px;
+                margin-right: auto;
+                font-size: 16px;
+                z-index: 99;
+                background: #000;
+                box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border-radius: 10px;
+                color: #fff;
+            }
+            .HomeBanner {
+                width: 100%;
+                border-radius: 10px;
+            }
         }
     }
     .bottom_section {
-        background-color: #4285f4;
-        border-radius: 10px;
-        padding: 40px;
-        color: #fff;
-        margin-top: 80px;
-
-        .barMain {
-            display: flex;
-            align-items: flex-start;
-            h4 {
-                color: #fff;
-                font-weight: 700;
+        position: relative;
+        .sameCard {
+            position: absolute;
+            width: 100%;
+            max-width: 300px;
+            &.card1 {
+                top: 12rem;
+                left: -25px;
             }
-            p {
-                margin-bottom: 0;
+            &.card2 {
+                top: -80px;
+                left: 180px;
+            }
+            &.card3 {
+                right: 25px;
+                top: 12rem;
+            }
+            .barMain {
+                position: relative;
+                background: rgba(255, 255, 255, 0.1);
+                box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border-radius: 10px;
+                border: 1px solid rgba(255, 255, 255, 0.18);
+                padding: 20px;
+                h4 {
+                    color: #fff;
+                    font-weight: 700;
+                    margin-bottom: 20px;
+                }
+                p {
+                    font-size: 16px;
+                    font-weight: 600;
+                    margin-bottom: 0;
+                    color: #fff;
+                }
+                .cardICon {
+                    position: absolute;
+                    width: 100%;
+                    max-width: 125px;
+                    right: -55px;
+                    top: -50px;
+                }
             }
         }
     }
@@ -63,7 +119,7 @@
     width: 635px !important;
     :global(.ant-modal-content) {
         :global(.ant-modal-header) {
-             background: linear-gradient(to right, #a1ffce, #faffd1);
+            background: linear-gradient(to right, #a1ffce, #faffd1);
             border-bottom: unset;
             padding: 30px;
             :global(.ant-modal-title) {
@@ -71,7 +127,7 @@
             }
         }
         :global(.ant-modal-body) {
-             background: linear-gradient(to right, #a1ffce, #faffd1);
+            background: linear-gradient(to right, #a1ffce, #faffd1);
             padding: 0 30px 30px 30px;
             h4 {
                 font-size: 30px;
