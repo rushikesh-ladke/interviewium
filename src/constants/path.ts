@@ -6,6 +6,7 @@ export const PATH = {
   SIDEBAR: '/sidebar',
   ASSIGN: '/assign',
   JOBS: '/jobs',
+  INTERVIEWEEDETAILS: '/interviewee-details',
   DASHBOARD: '/dashboard',
   SELECTROLE: '/select-role',
   REGISTER_COMPANY: '/register-company',
