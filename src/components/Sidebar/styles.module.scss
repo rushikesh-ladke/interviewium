@@ -182,6 +182,31 @@
                                 box-shadow: none;
                             }
                         }
+                        .twoBtn {
+                            display: flex;
+                            margin-left: 10px;
+                            .NewBtn {
+                                padding: 5px 12px;
+                                background-color: #4285f4;
+                                border: unset;
+                                border-radius: 25px;
+                                color: #fff;
+                                font-weight: 700;
+                                display: flex;
+                                align-items: center;
+                                font-size: 12px;
+                                &.ActiveBtn {
+                                    background-color: #70b2ff33;
+                                    color: #3c3c3c;
+                                    margin-right: 8px;
+                                }
+                                .AddIcon {
+                                    width: 18px;
+                                    height: 18px;
+                                    margin-right: 5px;
+                                }
+                            }
+                        }
                     }
                 }
                 .companyList {
@@ -366,11 +391,45 @@
                         width: 100%;
                         border-radius: 50px;
                         box-shadow: 0 4px 32px 0 #80808042, 0 8px 64px 0 #0a0e1d00;
-                        &:hover {
-                        }
                     }
                 }
             }
+        }
+    }
+}
+
+.modalAnt {
+    width: 635px !important;
+    :global(.ant-modal-content) {
+        :global(.ant-modal-header) {
+            padding: 30px 30px 10px 30px;
+            :global(.ant-modal-title) {
+                font-size: 18px;
+            }
+        }
+        :global(.ant-modal-body) {
+            padding: 25px 30px 30px 30px;
+            height: 300px;
+            overflow-y: auto;
+            .formAll {
+                margin-bottom: 20px;
+                &:last-child {
+                    margin-bottom: 0;
+                }
+                input {
+                    font-size: 14px;
+                }
+                select {
+                    font-size: 14px;
+                }
+                textarea {
+                    height: 150px;
+                    font-size: 14px;
+                }
+            }
+        }
+        :global(.ant-modal-footer) {
+            display: none;
         }
     }
 }
