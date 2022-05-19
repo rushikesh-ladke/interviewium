@@ -1,24 +1,23 @@
-import Assign from "components/Assign";
-import Dashboard from "components/Dashboard";
-import Home from "components/Home";
+import Assign from 'components/Assign';
+import Dashboard from 'components/Dashboard';
+import Home from 'components/Home';
 // import Login from "components/Login";
-import Missing from "components/Missing";
-import { PATH } from "constants/path";
-import { ROLES } from "constants/roles";
-import { lazy } from "react";
-import { Route, Routes } from "react-router-dom";
-import { AuthRoute } from "./AuthRoute";
-import { PublicRoute } from "./PublicRoute";
+import Missing from 'components/Missing';
+import { PATH } from 'constants/path';
+import { ROLES } from 'constants/roles';
+import { lazy } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import { AuthRoute } from './AuthRoute';
+import { PublicRoute } from './PublicRoute';
 // const RegisterCompany = lazy(() => import('components/Register'));
 const Login = lazy(() => import('components/Login'));
 const Sidebar = lazy(() => import('components/Sidebar'));
 // const Sidebar = lazy(() => import('components/Sidebar'));
 // const Unauthorized = lazy(() => import('components/Unauthorized'));
 // const Missing = lazy(() => import('components/Missing'));
-// const SelectRole = lazy(() => import('components/SelectRole'));
+const SelectRole = lazy(() => import('components/SelectRole'));
 // const Assign = lazy(() => import('components/Assign'));
 // const Dashboard = lazy(() => import('components/Dashboard'));
-
 
 /**
  * Top level application router
@@ -29,11 +28,11 @@ const Sidebar = lazy(() => import('components/Sidebar'));
 export const Router = () => {
   return (
     <Routes>
-       <Route
+      <Route
         path={PATH.HOMEPAGE}
         element={
           <PublicRoute>
-            <Home/>
+            <Home />
           </PublicRoute>
         }
       />
@@ -41,7 +40,7 @@ export const Router = () => {
         path={PATH.HOME}
         element={
           <PublicRoute>
-            <Login title={"Sign In"} signInPage={true} />
+            <Login title={'Sign In'} signInPage={true} />
           </PublicRoute>
         }
       />
@@ -49,15 +48,23 @@ export const Router = () => {
         path={PATH.REGISTER}
         element={
           <PublicRoute>
-            <Login title={"Sign up"} signInPage={false} />
+            <Login title={'Sign up'} signInPage={false} />
           </PublicRoute>
+        }
+      />
+      <Route
+        path={PATH.SELECTROLE}
+        element={
+          <AuthRoute roles={[ROLES.TEMPUSER]}>
+            <SelectRole />
+          </AuthRoute>
         }
       />
       <Route
         path={PATH.ASSIGN}
         element={
           <AuthRoute roles={[ROLES.HR]}>
-            <Dashboard />
+            <Assign />
           </AuthRoute>
         }
       />
@@ -72,12 +79,12 @@ export const Router = () => {
       <Route
         path={PATH.DASHBOARD}
         element={
-          <AuthRoute roles={[ROLES.INTERVIEWEE, ROLES.INTERVIEWER]}>
-            <Assign />
+          <AuthRoute roles={[ROLES.INTERVIEWEE, ROLES.INTERVIEWER, ROLES.HR]}>
+            <Dashboard />
           </AuthRoute>
         }
       />
-      <Route path="*" element={<Missing />} />
+      <Route path='*' element={<Missing />} />
     </Routes>
   );
 };
