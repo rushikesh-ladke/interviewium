@@ -1,5 +1,6 @@
 import Assign from "components/Assign";
 import Dashboard from "components/Dashboard";
+import IntervieweeDetails from "components/IntervieweeDetails";
 import Home from "components/Home";
 // import Login from "components/Login";
 import Missing from "components/Missing";
@@ -29,11 +30,11 @@ const Sidebar = lazy(() => import('components/Sidebar'));
 export const Router = () => {
   return (
     <Routes>
-       <Route
+      <Route
         path={PATH.HOMEPAGE}
         element={
           <PublicRoute>
-            <Home/>
+            <Home />
           </PublicRoute>
         }
       />
@@ -74,6 +75,14 @@ export const Router = () => {
         element={
           <AuthRoute roles={[ROLES.INTERVIEWEE, ROLES.INTERVIEWER]}>
             <Assign />
+          </AuthRoute>
+        }
+      />
+      <Route
+        path={PATH.INTERVIEWEEDETAILS}
+        element={
+          <AuthRoute roles={[ROLES.HR]}>
+            <IntervieweeDetails />
           </AuthRoute>
         }
       />
