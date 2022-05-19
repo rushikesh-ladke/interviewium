@@ -1,5 +1,6 @@
 import Assign from 'components/Assign';
 import Dashboard from 'components/Dashboard';
+import IntervieweeDetails from 'components/IntervieweeDetails';
 import Home from 'components/Home';
 // import Login from "components/Login";
 import Missing from 'components/Missing';
@@ -81,6 +82,14 @@ export const Router = () => {
         element={
           <AuthRoute roles={[ROLES.INTERVIEWEE, ROLES.INTERVIEWER, ROLES.HR]}>
             <Dashboard />
+          </AuthRoute>
+        }
+      />
+      <Route
+        path={PATH.INTERVIEWEEDETAILS}
+        element={
+          <AuthRoute roles={[ROLES.HR]}>
+            <IntervieweeDetails />
           </AuthRoute>
         }
       />
