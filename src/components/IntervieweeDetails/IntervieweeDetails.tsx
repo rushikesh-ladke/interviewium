@@ -124,7 +124,43 @@ export const IntervieweeDetails = () => {
                 <h6><strong>Testing: </strong>Lorem Ipsum is simply dumm</h6>
                 <h6><strong>Cloud: </strong>Lorem Ipsum is simply dumm</h6>
                 <h6><strong>Mobile App Development: </strong>Lorem Ipsum is simply dumm</h6>
-
+              </div>
+              <div className={styles.edu}>
+                <h2>Education</h2>
+                <p>Engineering Fellow, Pesto Tech, 2021</p>
+                <p>Bachelor of computer Engineering, VIT, 2020</p>
+              </div>
+              <div className={styles.profExp}>
+                <div className='d-flex justify-content-between'>
+                  <h2>Professional Experience</h2>
+                  <h5>Aug '20 - Present</h5>
+                </div>
+                <div className={styles.info}>
+                  <h5>Invimatic Solutions, Pune(India) - Software Engineer</h5>
+                  <h6>January 2020 - Present 1 Year 1 Month</h6>
+                  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, </p>
+                  <div className={styles.infoStack}>
+                    <p>Tech Stack: React, Nextjs, Gatsby, Nextjs, HTML, and SaSS</p>
+                    <ul>
+                      <li>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's</li>
+                      <li>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's</li>
+                      <li>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's</li>
+                    </ul>
+                  </div>
+                </div>
+                <div className={styles.info}>
+                  <h5>Freelancer, Pune(India) - Software Engineer</h5>
+                  <h6>January 2020 - Present 1 Year 1 Month</h6>
+                  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, </p>
+                  <div className={styles.infoStack}>
+                    <p>Tech Stack: React, Nextjs, Gatsby, Nextjs, HTML, and SaSS</p>
+                    <ul>
+                      <li>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's</li>
+                      <li>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's</li>
+                      <li>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's</li>
+                    </ul>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
