@@ -3,7 +3,6 @@ import { Modal } from 'antd';
 import styles from './styles.module.scss';
 import Logo from '../../images/Interviewiumlogo.svg';
 import Textbg from '../../images/textbackground.svg';
-import HomeBanner from '../../images/homebanner.svg';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import Computer from '../../images/3d/computer.svg';
 import Rocket from '../../images/3d/rocket.svg';
@@ -11,8 +10,7 @@ import Target from '../../images/3d/target.svg';
 import { useNavigate } from 'react-router-dom';
 
 export const Home = () => {
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const ModalAntd: any = Modal;
@@ -40,14 +38,19 @@ export const Home = () => {
           </header>
           <section className={styles.bannerSection}>
             <div className='row'>
-              <div className={`${styles.textBg} col-md-5 d-flex flex-column justify-content-center}`}>
-                <img src={Textbg} className={styles.textR} />
+              <div
+                className={`${styles.textBg} col-md-5 d-flex flex-column justify-content-center}`}
+              >
+                <img src={Textbg} className={styles.textR} alt='cardIcon' />
                 <h1>
                   Let's start
                   <br /> something
                   <br /> With us.
                 </h1>
-                <button className={styles.getStartedBtn} onClick={() => navigate('/')}>
+                <button
+                  className={styles.getStartedBtn}
+                  onClick={() => navigate('/')}
+                >
                   Get Started
                 </button>
                 <ModalAntd
@@ -61,21 +64,24 @@ export const Home = () => {
                   <h4>Schedule an Appointment</h4>
 
                   <div className={styles.message}>
-                    <p>Hey, my name is <input type="text" placeholder='Type Here' /> and I'm looking for
+                    <p>
+                      Hey, my name is{' '}
+                      <input type='text' placeholder='Type Here' /> and I'm
+                      looking for
                       <select>
                         <option>Message1</option>
                         <option>Message1</option>
                         <option>Message1</option>
-
                       </select>
                       <br />
                     </p>
                     <p>
-                      Get in touch with me at <input type="email" placeholder='Your email ID here' />!
+                      Get in touch with me at{' '}
+                      <input type='email' placeholder='Your email ID here' />!
                     </p>
                   </div>
-                  <button className={styles.getStartedBtn} >
-                    Send Enquiry  <ArrowRightAltIcon />
+                  <button className={styles.getStartedBtn}>
+                    Send Enquiry <ArrowRightAltIcon />
                   </button>
                 </ModalAntd>
               </div>
@@ -83,36 +89,51 @@ export const Home = () => {
                 <section className={styles.bottom_section}>
                   <div className={`${styles.card1} ${styles.sameCard}`}>
                     <div className={styles.barMain}>
-                      <img src={Computer} className={styles.cardICon} />
+                      <img
+                        src={Computer}
+                        className={styles.cardICon}
+                        alt='cardIcon'
+                      />
                       <div>
                         <h4>Transfer money</h4>
                         <p>
-                          Bootstrap employs a handful of important global styles and
-                          settings that you’ll need to be aware of when using it
+                          Bootstrap employs a handful of important global styles
+                          and settings that you’ll need to be aware of when
+                          using it
                         </p>
                       </div>
                     </div>
                   </div>
                   <div className={`${styles.card2} ${styles.sameCard}`}>
                     <div className={styles.barMain}>
-                      <img src={Rocket} className={styles.cardICon} />
+                      <img
+                        src={Rocket}
+                        className={styles.cardICon}
+                        alt='cardIcon'
+                      />
                       <div>
                         <h4>Safe Transfer</h4>
                         <p>
-                          Bootstrap employs a handful of important global styles and
-                          settings that you’ll need to be aware of when using it
+                          Bootstrap employs a handful of important global styles
+                          and settings that you’ll need to be aware of when
+                          using it
                         </p>
                       </div>
                     </div>
                   </div>
                   <div className={`${styles.card3} ${styles.sameCard}`}>
                     <div className={styles.barMain}>
-                      <img src={Target} className={styles.cardICon} />
+                      <img
+                        src={Target}
+                        className={styles.cardICon}
+                        alt='cardIcon'
+                      />
                       <div>
                         <h4>Real Partnership</h4>
                         <p>
-                          Bootstrap employs a handful of important global styles and
-                          settings that you’ll need to be aware of when using it
+                          Bootstrap employs a handful of important global styles
+                          and settings that you’ll need to be aware of when
+                          using it
                         </p>
                       </div>
                     </div>
