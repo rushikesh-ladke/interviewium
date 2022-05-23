@@ -10,10 +10,10 @@ import { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { AuthRoute } from './AuthRoute';
 import { PublicRoute } from './PublicRoute';
+import { MainLayout } from 'components/MainLayout/MainLayout';
 // const RegisterCompany = lazy(() => import('components/Register'));
 const Login = lazy(() => import('components/Login'));
-const Sidebar = lazy(() => import('components/Sidebar'));
-// const Sidebar = lazy(() => import('components/Sidebar'));
+const Jobs = lazy(() => import('components/Jobs'));
 // const Unauthorized = lazy(() => import('components/Unauthorized'));
 // const Missing = lazy(() => import('components/Missing'));
 const SelectRole = lazy(() => import('components/SelectRole'));
@@ -73,7 +73,9 @@ export const Router = () => {
         path={PATH.JOBS}
         element={
           <AuthRoute roles={[ROLES.HR]}>
-            <Sidebar />
+            <MainLayout>
+              <Jobs />
+            </MainLayout>
           </AuthRoute>
         }
       />
@@ -81,7 +83,9 @@ export const Router = () => {
         path={PATH.DASHBOARD}
         element={
           <AuthRoute roles={[ROLES.INTERVIEWEE, ROLES.INTERVIEWER, ROLES.HR]}>
-            <Dashboard />
+            <MainLayout>
+              <Dashboard />
+            </MainLayout>
           </AuthRoute>
         }
       />
@@ -89,7 +93,9 @@ export const Router = () => {
         path={PATH.INTERVIEWEEDETAILS}
         element={
           <AuthRoute roles={[ROLES.HR]}>
-            <IntervieweeDetails />
+            <MainLayout>
+              <IntervieweeDetails />
+            </MainLayout>
           </AuthRoute>
         }
       />
