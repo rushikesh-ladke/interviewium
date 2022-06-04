@@ -116,7 +116,7 @@ export const Sidebar = () => {
               <>
                 <div className='d-flex'>
                   <li
-                    className={`col-6${
+                    className={`col-6 ${
                       location?.pathname === PATH.DASHBOARD
                         ? styles.active
                         : null
@@ -127,7 +127,7 @@ export const Sidebar = () => {
                     Dashboard
                   </li>
                   <li
-                    className={`col-6${
+                    className={`col-6 ${
                       location?.pathname === PATH.APPLICATION
                         ? styles.active
                         : null
@@ -135,12 +135,12 @@ export const Sidebar = () => {
                     onClick={() => navigate(PATH.APPLICATION)}
                   >
                     <WorkOutlineOutlinedIcon className={styles.icons} />
-                    Jobs
+                    Application
                   </li>
                 </div>
                 <div className='d-flex'>
                   <li
-                    className={`col-6${
+                    className={`col-6 ${
                       location?.pathname === PATH.FEEDBACK
                         ? styles.active
                         : null
@@ -160,16 +160,12 @@ export const Sidebar = () => {
                     Profile
                   </li>
                 </div>
-                <div className='d-flex'>
-                  <li className={`col-6 `}></li>
-                  <li className={`col-6 `}></li>
-                </div>
               </>
             ) : userRole === ROLES.INTERVIEWER ? (
               <>
                 <div className='d-flex'>
                   <li
-                    className={`col-6${
+                    className={`col-6 ${
                       location?.pathname === PATH.DASHBOARD
                         ? styles.active
                         : null
@@ -212,10 +208,6 @@ export const Sidebar = () => {
                     <PersonPinOutlinedIcon className={styles.icons} />
                     Profile
                   </li>
-                </div>
-                <div className='d-flex'>
-                  <li className={`col-6 `}></li>
-                  <li className={`col-6 `}></li>
                 </div>
               </>
             ) : null}
