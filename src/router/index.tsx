@@ -2,23 +2,16 @@ import Assign from 'components/Assign';
 import Dashboard from 'components/Dashboard';
 import IntervieweeDetails from 'components/IntervieweeDetails';
 import Home from 'components/Home';
-// import Login from "components/Login";
 import Missing from 'components/Missing';
 import { PATH } from 'constants/path';
 import { ROLES } from 'constants/roles';
-import { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { AuthRoute } from './AuthRoute';
 import { PublicRoute } from './PublicRoute';
 import { MainLayout } from 'components/MainLayout/MainLayout';
-// const RegisterCompany = lazy(() => import('components/Register'));
-const Login = lazy(() => import('components/Login'));
-const Jobs = lazy(() => import('components/Jobs'));
-// const Unauthorized = lazy(() => import('components/Unauthorized'));
-// const Missing = lazy(() => import('components/Missing'));
-const SelectRole = lazy(() => import('components/SelectRole'));
-// const Assign = lazy(() => import('components/Assign'));
-// const Dashboard = lazy(() => import('components/Dashboard'));
+import Login from 'components/Login';
+import Jobs from 'components/Jobs';
+import SelectRole from 'components/SelectRole';
 
 /**
  * Top level application router
@@ -65,7 +58,9 @@ export const Router = () => {
         path={PATH.ASSIGN}
         element={
           <AuthRoute roles={[ROLES.HR]}>
-            <Assign />
+            <MainLayout>
+              <Assign />
+            </MainLayout>
           </AuthRoute>
         }
       />
