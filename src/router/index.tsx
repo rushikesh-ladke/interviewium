@@ -12,6 +12,11 @@ import { MainLayout } from 'components/MainLayout/MainLayout';
 import Login from 'components/Login';
 import Jobs from 'components/Jobs';
 import SelectRole from 'components/SelectRole';
+import Interviews from 'components/Interviews';
+import Interviewer from 'components/Interviewer';
+import Profile from 'components/Profile';
+import Feedback from 'components/Feedback';
+import Application from 'components/Application';
 
 /**
  * Top level application router
@@ -90,6 +95,76 @@ export const Router = () => {
           <AuthRoute roles={[ROLES.HR]}>
             <MainLayout>
               <IntervieweeDetails />
+            </MainLayout>
+          </AuthRoute>
+        }
+      />
+      <Route
+        path={PATH.ONGOING}
+        element={
+          <AuthRoute roles={[ROLES.HR]}>
+            <MainLayout>
+              <Interviews />
+            </MainLayout>
+          </AuthRoute>
+        }
+      />
+      <Route
+        path={PATH.PREVIOUS}
+        element={
+          <AuthRoute roles={[ROLES.HR]}>
+            <MainLayout>
+              <Interviews />
+            </MainLayout>
+          </AuthRoute>
+        }
+      />
+      <Route
+        path={PATH.INTERVIEWS}
+        element={
+          <AuthRoute roles={[ROLES.INTERVIEWEE, ROLES.INTERVIEWER]}>
+            <MainLayout>
+              <Interviews />
+            </MainLayout>
+          </AuthRoute>
+        }
+      />
+      <Route
+        path={PATH.INTERVIEWER}
+        element={
+          <AuthRoute roles={[ROLES.HR]}>
+            <MainLayout>
+              <Interviewer />
+            </MainLayout>
+          </AuthRoute>
+        }
+      />
+      <Route
+        path={PATH.PROFILE}
+        element={
+          <AuthRoute roles={[ROLES.INTERVIEWEE, ROLES.INTERVIEWER]}>
+            <MainLayout>
+              <Profile />
+            </MainLayout>
+          </AuthRoute>
+        }
+      />
+      <Route
+        path={PATH.FEEDBACK}
+        element={
+          <AuthRoute roles={[ROLES.INTERVIEWEE, ROLES.INTERVIEWER]}>
+            <MainLayout>
+              <Feedback />
+            </MainLayout>
+          </AuthRoute>
+        }
+      />
+      <Route
+        path={PATH.APPLICATION}
+        element={
+          <AuthRoute roles={[ROLES.INTERVIEWEE]}>
+            <MainLayout>
+              <Application />
             </MainLayout>
           </AuthRoute>
         }
