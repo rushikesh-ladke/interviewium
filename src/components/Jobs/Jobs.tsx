@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { Modal } from 'antd';
+import { useState, useEffect } from 'react';
 import styles from './styles.module.scss';
 import SearchIcon from '@mui/icons-material/Search';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -11,10 +10,46 @@ import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import G_Logo from '../../images/g_logo.svg';
 import { Badge } from 'antd';
+import { CreateJob } from './modal/createJob';
+import { getJobs } from './jobs-api';
+import {
+  collection,
+  addDoc,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+  onSnapshot,
+} from 'firebase/firestore';
+import { db } from 'shared/firebase-config';
 export const Jobs = () => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const userID: any = localStorage.getItem('uid');
 
-  const ModalAntd: any = Modal;
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [jobsData, setJobsData] = useState([]);
+
+  useEffect(() => {
+    getJobsData();
+  }, []);
+
+  const getJobsData = async () => {
+    const q = query(
+      collection(db, 'jobs'),
+      where('active', '==', true),
+      where('details.HRid', '==', userID)
+    );
+
+    const jobs: any = [];
+    getDocs(q).then(snapshot => {
+      snapshot.forEach(doc => {
+        jobs.push(doc.data());
+      });
+      console.log(jobs);
+      setJobsData(jobs);
+    });
+    console.log(jobs);
+  };
 
   const showModal = () => {
     setIsModalVisible(!isModalVisible);
@@ -31,6 +66,11 @@ export const Jobs = () => {
   return (
     <div className={`${styles.appMain}`}>
       <div className={styles.appBody}>
+        <CreateJob
+          isModalVisible={isModalVisible}
+          handleOk={handleOk}
+          handleCancel={handleCancel}
+        />
         <div className={styles.dataBody}>
           <div className='row'>
             <div className='col-lg-8'>
@@ -91,84 +131,71 @@ export const Jobs = () => {
                         <AddOutlinedIcon className={styles.AddIcon} />
                         New
                       </button>
-                      <ModalAntd
-                        text
-                        title='Create a free job'
-                        visible={isModalVisible}
-                        onOk={() => handleOk()}
-                        onCancel={() => handleCancel()}
-                        className={styles.modalAnt}
-                      >
-                        <h6>
-                          <strong>Find a great hire, fast</strong>
-                        </h6>
-                        <div className={styles.formAll}>
-                          <label className='form-label'>Email address*</label>
-                          <input
-                            type='email'
-                            className='form-control'
-                            placeholder='Add the title you are hiring for'
-                          />
-                        </div>
-                        <div className={styles.formAll}>
-                          <label className='form-label'>Company*</label>
-                          <input
-                            type='text'
-                            className='form-control'
-                            id='Company'
-                            placeholder='Freelance'
-                          />
-                        </div>
-                        <div className={styles.formAll}>
-                          <label className='form-label'>Workplace type*</label>
-                          <select className='form-select'>
-                            <option>
-                              <h6>On-site</h6>
-                              <p>Employess come to work in-person.</p>
-                            </option>
-                            <option>
-                              <h6>Hybrid</h6>
-                              <p>Employess work on-site and off-site.</p>
-                            </option>
-                            <option>
-                              <h6>Remote</h6>
-                              <p>Employess work off-site.</p>
-                            </option>
-                          </select>
-                        </div>
-                        <div className={styles.formAll}>
-                          <label className='form-label'>Job location*</label>
-                          <input
-                            type='email'
-                            className='form-control'
-                            placeholder='City or metro area'
-                          />
-                        </div>
-                        <div className={styles.formAll}>
-                          <label className='form-label'>Job type*</label>
-                          <select className='form-select'>
-                            <option>Full-time</option>
-                            <option>Part-time</option>
-                            <option>Contract</option>
-                            <option>Temporary</option>
-                            <option>Other</option>
-                            <option>Volunteer</option>
-                            <option>Internship</option>
-                          </select>
-                        </div>
-                        <div className={styles.formAll}>
-                          <label className='form-label'>Description*</label>
-                          <textarea
-                            className='form-control'
-                            placeholder="Add the skills and requirements you're looking for"
-                          />
-                        </div>
-                      </ModalAntd>
                     </div>
                   </div>
                 </div>
                 {/* Main cards */}
                 <div className={styles.companyList}>
+                  {jobsData &&
+                    jobsData.length > 0 &&
+                    jobsData.map((e: any) => {
+                      return (
+                        <div className={styles.companyCard}>
+                          <div className='row'>
+                            <div className='col-lg-1'>
+                              <div className={styles.cphoto}>
+                                <img alt='company Logo' src={G_Logo} />
+                              </div>
+                            </div>
+                            <div className='col-lg-8 ps-4'>
+                              <div className={styles.companyI}>
+                                <h4>{e.companyName}</h4>
+                                <h6>
+                                  {e.position}, {e.companyName}
+                                </h6>
+                                <div className='d-flex'>
+                                  <div className={styles.Locate}>
+                                    <LocationOnIcon className={styles.icon} />
+                                    &nbsp;{e.location}
+                                  </div>
+                                  <div className={`${styles.Locate} ms-3`}>
+                                    <RemoveRedEyeOutlinedIcon
+                                      className={styles.icon}
+                                    />
+                                    &nbsp;{e.views} Views
+                                  </div>
+                                </div>
+                                <h6 className={styles.dot}>
+                                  Today &bull; {e.jobType} &bull;{' '}
+                                  {e.totalApplied} applied
+                                </h6>
+                              </div>
+                            </div>
+                            <div className='col-lg-3'>
+                              <div className={styles.info}>
+                                <div className={styles.infoI}>
+                                  <BookmarkBorderOutlinedIcon
+                                    className={styles.icon}
+                                  />
+                                  <InfoOutlinedIcon className={styles.icon} />
+                                </div>
+                                <div className={styles.infoDetail}>
+                                  <p>Team</p>
+                                  <h6>{e.department}</h6>
+                                  <h6 className={styles.package}>
+                                    <strong>
+                                      {e.salary?.currency}
+                                      {e.salary?.salary}
+                                    </strong>{' '}
+                                    / {e.salary?.tenure}
+                                  </h6>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
                   <div className={styles.companyCard}>
                     <div className='row'>
                       <div className='col-lg-1'>
