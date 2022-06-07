@@ -142,7 +142,7 @@ export const Router = () => {
       <Route
         path={PATH.PROFILE}
         element={
-          <AuthRoute roles={[ROLES.INTERVIEWEE, ROLES.INTERVIEWER]}>
+          <AuthRoute roles={[ROLES.INTERVIEWEE, ROLES.INTERVIEWER, ROLES.HR]}>
             <MainLayout>
               <Profile />
             </MainLayout>
