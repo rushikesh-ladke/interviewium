@@ -1,24 +1,85 @@
-.MainbPage {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #5352ED;
-  img {
-    width: 100%;
-    max-width: 350px;
+.appBody {
+  background-color: #fff;
+  width: 100%;
+  padding: 20px 20px 20px 240px;
+  overflow-x: hidden;
+  &.profilDown {
+    background-color: #4285f40f;
   }
-  h1 {
-    color: #ffffff;
-    font-weight: 700;
-    font-size: 50px;
-    text-align: center;
-    background: #ffffff75;
-    padding: 20px 50px;
-    border-radius: 8px;
-    span {
-      font-size: 40px;
+  .profileBody {
+    display: flex;
+    .profileImg {
+      img {
+        width: 150px;
+        height: 150px;
+        background-color: #3c3c3c0d;
+        border-radius: 8px;
+        margin-right: 20px;
+      }
+    }
+    h5 {
+      font-size: 22px;
+      color: #3c3c3c;
+      font-weight: 700;
+    }
+    p {
+      font-size: 12px;
+      color: #5c5c5c;
+      font-weight: 600;
+    }
+    .otherDetails {
+      margin-top: 60px;
+      display: flex;
+      .sec1 {
+        margin-right: 30px;
+        h6 {
+          font-size: 12px;
+          color: #3c3c3c;
+          font-weight: 600;
+          display: flex;
+          align-items: center;
+          .icon {
+            width: 13px;
+            height: 13px;
+            fill: #3c3c3c;
+            margin-right: 10px;
+          }
+        }
+      }
+    }
+  }
+  .profileBodyinfo {
+    h5 {
+      color: #3c3c3c;
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 30px;
+    }
+    p {
+      font-size: 16px;
+      color: #5c5c5c;
+      display: flex;
+      align-items: center;
+      .icon {
+        width: 18px;
+        height: 18px;
+        margin-right: 10px;
+        color: #4285f4;
+      }
+    }
+    .Badges {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      .section {
+        margin-right: 8px;
+        background-color: #4285f417;
+        color: #5c5c5c;
+        border-radius: 6px;
+        margin-bottom: 8px;
+        padding: 10px;
+        cursor: x;
+      }
     }
   }
 }
