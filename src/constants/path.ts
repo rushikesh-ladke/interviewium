@@ -2,6 +2,7 @@ export const PATH = {
   GLOBAL: '/*',
   HOME: '/',
   HOMEPAGE: '/homepage',
+  JOBPROFILE: '/jobprofile',
   LOGIN: '/',
   SIDEBAR: '/sidebar',
   ASSIGN: '/assign',
