@@ -1,0 +1,78 @@
+.Jobmain {
+  margin: 30px auto;
+  border-radius: 8px;
+  border: 1px solid #dadada;
+  width: 100%;
+  max-width: 960px;
+  .firstsection {
+    background-color: #000;
+    height: 250px;
+    position: relative;
+    border-radius: 8px 8px 0 0;
+    .profilesec {
+      position: absolute;
+      left: 50px;
+      border-radius: 8px;
+      top: 170px;
+      background: #ffffff;
+      border: 1px solid #f7f7f7;
+      img {
+        width: 140px;
+      }
+    }
+  }
+  .secondsection {
+    padding: 50px;
+    background: #fff;
+    .careerRole {
+      margin-top: 60px;
+      margin-bottom: 40px;
+      h4 {
+        font-weight: 700;
+      }
+      p {
+        strong {
+          color: #4285f4;
+        }
+      }
+      .icon {
+        border: 1px solid #dadada;
+        padding: 5px;
+        width: 35px;
+        height: 35px;
+        border-radius: 8px;
+        margin-right: 10px;
+        cursor: pointer;
+        fill: #3c3c3c;
+      }
+    }
+    .tableM {
+      border: 1px solid #3c3c3c;
+      border-radius: 8px;
+      display: flex;
+      border-radius: 8px;
+      justify-content: center;
+      .details {
+        padding: 10px;
+        width: 100%;
+        border-right: 1px solid #3c3c3c;
+        &:last-child {
+          border: none;
+        }
+        p {
+          color: #5c5c5c;
+        }
+        h6 {
+          color: #3c3c3c;
+          margin: 0;
+        }
+      }
+    }
+    .detailJob {
+      margin-top: 30px;
+      h4 {
+        font-weight: 700;
+      }
+    }
+  }
+}
