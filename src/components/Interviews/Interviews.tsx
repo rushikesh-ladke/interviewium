@@ -4,8 +4,6 @@ import React from 'react';
 import styles from './styles.module.scss';
 import ProfileImg from '../../images/avatar.svg';
 export const Interviews = () => {
-
-
   interface DataType {
     key: string;
     name: string;
@@ -19,7 +17,7 @@ export const Interviews = () => {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
-      render: text => <a>{text}</a>,
+      render: text => <a href='/'>{text}</a>,
     },
     {
       title: 'Age',
@@ -55,9 +53,9 @@ export const Interviews = () => {
       title: 'Action',
       key: 'action',
       render: (_, record) => (
-        <Space size="middle">
-          <a>Invite {record.name}</a>
-          <a>Delete</a>
+        <Space size='middle'>
+          <a href='/'>Invite {record.name}</a>
+          <a href='/'>Delete</a>
         </Space>
       ),
     },
@@ -87,12 +85,11 @@ export const Interviews = () => {
     },
   ];
 
-
   return (
     <>
       <div className={styles.appBody}>
-        <div className="row">
-          <div className="col-lg-3">
+        <div className='row'>
+          <div className='col-lg-3'>
             <div className={styles.cards}>
               <h6>Total Clients</h6>
               <div className={styles.innerInfo}>
@@ -100,33 +97,45 @@ export const Interviews = () => {
               </div>
             </div>
           </div>
-          <div className="col-lg-3">
+          <div className='col-lg-3'>
             <div className={styles.cards}>
               <h6>Members</h6>
               <div className={`${styles.innerInfo} align-items-baseline`}>
                 <h1>65</h1>
                 <div className={styles.dotNo}>
-                  <h6 className='d-flex align-items-center'><div className={styles.dot}></div> 2</h6>
-                  <h6 className='d-flex align-items-center'><div className={`${styles.dot} ${styles.dot1}`}></div> 12</h6>
-                  <h6 className='d-flex align-items-center'><div className={`${styles.dot} ${styles.dot2}`}></div> 4</h6>
+                  <h6 className='d-flex align-items-center'>
+                    <div className={styles.dot}></div> 2
+                  </h6>
+                  <h6 className='d-flex align-items-center'>
+                    <div className={`${styles.dot} ${styles.dot1}`}></div> 12
+                  </h6>
+                  <h6 className='d-flex align-items-center'>
+                    <div className={`${styles.dot} ${styles.dot2}`}></div> 4
+                  </h6>
                 </div>
               </div>
             </div>
           </div>
-          <div className="col-lg-3">
+          <div className='col-lg-3'>
             <div className={styles.cards}>
               <h6>New/Returning</h6>
               <div className={styles.innerInfo}>
-                <h1><span>3</span>/23</h1>
+                <h1>
+                  <span>3</span>/23
+                </h1>
               </div>
             </div>
           </div>
-          <div className="col-lg-3">
+          <div className='col-lg-3'>
             <div className={styles.cards}>
               <h6>Active Members</h6>
               <div className={styles.innerInfo}>
-                <h1 className='d-flex align-items-end'>9 <h5> &nbsp;now</h5></h1>
-                <div className={styles.proImg}><img src={ProfileImg} /></div>
+                <h1 className='d-flex align-items-end'>
+                  9 <h5> &nbsp;now</h5>
+                </h1>
+                <div className={styles.proImg}>
+                  <img src={ProfileImg} alt='profile' />
+                </div>
               </div>
             </div>
           </div>
