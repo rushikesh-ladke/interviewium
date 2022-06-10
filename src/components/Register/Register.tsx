@@ -3,7 +3,7 @@ import { Button, Form, Input } from 'antd';
 import styles from './styles.module.scss';
 import Logo from '../../images/Interviewiumlogo.svg';
 import { saveCompanyData } from './register-api';
-import { PATH } from 'constants/path';
+import { PATH } from '../../constants/path';
 
 export const Register = () => {
   const [form] = Form.useForm();

@@ -8,10 +8,10 @@ import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlin
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import G_Logo from '../../images/company.png';
-import { Badge, Segmented, Tag } from 'antd';
+import { Badge, Tag, Segmented } from 'antd';
 import { CreateJob } from './modal/createJob';
 import { collection, getDocs, orderBy, query, where } from 'firebase/firestore';
-import { db } from 'shared/firebase-config';
+import { db } from '../../shared/firebase-config';
 export const Jobs = () => {
   const userID: any = localStorage.getItem('uid');
 

@@ -1,5 +1,5 @@
 import { collection, addDoc } from 'firebase/firestore';
-import { db } from 'shared/firebase-config';
+import { db } from '../../shared/firebase-config';
 
 // Add a new document with a generated id.
 

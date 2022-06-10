@@ -7,8 +7,8 @@ import PersonPinOutlinedIcon from '@mui/icons-material/PersonPinOutlined';
 import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
 import AppRegistrationOutlinedIcon from '@mui/icons-material/AppRegistrationOutlined';
 
-import Dashboard from 'components/Dashboard';
-import { PATH } from 'constants/path';
+import Dashboard from '../../../components/Dashboard';
+import { PATH } from '../../../constants/path';
 
 interface Properties {
   icon: any;

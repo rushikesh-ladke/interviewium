@@ -4,9 +4,9 @@ import G_Logo from '../../images/g_logo.svg';
 import { Button, Form, Input, notification } from 'antd';
 import { checkUserExist, popup, signIn, signUp } from './login-api';
 import { useNavigate } from 'react-router-dom';
-import { PATH } from 'constants/path';
-import { saveToLocalStorage } from 'shared/util';
-import useAuth from 'hooks/useAuth';
+import { PATH } from '../../constants/path';
+import { saveToLocalStorage } from '../../shared/util';
+import useAuth from '../../hooks/useAuth';
 
 interface LoginProps {
   title: string;
@@ -71,7 +71,7 @@ export const Login = ({ title, signInPage }: LoginProps) => {
       await getDataAndStoreToLocalStorage(user);
       notificationAlert.success(getUserName(user));
       navigate(PATH.ASSIGN);
-    } catch (error: any) {
+    } catch (error) {
       notificationAlert.error(error);
     }
   };
@@ -85,7 +85,7 @@ export const Login = ({ title, signInPage }: LoginProps) => {
         notificationAlert.success(getUserName(user));
         navigate(PATH.ASSIGN);
       }
-    } catch (error: any) {
+    } catch (error) {
       notificationAlert.error(error);
     }
   };
@@ -98,7 +98,7 @@ export const Login = ({ title, signInPage }: LoginProps) => {
       await getDataAndStoreToLocalStorage(user);
       notificationAlert.success(getUserName(user));
       navigate(PATH.SELECTROLE);
-    } catch (error: any) {
+    } catch (error) {
       notificationAlert.error(error);
     }
   };
