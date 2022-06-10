@@ -3,7 +3,7 @@ import {
   signInWithPopup,
   createUserWithEmailAndPassword,
 } from 'firebase/auth';
-import { auth, db } from 'shared/firebase-config';
+import { auth, db } from '../../shared/firebase-config';
 import { GoogleAuthProvider } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import 'firebase/firestore';
