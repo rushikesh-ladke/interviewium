@@ -117,7 +117,68 @@ export const Dashboard = () => {
               </div>
             </div>
           </div>
-          <div className='col-lg-4'></div>
+          <div className='col-lg-4'>
+            <div className={styles.trailMain}>
+              <div className={styles.trail}>
+                <h5>Activity</h5>
+
+                <div className={styles.mainTrail}>
+                  <div className={styles.sec0}>
+                    <img className={styles.avatar} src={Avatar} alt='img' />
+                    <div className={styles.trailline}></div>
+                  </div>
+                  <div className={styles.sec1}>
+                    <div className={styles.trailhead}>
+                      <h6>Anya Gerlabine</h6>
+                      <p>Today, 10:15 AM</p>
+                    </div>
+                    <div className={styles.comment}>
+                      <h6>Commented on <strong>Buka Bersama</strong></h6>
+                    </div>
+                    <div className={styles.commentSec}>
+                      It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution
+                    </div>
+                  </div>
+                </div>
+                <div className={styles.mainTrail}>
+                  <div className={styles.sec0}>
+                    <img className={styles.avatar} src={Avatar} alt='img' />
+                    <div className={styles.trailline}></div>
+                  </div>
+                  <div className={styles.sec1}>
+                    <div className={styles.trailhead}>
+                      <h6>Anya Gerlabine</h6>
+                      <p>Today, 10:15 AM</p>
+                    </div>
+                    <div className={styles.comment}>
+                      <h6>Commented on <strong>Buka Bersama</strong></h6>
+                    </div>
+                    <div className={styles.commentSec}>
+                      It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution
+                    </div>
+                  </div>
+                </div>
+                <div className={styles.mainTrail}>
+                  <div className={styles.sec0}>
+                    <img className={styles.avatar} src={Avatar} alt='img' />
+                    <div className={styles.trailline}></div>
+                  </div>
+                  <div className={styles.sec1}>
+                    <div className={styles.trailhead}>
+                      <h6>Anya Gerlabine</h6>
+                      <p>Today, 10:15 AM</p>
+                    </div>
+                    <div className={styles.comment}>
+                      <h6>Commented on <strong>Buka Bersama</strong></h6>
+                    </div>
+                    <div className={styles.commentSec}>
+                      It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
