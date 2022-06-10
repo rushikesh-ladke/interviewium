@@ -5,20 +5,12 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
-import Accordion from 'react-bootstrap/Accordion';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import G_Logo from '../../images/company.png';
 import { Badge, Segmented, Tag } from 'antd';
 import { CreateJob } from './modal/createJob';
-import {
-  collection,
-  getDocs,
-  limit,
-  orderBy,
-  query,
-  where,
-} from 'firebase/firestore';
+import { collection, getDocs, orderBy, query, where } from 'firebase/firestore';
 import { db } from 'shared/firebase-config';
 export const Jobs = () => {
   const userID: any = localStorage.getItem('uid');
