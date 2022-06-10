@@ -1,13 +1,4 @@
-import {
-  collection,
-  addDoc,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  where,
-  onSnapshot,
-} from 'firebase/firestore';
+import { collection, addDoc } from 'firebase/firestore';
 import { db } from 'shared/firebase-config';
 
 // Add a new document with a generated id.
@@ -27,6 +18,7 @@ interface createUpdateJobProps {
     description: string;
   };
   jobType: string;
+  workspaceType: string;
   location: string;
   position: string;
   salary: {
@@ -54,6 +46,7 @@ export const createUpdateJob = async (data: any) => {
       description: data.description,
     },
     jobType: data.jobType,
+    workspaceType: data.workspaceType,
     location: data.location,
     position: data.position,
     salary: {
@@ -68,28 +61,4 @@ export const createUpdateJob = async (data: any) => {
     ...some1,
   });
   console.log('Document written with ID: ', docRef.id);
-};
-
-export const getJobs = (userId: any) => {
-  const q = query(
-    collection(db, 'jobs'),
-    where('active', '==', true),
-    where('details.HRid', '==', userId)
-  );
-
-  getDocs(q).then(snapshot => {
-    const jobs: any = [];
-    snapshot.forEach(doc => {
-      jobs.push(doc.data());
-    });
-    console.log(jobs);
-    return jobs;
-  });
-  // await onSnapshot(q, querySnapshot => {
-  //   const jobs: any = [];
-  //   querySnapshot.forEach(doc => {
-  //     jobs.push(doc.data());
-  //   });
-  //   return jobs;
-  // });
 };

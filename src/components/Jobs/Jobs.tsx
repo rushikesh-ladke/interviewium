@@ -8,19 +8,16 @@ import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlin
 import Accordion from 'react-bootstrap/Accordion';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
-import G_Logo from '../../images/g_logo.svg';
-import { Badge } from 'antd';
+import G_Logo from '../../images/company.png';
+import { Badge, Segmented, Tag } from 'antd';
 import { CreateJob } from './modal/createJob';
-import { getJobs } from './jobs-api';
 import {
   collection,
-  addDoc,
-  doc,
-  getDoc,
   getDocs,
+  limit,
+  orderBy,
   query,
   where,
-  onSnapshot,
 } from 'firebase/firestore';
 import { db } from 'shared/firebase-config';
 export const Jobs = () => {
@@ -28,27 +25,33 @@ export const Jobs = () => {
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [jobsData, setJobsData] = useState([]);
+  const [jobDetails, setjobDetails] = useState<any>(null);
+  const [sortValue, setSortValue] = useState<string | number>('Asc');
 
   useEffect(() => {
-    getJobsData();
+    getJobsData('asc');
   }, []);
 
-  const getJobsData = async () => {
+  const getJobsData = async (order: any) => {
+    console.log(order);
     const q = query(
       collection(db, 'jobs'),
       where('active', '==', true),
-      where('details.HRid', '==', userID)
+      where('details.HRid', '==', userID),
+      orderBy('details.updatedAt', order)
     );
 
     const jobs: any = [];
     getDocs(q).then(snapshot => {
-      snapshot.forEach(doc => {
-        jobs.push(doc.data());
+      snapshot.forEach((doc: any) => {
+        jobs.push({ ...doc.data(), id: doc.id });
       });
       console.log(jobs);
       setJobsData(jobs);
+      if (jobs.length > 0) {
+        setjobDetails(jobs[0]);
+      }
     });
-    console.log(jobs);
   };
 
   const showModal = () => {
@@ -98,11 +101,11 @@ export const Jobs = () => {
                 {/* filter */}
                 <div className={styles.filter}>
                   <div className={styles.fresult}>
-                    <div className={styles.fcards}>UI Designers</div>
+                    <div className={styles.fcards}> Job Type : Full-Time</div>
                     <div className={`${styles.fcards} ${styles.active}`}>
-                      Product Designers
+                      Workspace Type : Office
                     </div>
-                    <div className={styles.fcards}>Web Developers</div>
+                    <div className={styles.fcards}>Remote</div>
                   </div>
                   <div className={styles.cresult}>
                     <p>Clear filters</p>
@@ -110,19 +113,31 @@ export const Jobs = () => {
                 </div>
                 {/* sort */}
                 <div className={styles.sort}>
-                  <div className={styles.jobF}>
-                    <h6>
-                      Job For You:<span> Popular</span>
-                    </h6>
-                  </div>
+                  <div className={styles.jobF}></div>
                   <div className={styles.sortTab}>
-                    sort:{' '}
-                    <select className={`form-select ${styles.Dselect}`}>
+                    Sort:{' '}
+                    <Segmented
+                      options={['Asc', 'Desc']}
+                      value={sortValue}
+                      onChange={(e: any) => {
+                        setSortValue(e);
+                        let value = e;
+                        if (value === 'Desc') {
+                          value = 'desc';
+                        } else {
+                          value = 'asc';
+                        }
+                        getJobsData(value);
+                      }}
+                    />
+                    {/* <select
+                      className={`form-select ${styles.Dselect}`}
+                      onClick={(value: any) => getJobsData(value.target.value)}
+                    >
                       <option selected>Choose...</option>
-                      <option value='1'>Newest</option>
-                      <option value='2'>Popular</option>
-                      <option value='3'>Old</option>
-                    </select>
+                      <option value='desc'>Newest</option>
+                      <option value='asc'>Old</option>
+                    </select> */}
                     <div className={styles.twoBtn}>
                       <button
                         className={styles.NewBtn}
@@ -140,11 +155,23 @@ export const Jobs = () => {
                     jobsData.length > 0 &&
                     jobsData.map((e: any) => {
                       return (
-                        <div className={styles.companyCard}>
+                        <div
+                          id={e.id}
+                          className={styles.companyCard}
+                          onClick={() => setjobDetails(e)}
+                          style={{
+                            border:
+                              e.id === jobDetails.id ? '1px solid blue' : '',
+                          }}
+                        >
                           <div className='row'>
                             <div className='col-lg-1'>
                               <div className={styles.cphoto}>
-                                <img alt='company Logo' src={G_Logo} />
+                                <img
+                                  alt='company Logo'
+                                  src={G_Logo}
+                                  width={70}
+                                />
                               </div>
                             </div>
                             <div className='col-lg-8 ps-4'>
@@ -165,10 +192,20 @@ export const Jobs = () => {
                                     &nbsp;{e.views} Views
                                   </div>
                                 </div>
-                                <h6 className={styles.dot}>
-                                  Today &bull; {e.jobType} &bull;{' '}
-                                  {e.totalApplied} applied
-                                </h6>
+                                <div className={styles.dot}>
+                                  <Tag color='#f7cc1b'>Today</Tag> &bull;{' '}
+                                  <Badge count={e.jobType} /> &bull;{' '}
+                                  <Badge
+                                    className='site-badge-count-109'
+                                    count={e.workspaceType}
+                                    style={{ backgroundColor: '#52c41a' }}
+                                  />
+                                  &bull;{' '}
+                                  <Tag color='#7855f9'>
+                                    {' '}
+                                    {e.totalApplied} applied
+                                  </Tag>
+                                </div>
                               </div>
                             </div>
                             <div className='col-lg-3'>
@@ -196,347 +233,41 @@ export const Jobs = () => {
                         </div>
                       );
                     })}
-                  <div className={styles.companyCard}>
-                    <div className='row'>
-                      <div className='col-lg-1'>
-                        <div className={styles.cphoto}>
-                          <img alt='company Logo' src={G_Logo} />
-                        </div>
-                      </div>
-                      <div className='col-lg-8 ps-4'>
-                        <div className={styles.companyI}>
-                          <h4>Google Inc.</h4>
-                          <h6>UX Designer, Google Pay</h6>
-                          <div className='d-flex'>
-                            <div className={styles.Locate}>
-                              <LocationOnIcon className={styles.icon} />
-                              &nbsp;New York, US
-                            </div>
-                            <div className={`${styles.Locate} ms-3`}>
-                              <RemoveRedEyeOutlinedIcon
-                                className={styles.icon}
-                              />
-                              &nbsp;Views
-                            </div>
-                          </div>
-                          <h6 className={styles.dot}>
-                            Today &bull; Full-time &bull; 5 applied
-                          </h6>
-                        </div>
-                      </div>
-                      <div className='col-lg-3'>
-                        <div className={styles.info}>
-                          <div className={styles.infoI}>
-                            <BookmarkBorderOutlinedIcon
-                              className={styles.icon}
-                            />
-                            <InfoOutlinedIcon className={styles.icon} />
-                          </div>
-                          <div className={styles.infoDetail}>
-                            <p>Team</p>
-                            <h6>Product and Design</h6>
-                            <h6 className={styles.package}>
-                              <strong>$120k</strong> / year
-                            </h6>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className={styles.companyCard}>
-                    <div className='row'>
-                      <div className='col-lg-1'>
-                        <div className={styles.cphoto}>
-                          <img alt='company Logo' src={G_Logo} />
-                        </div>
-                      </div>
-                      <div className='col-lg-8 ps-4'>
-                        <div className={styles.companyI}>
-                          <h4>Google Inc.</h4>
-                          <h6>UX Designer, Google Pay</h6>
-                          <div className='d-flex'>
-                            <div className={styles.Locate}>
-                              <LocationOnIcon className={styles.icon} />
-                              &nbsp;New York, US
-                            </div>
-                            <div className={`${styles.Locate} ms-3`}>
-                              <RemoveRedEyeOutlinedIcon
-                                className={styles.icon}
-                              />
-                              &nbsp;Views
-                            </div>
-                          </div>
-                          <h6 className={styles.dot}>
-                            Today &bull; Full-time &bull; 5 applied
-                          </h6>
-                        </div>
-                      </div>
-                      <div className='col-lg-3'>
-                        <div className={styles.info}>
-                          <div className={styles.infoI}>
-                            <BookmarkBorderOutlinedIcon
-                              className={styles.icon}
-                            />
-                            <InfoOutlinedIcon className={styles.icon} />
-                          </div>
-                          <div className={styles.infoDetail}>
-                            <p>Team</p>
-                            <h6>Product and Design</h6>
-                            <h6 className={styles.package}>
-                              <strong>$120k</strong> / year
-                            </h6>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className={styles.companyCard}>
-                    <div className='row'>
-                      <div className='col-lg-1'>
-                        <div className={styles.cphoto}>
-                          <img alt='company Logo' src={G_Logo} />
-                        </div>
-                      </div>
-                      <div className='col-lg-8 ps-4'>
-                        <div className={styles.companyI}>
-                          <h4>Google Inc.</h4>
-                          <h6>UX Designer, Google Pay</h6>
-                          <div className='d-flex'>
-                            <div className={styles.Locate}>
-                              <LocationOnIcon className={styles.icon} />
-                              &nbsp;New York, US
-                            </div>
-                            <div className={`${styles.Locate} ms-3`}>
-                              <RemoveRedEyeOutlinedIcon
-                                className={styles.icon}
-                              />
-                              &nbsp;Views
-                            </div>
-                          </div>
-                          <h6 className={styles.dot}>
-                            Today &bull; Full-time &bull;{' '}
-                            <Badge count='5 applied' />
-                          </h6>
-                        </div>
-                      </div>
-                      <div className='col-lg-3'>
-                        <div className={styles.info}>
-                          <div className={styles.infoI}>
-                            <BookmarkBorderOutlinedIcon
-                              className={styles.icon}
-                            />
-                            <InfoOutlinedIcon className={styles.icon} />
-                          </div>
-                          <div className={styles.infoDetail}>
-                            <p>Team</p>
-                            <h6>Product and Design</h6>
-                            <h6 className={styles.package}>
-                              <strong>$120k</strong> / year
-                            </h6>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className={styles.companyCard}>
-                    <div className='row'>
-                      <div className='col-lg-1'>
-                        <div className={styles.cphoto}>
-                          <img alt='company Logo' src={G_Logo} />
-                        </div>
-                      </div>
-                      <div className='col-lg-8 ps-4'>
-                        <div className={styles.companyI}>
-                          <h4>Google Inc.</h4>
-                          <h6>UX Designer, Google Pay</h6>
-                          <div className='d-flex'>
-                            <div className={styles.Locate}>
-                              <LocationOnIcon className={styles.icon} />
-                              &nbsp;New York, US
-                            </div>
-                            <div className={`${styles.Locate} ms-3`}>
-                              <RemoveRedEyeOutlinedIcon
-                                className={styles.icon}
-                              />
-                              &nbsp;Views
-                            </div>
-                          </div>
-                          <h6 className={styles.dot}>
-                            Today &bull; Full-time &bull; 5 applied
-                          </h6>
-                        </div>
-                      </div>
-                      <div className='col-lg-3'>
-                        <div className={styles.info}>
-                          <div className={styles.infoI}>
-                            <BookmarkBorderOutlinedIcon
-                              className={styles.icon}
-                            />
-                            <InfoOutlinedIcon className={styles.icon} />
-                          </div>
-                          <div className={styles.infoDetail}>
-                            <p>Team</p>
-                            <h6>Product and Design</h6>
-                            <h6 className={styles.package}>
-                              <strong>$120k</strong> / year
-                            </h6>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className={`${styles.companyCard} ${styles.active}`}>
-                    <div className='row'>
-                      <div className='col-lg-1'>
-                        <div className={styles.cphoto}>
-                          <img alt='company Logo' src={G_Logo} />
-                        </div>
-                      </div>
-                      <div className='col-lg-8 ps-4'>
-                        <div className={styles.companyI}>
-                          <h4>Google Inc.</h4>
-                          <h6>UX Designer, Google Pay</h6>
-                          <div className='d-flex'>
-                            <div className={styles.Locate}>
-                              <LocationOnIcon className={styles.icon} />
-                              &nbsp;New York, US
-                            </div>
-                            <div className={`${styles.Locate} ms-3`}>
-                              <RemoveRedEyeOutlinedIcon
-                                className={styles.icon}
-                              />
-                              &nbsp;Views
-                            </div>
-                          </div>
-                          <h6 className={styles.dot}>
-                            Today &bull; Full-time &bull; 5 applied
-                          </h6>
-                        </div>
-                      </div>
-                      <div className='col-lg-3'>
-                        <div className={styles.info}>
-                          <div className={styles.infoI}>
-                            <BookmarkBorderOutlinedIcon
-                              className={styles.icon}
-                            />
-                            <InfoOutlinedIcon className={styles.icon} />
-                          </div>
-                          <div className={styles.infoDetail}>
-                            <p>Team</p>
-                            <h6>Product and Design</h6>
-                            <h6 className={styles.package}>
-                              <strong>$120k</strong> / year
-                            </h6>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className={styles.companyCard}>
-                    <div className='row'>
-                      <div className='col-lg-1'>
-                        <div className={styles.cphoto}>
-                          <img alt='company Logo' src={G_Logo} />
-                        </div>
-                      </div>
-                      <div className='col-lg-8 ps-4'>
-                        <div className={styles.companyI}>
-                          <h4>Google Inc.</h4>
-                          <h6>UX Designer, Google Pay</h6>
-                          <div className='d-flex'>
-                            <div className={styles.Locate}>
-                              <LocationOnIcon className={styles.icon} />
-                              &nbsp;New York, US
-                            </div>
-                            <div className={`${styles.Locate} ms-3`}>
-                              <RemoveRedEyeOutlinedIcon
-                                className={styles.icon}
-                              />
-                              &nbsp;Views
-                            </div>
-                          </div>
-                          <h6 className={styles.dot}>
-                            Today &bull; Full-time &bull; 5 applied
-                          </h6>
-                        </div>
-                      </div>
-                      <div className='col-lg-3'>
-                        <div className={styles.info}>
-                          <div className={styles.infoI}>
-                            <BookmarkBorderOutlinedIcon
-                              className={styles.icon}
-                            />
-                            <InfoOutlinedIcon className={styles.icon} />
-                          </div>
-                          <div className={styles.infoDetail}>
-                            <p>Team</p>
-                            <h6>Product and Design</h6>
-                            <h6 className={styles.package}>
-                              <strong>$120k</strong> / year
-                            </h6>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
             <div className='col-lg-4'>
-              <div className={styles.ManiG}>
-                <div className={styles.comanyRight}>
-                  <div className={styles.detailInfo}>
-                    <div className={styles.cphoto}>
-                      <img alt='company Logo' src={G_Logo} />
-                    </div>
-                    <h6>
-                      UX Designer,
-                      <br />
-                      Google Pay
-                    </h6>
-                    <p>Google Inc., Shanghai China</p>
-                  </div>
-                  <hr />
-                  <div className={styles.minimumMain}>
-                    <div className={styles.minimumD}>
-                      <h6>Minimum Qualifications</h6>
+              {jobDetails && (
+                <div className={styles.ManiG}>
+                  <div className={styles.comanyRight}>
+                    <div className={styles.detailInfo}>
+                      <div className={styles.cphoto}>
+                        <img alt='company Logo' src={G_Logo} width={90} />
+                      </div>
+                      <h6>
+                        {jobDetails?.position},
+                        <br />
+                        {jobDetails?.companyName}
+                      </h6>
                       <p>
-                        <h6>-</h6>Lorem Ipsum has been the industry's standard
-                        dummy text ever since the 1500s, when an unknown printer
-                        took a galley of type and scrambled it to make a type
-                        specimen book.{' '}
-                      </p>
-                      <p>
-                        <h6>-</h6>Lorem Ipsum has been the industry's standard
-                        dummy text ever since the 1500s, when an unknown printer
-                        took a galley of type and scrambled it to make a type
-                        specimen book.{' '}
-                      </p>
-                      <p>
-                        <h6>-</h6>Lorem Ipsum has been the industry's standard
-                        dummy text ever since the 1500s, when an unknown printer
-                        took a galley of type and scrambled it to make a type
-                        specimen book.{' '}
-                      </p>
-
-                      <hr />
-                    </div>
-                    <div className={styles.minimumD}>
-                      <h6>About the Job:</h6>
-                      <p>
-                        {' '}
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua. Ut enim ad minim veniam, quis nostrud
-                        exercitation ullamco laboris nisi ut aliquip ex ea
-                        commodo consequat. Duis aute irure dolor in
-                        reprehenderit in voluptate velit esse cillum dolore eu
-                        fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                        non proident, sunt in culpa qui officia deserunt mollit
-                        anim id est laborum.
+                        {jobDetails?.companyName}, {jobDetails?.location}
                       </p>
                     </div>
-                    <Accordion className={styles.acc}>
+                    <hr />
+                    <div className={styles.minimumMain}>
+                      <div className={styles.minimumD}>
+                        <h6>Description</h6>
+                        <p>
+                          <h6>-</h6>
+                          {jobDetails?.jobDetails?.description}{' '}
+                        </p>
+                        <hr />
+                      </div>
+                      <div className={styles.minimumD}>
+                        <h6>About the Job:</h6>
+                        <p> {jobDetails?.jobDetails?.aboutJob}</p>
+                      </div>
+                      {/* <Accordion className={styles.acc}>
                       <Accordion.Item eventKey='0'>
                         <Accordion.Header>Read More</Accordion.Header>
                         <Accordion.Body>
@@ -551,13 +282,14 @@ export const Jobs = () => {
                           deserunt mollit anim id est laborum.
                         </Accordion.Body>
                       </Accordion.Item>
-                    </Accordion>
+                    </Accordion> */}
+                    </div>
+                  </div>
+                  <div className={styles.apply}>
+                    <button className={styles.applyBtn}>Apply Now</button>
                   </div>
                 </div>
-                <div className={styles.apply}>
-                  <button className={styles.applyBtn}>Apply Now</button>
-                </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
