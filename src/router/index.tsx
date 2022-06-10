@@ -17,6 +17,7 @@ import Interviewer from 'components/Interviewer';
 import Profile from 'components/Profile';
 import Feedback from 'components/Feedback';
 import Application from 'components/Application';
+import JobProfile from 'components/JobProfile';
 
 /**
  * Top level application router
@@ -32,6 +33,14 @@ export const Router = () => {
         element={
           <PublicRoute>
             <Home />
+          </PublicRoute>
+        }
+      />
+      <Route
+        path={PATH.JOBPROFILE}
+        element={
+          <PublicRoute>
+            <JobProfile />
           </PublicRoute>
         }
       />
@@ -142,7 +151,7 @@ export const Router = () => {
       <Route
         path={PATH.PROFILE}
         element={
-          <AuthRoute roles={[ROLES.INTERVIEWEE, ROLES.INTERVIEWER]}>
+          <AuthRoute roles={[ROLES.INTERVIEWEE, ROLES.INTERVIEWER, ROLES.HR]}>
             <MainLayout>
               <Profile />
             </MainLayout>
