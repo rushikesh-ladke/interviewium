@@ -19,20 +19,54 @@ export const Jobs = () => {
   const [jobsData, setJobsData] = useState([]);
   const [jobDetails, setjobDetails] = useState<any>(null);
   const [sortValue, setSortValue] = useState<string | number>('Asc');
-
+  const [showSort, setShowSort] = useState(true);
+  const [fixedFilter, setFixedFilter] = useState('');
+  const [search, setSearch] = useState('');
   useEffect(() => {
-    getJobsData('asc');
+    getJobsData({ field: 'details.updatedAt', value: 'asc' }, 'plain');
   }, []);
 
-  const getJobsData = async (order: any) => {
-    console.log(order);
-    const q = query(
-      collection(db, 'jobs'),
-      where('active', '==', true),
-      where('details.HRid', '==', userID),
-      orderBy('details.updatedAt', order)
-    );
+  const fixedFilters = [
+    {
+      name: 'Job Type : Full-Time',
+      id: 'fullTime',
+      filterField: 'jobType',
+      filterValue: 'Full-time',
+    },
+    {
+      name: 'Workspace Type : Office',
+      id: 'office',
+      filterField: 'workspaceType',
+      filterValue: 'Office',
+    },
+    {
+      name: 'Remote',
+      id: 'remote',
+      filterField: 'workspaceType',
+      filterValue: 'Remote',
+    },
+  ];
 
+  const getJobsData = async (order: any, reqQuery: any) => {
+    let q: any;
+    if (reqQuery === 'plain') {
+      setFixedFilter('');
+      q = query(
+        collection(db, 'jobs'),
+        where('active', '==', true),
+        where('details.HRid', '==', userID),
+        orderBy(order.field, order.value)
+      );
+    } else if (reqQuery === 'withoutOrder') {
+      setSortValue('Asc');
+      if (order.field === 'position' && order.value === '') return;
+      q = query(
+        collection(db, 'jobs'),
+        where('active', '==', true),
+        where('details.HRid', '==', userID),
+        where(order.field, '==', order.value)
+      );
+    }
     const jobs: any = [];
     getDocs(q).then(snapshot => {
       snapshot.forEach((doc: any) => {
@@ -76,69 +110,108 @@ export const Jobs = () => {
                     <input
                       type='text'
                       className={`form-control ${styles.Sinput}`}
-                      placeholder='Search by Category, Company or...'
-                      aria-label='Search by Category, Company or...'
+                      placeholder='Search by Specific Position Name'
+                      aria-label='Search by Specific Position Name'
                       aria-describedby='button-addon2'
+                      onChange={(e: any) => {
+                        setSearch(e.target.value);
+                      }}
+                      value={search}
                     />
                     <button
                       className={`btn ${styles.searchBtn}`}
                       type='button'
                       id='button-addon2'
+                      onClick={() => {
+                        getJobsData(
+                          { field: 'position', value: search },
+                          'withoutOrder'
+                        );
+                      }}
                     >
                       <SearchIcon />
                     </button>
-                    <FilterAltOutlinedIcon className={`${styles.filtericon}`} />
+                    <FilterAltOutlinedIcon
+                      className={`${styles.filtericon}`}
+                      onClick={() => {
+                        getJobsData(
+                          { field: 'details.updatedAt', value: 'asc' },
+                          'plain'
+                        );
+                        setSearch('');
+                      }}
+                    />
                   </div>
                 </div>
                 {/* filter */}
                 <div className={styles.filter}>
                   <div className={styles.fresult}>
-                    <div className={styles.fcards}> Job Type : Full-Time</div>
-                    <div className={`${styles.fcards} ${styles.active}`}>
-                      Workspace Type : Office
-                    </div>
-                    <div className={styles.fcards}>Remote</div>
+                    {fixedFilters &&
+                      fixedFilters.map((e: any) => {
+                        return (
+                          <div
+                            className={`${styles.fcards} ${
+                              e.id === fixedFilter ? styles.active : ''
+                            }`}
+                            onClick={() => {
+                              getJobsData(
+                                { field: e.filterField, value: e.filterValue },
+                                'withoutOrder'
+                              );
+                              setFixedFilter(e.id);
+                            }}
+                            id={e.id}
+                          >
+                            {' '}
+                            {e.name}
+                          </div>
+                        );
+                      })}
                   </div>
-                  <div className={styles.cresult}>
+                  <div
+                    className={styles.cresult}
+                    onClick={() =>
+                      getJobsData(
+                        { field: 'details.updatedAt', value: 'asc' },
+                        'plain'
+                      )
+                    }
+                  >
                     <p>Clear filters</p>
                   </div>
                 </div>
                 {/* sort */}
                 <div className={styles.sort}>
-                  <div className={styles.jobF}></div>
-                  <div className={styles.sortTab}>
-                    Sort:{' '}
-                    <Segmented
-                      options={['Asc', 'Desc']}
-                      value={sortValue}
-                      onChange={(e: any) => {
-                        setSortValue(e);
-                        let value = e;
-                        if (value === 'Desc') {
-                          value = 'desc';
-                        } else {
-                          value = 'asc';
-                        }
-                        getJobsData(value);
-                      }}
-                    />
-                    {/* <select
-                      className={`form-select ${styles.Dselect}`}
-                      onClick={(value: any) => getJobsData(value.target.value)}
-                    >
-                      <option selected>Choose...</option>
-                      <option value='desc'>Newest</option>
-                      <option value='asc'>Old</option>
-                    </select> */}
-                    <div className={styles.twoBtn}>
-                      <button
-                        className={styles.NewBtn}
-                        onClick={() => showModal()}
-                      >
-                        <AddOutlinedIcon className={styles.AddIcon} />
-                        New
-                      </button>
+                  {showSort && (
+                    <div className={styles.sortTab}>
+                      Sort:{' '}
+                      <Segmented
+                        options={['Asc', 'Desc']}
+                        value={sortValue}
+                        onChange={(e: any) => {
+                          setSortValue(e);
+                          let value = e;
+                          if (value === 'Desc') {
+                            value = 'desc';
+                          } else {
+                            value = 'asc';
+                          }
+                          getJobsData(
+                            { field: 'details.updatedAt', value: value },
+                            'plain'
+                          );
+                        }}
+                      />
                     </div>
+                  )}
+                  <div className={styles.twoBtn}>
+                    <button
+                      className={styles.NewBtn}
+                      onClick={() => showModal()}
+                    >
+                      <AddOutlinedIcon className={styles.AddIcon} />
+                      New
+                    </button>
                   </div>
                 </div>
                 {/* Main cards */}
