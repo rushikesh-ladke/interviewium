@@ -1,8 +1,7 @@
-import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../../shared/firebase-config';
+import { collection, addDoc } from 'firebase/firestore';
 
 // Add a new document with a generated id.
-
 interface createUpdateJobProps {
   active: boolean;
   companyName: string;
