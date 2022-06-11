@@ -20,6 +20,8 @@ interface createUpdateJobProps {
   workspaceType: string;
   location: string;
   position: string;
+  minExp: string;
+  maxExp: string;
   salary: {
     currency: string;
     salary: string;
@@ -48,6 +50,8 @@ export const createUpdateJob = async (data: any) => {
     workspaceType: data.workspaceType,
     location: data.location,
     position: data.position,
+    minExp: data.minExp,
+    maxExp: data.maxExp,
     salary: {
       currency: data.currency,
       salary: data.salary,

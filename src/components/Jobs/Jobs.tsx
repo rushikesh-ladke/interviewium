@@ -3,6 +3,7 @@ import styles from './styles.module.scss';
 import SearchIcon from '@mui/icons-material/Search';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
+import AvTimerIcon from '@mui/icons-material/AvTimer';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
@@ -255,6 +256,10 @@ export const Jobs = () => {
                                       className={styles.icon}
                                     />
                                     &nbsp;{e.views} Views
+                                  </div>
+                                  <div className={`${styles.Locate} ms-3`}>
+                                    <AvTimerIcon className={styles.icon} />
+                                    &nbsp;{e.minExp} - {e.maxExp} Expericence
                                   </div>
                                 </div>
                                 <div className={styles.dot}>

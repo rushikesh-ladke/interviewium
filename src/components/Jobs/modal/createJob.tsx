@@ -44,6 +44,7 @@ export const CreateJob = ({ isModalVisible, handleOk, handleCancel }: any) => {
   };
 
   const selectAfter = <div>₹</div>;
+  const selectBefore = <div>~</div>;
 
   return (
     <>
@@ -67,28 +68,6 @@ export const CreateJob = ({ isModalVisible, handleOk, handleCancel }: any) => {
             onFinish={onFinish}
             form={form}
           >
-            <label className='form-label'>Email address*</label>
-            <Form.Item
-              name='email'
-              rules={[{ type: 'email', message: 'Please enter valid Email..' }]}
-              hasFeedback
-            >
-              <Input
-                className={styles.form_control}
-                placeholder='hello@workemail.com'
-                value={HREmail}
-                disabled={HREmail !== ''}
-              />
-            </Form.Item>
-            <label className='form-label'>Company Name*</label>
-            <Form.Item name='companyName' hasFeedback>
-              <Input
-                className={styles.form_control}
-                placeholder='Interviewium'
-                value={companyName}
-                disabled={companyName !== ''}
-              />
-            </Form.Item>
             <label className='form-label'>Position Name*</label>
             <Form.Item
               name='position'
@@ -106,6 +85,31 @@ export const CreateJob = ({ isModalVisible, handleOk, handleCancel }: any) => {
                 placeholder='Software Developer'
               />
             </Form.Item>
+            <div className='d-flex justify-content-between'>
+              <div>
+                {' '}
+                <label className='form-label'>Min Experience*</label>
+                <Form.Item
+                  name='minExp'
+                  rules={[
+                    { required: true, message: 'Please input Min Experience' },
+                  ]}
+                >
+                  <InputNumber addonBefore={selectBefore} placeholder='0' />
+                </Form.Item>
+              </div>
+              <div>
+                <label className='form-label'>Max Experience*</label>
+                <Form.Item
+                  name='maxExp'
+                  rules={[
+                    { required: true, message: 'Please input Max Experience' },
+                  ]}
+                >
+                  <InputNumber addonBefore={selectBefore} placeholder='1' />
+                </Form.Item>
+              </div>
+            </div>
             <Form.Item label='Job Type' name='jobType'>
               <Radio.Group>
                 <Radio.Button value='Full-time'>Full-time</Radio.Button>
