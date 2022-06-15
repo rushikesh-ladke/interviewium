@@ -150,6 +150,8 @@
         }
       }
       .activeT {
+        height: calc(100vh - 415px);
+        overflow-y: auto;
         .todayS {
           h6 {
             color: #868686;
@@ -188,6 +190,69 @@
               width: 30px;
               border-radius: 50%;
               border: 2px solid #fff;
+            }
+          }
+        }
+      }
+    }
+    .trailMain {
+      height: calc(100vh - 40px);
+      overflow-y: auto;
+      .trail {
+        h5 {
+          margin-bottom: 20px;
+          font-weight: 700;
+        }
+        .mainTrail {
+          display: flex;
+          margin-bottom: 30px;
+          .sec0 {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            margin-right: 20px;
+            .avatar {
+              width: 60px;
+              border-radius: 50%;
+              border: 2px solid #fff;
+            }
+            .trailline {
+              border-left: 2px dashed #cdcdcd;
+              height: 100%;
+              margin: 20px 0px 0 0;
+            }
+          }
+          .sec1 {
+            .trailhead {
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+
+              h6 {
+                font-weight: 700;
+                margin: 0;
+              }
+              p {
+                margin: 0;
+                color: #868686;
+                font-weight: 700;
+              }
+            }
+            .comment {
+              margin: 20px 0;
+              h6 {
+                color: #868686;
+                font-weight: 700;
+                strong {
+                  color: #4285f4;
+                }
+              }
+            }
+            .commentSec {
+              padding: 20px;
+              border: 1px solid #cdcdcd;
+              color: #868686;
+              border-radius: 8px;
             }
           }
         }
