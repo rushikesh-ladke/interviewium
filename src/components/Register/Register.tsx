@@ -5,7 +5,6 @@ import Logo from '../../images/Interviewiumlogo.svg';
 import { saveCompanyData, addAditionalData } from './register-api';
 import { PATH } from '../../constants/path';
 import { useState } from 'react';
-import { checkUserExist } from '../Login/login-api';
 import { saveToLocalStorage } from '../../shared/util';
 import useAuth from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
@@ -324,6 +323,3 @@ export const Register = () => {
     </div>
   );
 };
-function setAuth(arg0: any) {
-  throw new Error('Function not implemented.');
-}
