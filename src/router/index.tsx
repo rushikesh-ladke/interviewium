@@ -18,6 +18,7 @@ import Profile from '../components/Profile';
 import Feedback from '../components/Feedback';
 import Application from '../components/Application';
 import JobProfile from '../components/JobProfile';
+import Register from '../components/Register';
 
 /**
  * Top level application router
@@ -33,6 +34,14 @@ export const Router = () => {
         element={
           <PublicRoute>
             <Home />
+          </PublicRoute>
+        }
+      />
+      <Route
+        path={PATH.REGISTER_COMPANY}
+        element={
+          <PublicRoute>
+            <Register />
           </PublicRoute>
         }
       />
