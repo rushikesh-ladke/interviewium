@@ -1,26 +1,63 @@
-import { AutoComplete, Space, Table, Tag } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Badge, Button, Form, Input, Space, Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/lib/table';
-import React, { useState } from 'react';
-import styles from './styles.module.scss';
-import ProfileImg from '../../images/avatar.svg';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
+import { query, collection, where, getDocs } from 'firebase/firestore';
+
+import styles from './styles.module.scss';
+import ProfileImg from '../../images/avatar.svg';
+import { db } from '../../shared/firebase-config';
+import { signUp } from '../Login/login-api';
+
 export const Interviewer = () => {
-  const { Option } = AutoComplete;
+  const [form] = Form.useForm();
+  const userID: any = localStorage.getItem('uid');
 
-  const [result, setResult] = useState<string[]>([]);
+  const [interviewers, setinterviewers] = useState([]);
+  const [interviewer, setInterviewer] = useState('');
   const [addInterviewer, setAddInterviewer] = useState(false);
+  const [interviewerStatus, setInterviewerStatus] = useState('');
 
-  const handleSearch = (value: string) => {
-    let res: string[] = [];
-    if (!value || value.indexOf('@') >= 0) {
-      res = [];
-    } else {
-      res = ['interviewium.com', 'interviewium.in', 'interviewium.co'].map(
-        domain => `${value}@${domain}`
-      );
+  useEffect(() => {
+    getInterviewerData();
+  }, []);
+
+  const getInterviewerData = () => {
+    const q = query(
+      collection(db, 'interviewers'),
+      where('active', '==', true),
+      where('HRid', '==', userID)
+    );
+
+    const interviewers: any = [];
+    getDocs(q).then(snapshot => {
+      snapshot.forEach((doc: any) => {
+        interviewers.push({ ...doc.data(), id: doc.id });
+      });
+      console.log(interviewers);
+      setinterviewers(interviewers);
+    });
+  };
+
+  const addInterviewerHandler = async () => {
+    try {
+      const signInData = await signUp(interviewer, 'Jarvis@668');
+      const { user }: any = signInData;
+      if (user.uid) {
+        setInterviewerStatus('Interviewer Added');
+        setTimeout(() => {
+          setInterviewerStatus('');
+          form.resetFields();
+        }, 1000);
+      }
+    } catch (error: any) {
+      setInterviewerStatus('Email Already Exists');
+      setTimeout(() => {
+        setInterviewerStatus('');
+        form.resetFields();
+      }, 2000);
     }
-    setResult(res);
   };
 
   return (
@@ -72,6 +109,7 @@ export const Interviewer = () => {
                   <span
                     onClick={() => {
                       setAddInterviewer(!addInterviewer);
+                      setInterviewerStatus('');
                     }}
                   >
                     <CloseIcon color='error' />{' '}
@@ -89,17 +127,53 @@ export const Interviewer = () => {
               <div className={styles.innerInfo}>
                 <div className='d-flex align-items-end'>
                   {addInterviewer && (
-                    <AutoComplete
-                      style={{ width: 260 }}
-                      onSearch={handleSearch}
-                      placeholder='input here'
+                    <Badge.Ribbon
+                      text={interviewerStatus}
+                      color={
+                        interviewerStatus === 'Interviewer Added'
+                          ? 'green'
+                          : 'pink'
+                      }
                     >
-                      {result.map((email: string) => (
-                        <Option key={email} value={email}>
-                          {email}
-                        </Option>
-                      ))}
-                    </AutoComplete>
+                      <div className='d-flex flex-column'>
+                        <Form
+                          name='normal_login'
+                          className='login-form'
+                          initialValues={{ remember: true }}
+                          onFinish={addInterviewerHandler}
+                          form={form}
+                        >
+                          <Form.Item
+                            name='email'
+                            rules={[
+                              {
+                                required: true,
+                                message: 'Please input your Email!',
+                              },
+                              {
+                                type: 'email',
+                                message: 'Please enter valid Email..',
+                              },
+                            ]}
+                            hasFeedback
+                          >
+                            <Input
+                              style={{ width: 260, margin: 5 }}
+                              placeholder='please enter email'
+                              onChange={(e: any) => {
+                                setInterviewer(e.target.value);
+                              }}
+                              value={interviewer}
+                            ></Input>
+                          </Form.Item>
+                          <Form.Item>
+                            <Button type='primary' block htmlType='submit'>
+                              Add Interviewer
+                            </Button>
+                          </Form.Item>
+                        </Form>
+                      </div>
+                    </Badge.Ribbon>
                   )}
                 </div>
                 {!addInterviewer && (
@@ -118,7 +192,7 @@ export const Interviewer = () => {
             </div>
           </div> */}
 
-          <Table columns={columns} dataSource={data} />
+          <Table columns={columns} dataSource={interviewers} />
         </div>
       </div>
     </>
@@ -175,33 +249,9 @@ const columns: ColumnsType<DataType> = [
     key: 'action',
     render: (_, record) => (
       <Space size='middle'>
-        <a href='/'>Invite {record.name}</a>
+        <a href='/'>Invite</a>
         <a href='/'>Delete</a>
       </Space>
     ),
-  },
-];
-
-const data: DataType[] = [
-  {
-    key: '1',
-    name: 'John Brown',
-    status: 'Active',
-    slots: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    status: 'Do not disturb',
-    slots: 'London No. 1 Lake Park',
-    tags: ['loser'],
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    status: 'Busy',
-    slots: 'Sidney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
   },
 ];
