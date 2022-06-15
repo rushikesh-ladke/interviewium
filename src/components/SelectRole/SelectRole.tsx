@@ -1,12 +1,12 @@
 import styles from './styles.module.scss';
 import Interviewer from '../../images/InterviewerRole.svg';
 import Interviewee from '../../images/IntervieweeRole.svg';
-import { ROLES } from 'constants/roles';
+import { ROLES } from '../../constants/roles';
 import { addNewUserToDB } from './select-role-api';
-import useAuth from 'hooks/useAuth';
-import { saveToLocalStorage } from 'shared/util';
+import useAuth from '../../hooks/useAuth';
+import { saveToLocalStorage } from '../../shared/util';
 import { useNavigate } from 'react-router-dom';
-import { PATH } from 'constants/path';
+import { PATH } from '../../constants/path';
 
 export const SelectRole = () => {
   const { auth }: any = useAuth();

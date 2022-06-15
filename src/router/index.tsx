@@ -1,23 +1,24 @@
-import Assign from 'components/Assign';
-import Dashboard from 'components/Dashboard';
-import IntervieweeDetails from 'components/IntervieweeDetails';
-import Home from 'components/Home';
-import Missing from 'components/Missing';
-import { PATH } from 'constants/path';
-import { ROLES } from 'constants/roles';
+import Assign from '../components/Assign';
+import Dashboard from '../components/Dashboard';
+import IntervieweeDetails from '../components/IntervieweeDetails';
+import Home from '../components/Home';
+import Missing from '../components/Missing';
+import { PATH } from '../constants/path';
+import { ROLES } from '../constants/roles';
 import { Route, Routes } from 'react-router-dom';
 import { AuthRoute } from './AuthRoute';
 import { PublicRoute } from './PublicRoute';
-import { MainLayout } from 'components/MainLayout/MainLayout';
-import Login from 'components/Login';
-import Jobs from 'components/Jobs';
-import SelectRole from 'components/SelectRole';
-import Interviews from 'components/Interviews';
-import Interviewer from 'components/Interviewer';
-import Profile from 'components/Profile';
-import Feedback from 'components/Feedback';
-import Application from 'components/Application';
-import JobProfile from 'components/JobProfile';
+import { MainLayout } from '../components/MainLayout/MainLayout';
+import Login from '../components/Login';
+import Jobs from '../components/Jobs';
+import SelectRole from '../components/SelectRole';
+import Interviews from '../components/Interviews';
+import Interviewer from '../components/Interviewer';
+import Profile from '../components/Profile';
+import Feedback from '../components/Feedback';
+import Application from '../components/Application';
+import JobProfile from '../components/JobProfile';
+import Register from '../components/Register';
 
 /**
  * Top level application router
@@ -33,6 +34,14 @@ export const Router = () => {
         element={
           <PublicRoute>
             <Home />
+          </PublicRoute>
+        }
+      />
+      <Route
+        path={PATH.REGISTER_COMPANY}
+        element={
+          <PublicRoute>
+            <Register />
           </PublicRoute>
         }
       />

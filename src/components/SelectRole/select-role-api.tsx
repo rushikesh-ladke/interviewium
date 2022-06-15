@@ -1,6 +1,6 @@
-import { DOCUMENTS } from 'constants/firebase-docs';
+import { DOCUMENTS } from '../../constants/firebase-docs';
 import { doc, setDoc } from 'firebase/firestore';
-import { db } from 'shared/firebase-config';
+import { db } from '../../shared/firebase-config';
 
 export const addNewUserToDB = async (userId: any, email: any, role: any) => {
   const userData = {

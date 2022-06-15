@@ -1,6 +1,6 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
-import { PATH } from 'constants/path';
+import { PATH } from '../../../constants/path';
 
 const RequiredAuth = ({ role }: any) => {
   const location = useLocation();

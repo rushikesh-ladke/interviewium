@@ -1,5 +1,5 @@
 //TODO
-import { ROLES } from 'constants/roles';
+import { ROLES } from '../../../constants/roles';
 import {
   AssignAggregate,
   DashboardAggregate,

@@ -10,9 +10,9 @@ import AppRegistrationOutlinedIcon from '@mui/icons-material/AppRegistrationOutl
 import CommentOutlinedIcon from '@mui/icons-material/CommentOutlined';
 import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
 import PowerSettingsNewOutlinedIcon from '@mui/icons-material/PowerSettingsNewOutlined';
-import { ROLES } from 'constants/roles';
+import { ROLES } from '../../constants/roles';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { PATH } from 'constants/path';
+import { PATH } from '../../constants/path';
 export const Sidebar = () => {
   let location = useLocation();
   const navigate = useNavigate();
