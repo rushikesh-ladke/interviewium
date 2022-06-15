@@ -41,7 +41,7 @@ export const saveCompanyData = async (data: any) => {
 
 export const addAditionalData = async (values: any, newDocId: any) => {
   const frankDocRef = doc(db, 'companyDocuments', newDocId);
-  const some = await updateDoc(frankDocRef, {
+  await updateDoc(frankDocRef, {
     ...values,
   });
   return;
