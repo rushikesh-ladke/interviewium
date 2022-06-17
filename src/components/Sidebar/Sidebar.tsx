@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Modal } from 'antd';
 import styles from './styles.module.scss';
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
@@ -13,14 +12,18 @@ import PowerSettingsNewOutlinedIcon from '@mui/icons-material/PowerSettingsNewOu
 import { ROLES } from '../../constants/roles';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { PATH } from '../../constants/path';
+import { Feedback } from './modal/feedback';
+import { Logout } from './modal/logout';
+import { InitialProfileData } from './modal/initialProfile';
+
 export const Sidebar = () => {
   let location = useLocation();
   const navigate = useNavigate();
   const userRole: any = localStorage.getItem('role');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [logoutModalVisible, setLogoutModalVisible] = useState(false);
-
-  const ModalAntd: any = Modal;
+  const [initialProfileModalVisible, setInitialProfileModalVisible] =
+    useState(false);
 
   const showModal = (handler: any, param: any) => {
     handler(!param);
@@ -33,6 +36,10 @@ export const Sidebar = () => {
   const logoutHandler = () => {
     localStorage.clear();
     navigate(PATH.HOME);
+  };
+
+  const saveProfileDataHandler = (value: any) => {
+    console.log(value);
   };
 
   return (
@@ -222,60 +229,46 @@ export const Sidebar = () => {
                 <CommentOutlinedIcon className={styles.icons} />
                 Feedback
               </li>
-              <ModalAntd
-                text
-                visible={isModalVisible}
-                onOk={() => feedbackHandler()}
-                onCancel={() => showModal(setIsModalVisible, isModalVisible)}
-                className={styles.FeedbackModal}
-              >
-                <h5>
-                  <strong>Give feedback</strong>
-                </h5>
-                <p>What do you think of the editing tool?</p>
-                <div className={styles.feedShare}>
-                  <label className='form-label'>
-                    Do you have any thoughts you'd like to share?
-                  </label>
-                  <textarea className='form-control'></textarea>
-                </div>
-
-                <label className='form-check-label mb-3'>
-                  May we follow you up on your feedback?
-                </label>
-                <div className='mb-3 d-flex'>
-                  <div>
-                    <input type='radio' className='form-check-input' />
-                    <label className='form-check-label'>Yes</label>
-                  </div>
-                  <div className='ms-5'>
-                    <input type='radio' className='form-check-input' />
-                    <label className='form-check-label'>No</label>
-                  </div>
-                </div>
-                <div className='d-flex mt-5'>
-                  <button className={styles.sendBtn}>Send</button>
-                  <button className={styles.cancelBtn}>Cancel</button>
-                </div>
-              </ModalAntd>
+              <Feedback
+                isModalVisible={isModalVisible}
+                handleOk={() => feedbackHandler()}
+                handleCancel={() => {
+                  showModal(setIsModalVisible, isModalVisible);
+                }}
+                setIsModalVisible={setIsModalVisible}
+              />
               <li className={`col-6 `}>
-                <SettingsApplicationsIcon className={styles.icons} />
+                <SettingsApplicationsIcon
+                  className={styles.icons}
+                  onClick={() =>
+                    showModal(
+                      setInitialProfileModalVisible,
+                      initialProfileModalVisible
+                    )
+                  }
+                />
                 Settings
               </li>
             </div>
-            <ModalAntd
-              title='Logout'
-              visible={logoutModalVisible}
-              onOk={logoutHandler}
-              onCancel={() => {
+            <Logout
+              isModalVisible={logoutModalVisible}
+              handleOk={() => logoutHandler()}
+              handleCancel={() => {
                 showModal(setLogoutModalVisible, logoutModalVisible);
               }}
-            >
-              <p>Bye Bye! Be back soon.</p>
-              <p>
-                Hope you liked it here, provide your feedback to grow together
-              </p>
-            </ModalAntd>
+              setIsModalVisible={setLogoutModalVisible}
+            />
+            <InitialProfileData
+              isModalVisible={initialProfileModalVisible}
+              handleOk={saveProfileDataHandler}
+              handleCancel={() => {
+                showModal(
+                  setInitialProfileModalVisible,
+                  initialProfileModalVisible
+                );
+              }}
+              setIsModalVisible={setInitialProfileModalVisible}
+            />
             <div className='d-flex'>
               <li
                 className={`col-6 `}
