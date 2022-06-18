@@ -478,3 +478,32 @@
         }
     }
 }
+  .form_control {
+        padding: 9px 12px 12px;
+        height: 44px;
+        font-size: 16px;
+        line-height: 1.33333333;
+        border-radius: 4px;
+        width: 100%;
+        border: 1px solid rgba(29, 28, 29, 0.3);
+        :global(.ant-input) {
+          font-size: 16px;
+        }
+      }
+      .signBtn {
+        background-color: #7855f9;
+        color: #fff;
+        text-align: center;
+        width: 100%;
+        font-size: 18px;
+        font-weight: 900;
+        height: 44px;
+        min-width: 96px;
+        padding: 0 16px 3px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        &:hover {
+          background-color: #6445d9;
+        }
+      }
