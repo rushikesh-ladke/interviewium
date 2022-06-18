@@ -157,15 +157,6 @@ export const Sidebar = () => {
                     <AssignmentIndOutlinedIcon className={styles.icons} />
                     Feedback
                   </li>
-                  <li
-                    className={`col-6 ${
-                      location?.pathname === PATH.PROFILE ? styles.active : null
-                    } `}
-                    onClick={() => navigate(PATH.PROFILE)}
-                  >
-                    <PersonPinOutlinedIcon className={styles.icons} />
-                    Profile
-                  </li>
                 </div>
               </>
             ) : userRole === ROLES.INTERVIEWER ? (
@@ -206,15 +197,6 @@ export const Sidebar = () => {
                     <AssignmentIndOutlinedIcon className={styles.icons} />
                     Interviews
                   </li>
-                  <li
-                    className={`col-6 ${
-                      location?.pathname === PATH.PROFILE ? styles.active : null
-                    } `}
-                    onClick={() => navigate(PATH.PROFILE)}
-                  >
-                    <PersonPinOutlinedIcon className={styles.icons} />
-                    Profile
-                  </li>
                 </div>
               </>
             ) : null}
@@ -229,14 +211,19 @@ export const Sidebar = () => {
                 <CommentOutlinedIcon className={styles.icons} />
                 Feedback
               </li>
-              <Feedback
-                isModalVisible={isModalVisible}
-                handleOk={() => feedbackHandler()}
-                handleCancel={() => {
-                  showModal(setIsModalVisible, isModalVisible);
-                }}
-                setIsModalVisible={setIsModalVisible}
-              />
+
+              <li
+                className={`col-6 ${
+                  location?.pathname === PATH.PROFILE ? styles.active : null
+                } `}
+                onClick={() => navigate(PATH.PROFILE)}
+              >
+                <PersonPinOutlinedIcon className={styles.icons} />
+                Profile
+              </li>
+            </div>
+
+            <div className='d-flex'>
               <li className={`col-6 `}>
                 <SettingsApplicationsIcon
                   className={styles.icons}
@@ -249,27 +236,6 @@ export const Sidebar = () => {
                 />
                 Settings
               </li>
-            </div>
-            <Logout
-              isModalVisible={logoutModalVisible}
-              handleOk={() => logoutHandler()}
-              handleCancel={() => {
-                showModal(setLogoutModalVisible, logoutModalVisible);
-              }}
-              setIsModalVisible={setLogoutModalVisible}
-            />
-            <InitialProfileData
-              isModalVisible={initialProfileModalVisible}
-              handleOk={saveProfileDataHandler}
-              handleCancel={() => {
-                showModal(
-                  setInitialProfileModalVisible,
-                  initialProfileModalVisible
-                );
-              }}
-              setIsModalVisible={setInitialProfileModalVisible}
-            />
-            <div className='d-flex'>
               <li
                 className={`col-6 `}
                 onClick={() =>
@@ -285,6 +251,35 @@ export const Sidebar = () => {
             <div className={styles.boxMain}></div>
           </ul>
         </aside>
+        {/* all Modals start */}
+        <Feedback
+          isModalVisible={isModalVisible}
+          handleOk={() => feedbackHandler()}
+          handleCancel={() => {
+            showModal(setIsModalVisible, isModalVisible);
+          }}
+          setIsModalVisible={setIsModalVisible}
+        />
+        <Logout
+          isModalVisible={logoutModalVisible}
+          handleOk={() => logoutHandler()}
+          handleCancel={() => {
+            showModal(setLogoutModalVisible, logoutModalVisible);
+          }}
+          setIsModalVisible={setLogoutModalVisible}
+        />
+        <InitialProfileData
+          isModalVisible={initialProfileModalVisible}
+          handleOk={saveProfileDataHandler}
+          handleCancel={() => {
+            showModal(
+              setInitialProfileModalVisible,
+              initialProfileModalVisible
+            );
+          }}
+          setIsModalVisible={setInitialProfileModalVisible}
+        />
+        {/* all Modals end*/}
       </div>
     </div>
   );
