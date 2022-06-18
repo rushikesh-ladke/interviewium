@@ -4,9 +4,10 @@ import { useNavigate } from 'react-router-dom';
 
 import styles from '../styles.module.scss';
 import { addProfileData } from '../sidebar-api';
-import { getProfile } from '../../../functions/getUserProfile';
+import { getSingleDocument } from '../../../functions/getUserProfile';
 import useAuth from '../../../hooks/useAuth';
 import { PATH } from '../../../constants/path';
+import { DOCUMENTS } from '../../../constants/firebase-docs';
 
 export const InitialProfileData = (props: any) => {
   const ModalAntd: any = Modal;
@@ -17,7 +18,7 @@ export const InitialProfileData = (props: any) => {
 
   const onFinish = async (values: any) => {
     await addProfileData(values, userID);
-    const profile = await getProfile(userID);
+    const profile = await getSingleDocument(userID, DOCUMENTS.USERS);
     if (profile.loaded && profile.error === null) {
       setAuth({
         ...auth,

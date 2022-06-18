@@ -7,7 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { PATH } from '../../constants/path';
 import { saveToLocalStorage } from '../../shared/util';
 import useAuth from '../../hooks/useAuth';
-import { getProfile } from '../../functions/getUserProfile';
+import { getSingleDocument } from '../../functions/getUserProfile';
+import { DOCUMENTS } from '../../constants/firebase-docs';
 
 interface LoginProps {
   title: string;
@@ -116,7 +117,7 @@ export const Login = ({ title, signInPage }: LoginProps) => {
   };
 
   const getProfileData = async (id: any) => {
-    const profile = await getProfile(id);
+    const profile = await getSingleDocument(id, DOCUMENTS.USERS);
     if (profile.loaded && profile.error === null) {
       setAuth({
         ...auth,

@@ -9,10 +9,12 @@ import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlin
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import G_Logo from '../../images/company.png';
-import { Badge, Tag, Segmented } from 'antd';
+import { Badge, Tag, Segmented, Popover, Button } from 'antd';
 import { CreateJob } from './modal/createJob';
 import { collection, getDocs, orderBy, query, where } from 'firebase/firestore';
 import { db } from '../../shared/firebase-config';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+
 export const Jobs = () => {
   const userID: any = localStorage.getItem('uid');
 
@@ -91,6 +93,23 @@ export const Jobs = () => {
 
   const handleCancel = () => {
     setIsModalVisible(false);
+  };
+
+  const content = (jobId: any) => {
+    return (
+      <div>
+        <Button
+          type='dashed'
+          onClick={() => {
+            navigator.clipboard.writeText(
+              window.location.origin + `/jobprofile?id=${jobId}`
+            );
+          }}
+        >
+          Copy Shareable Link
+        </Button>
+      </div>
+    );
   };
 
   return (
@@ -284,7 +303,9 @@ export const Jobs = () => {
                                   <BookmarkBorderOutlinedIcon
                                     className={styles.icon}
                                   />
-                                  <InfoOutlinedIcon className={styles.icon} />
+                                  <Popover content={() => content(e.id)}>
+                                    <InfoOutlinedIcon className={styles.icon} />
+                                  </Popover>
                                 </div>
                                 <div className={styles.infoDetail}>
                                   <p>Team</p>

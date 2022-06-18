@@ -45,14 +45,7 @@ export const Router = () => {
           </PublicRoute>
         }
       />
-      <Route
-        path={PATH.JOBPROFILE}
-        element={
-          <PublicRoute>
-            <JobProfile />
-          </PublicRoute>
-        }
-      />
+      <Route path={PATH.JOBPROFILE} element={<JobProfile />} />
       <Route
         path={PATH.HOME}
         element={

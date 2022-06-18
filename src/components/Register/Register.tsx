@@ -8,7 +8,8 @@ import { useState } from 'react';
 import { saveToLocalStorage } from '../../shared/util';
 import useAuth from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
-import { getProfile } from '../../functions/getUserProfile';
+import { getSingleDocument } from '../../functions/getUserProfile';
+import { DOCUMENTS } from '../../constants/firebase-docs';
 
 export const Register = () => {
   const [notificationMessage, setnotificationMessage] = useState(true);
@@ -65,7 +66,7 @@ export const Register = () => {
     await addAditionalData(values, newDocId);
     form.resetFields();
     getDataAndStoreToLocalStorage(userDetails);
-    const profile = await getProfile(userDetails.uid);
+    const profile = await getSingleDocument(userDetails.uid, DOCUMENTS.USERS);
     if (profile.loaded && profile.error === null) {
       setAuth({
         ...auth,
