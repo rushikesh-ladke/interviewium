@@ -31,7 +31,11 @@ export const saveCompanyData = async (data: any) => {
       },
     });
     console.log('Document written with ID: ', docRef.id);
-    postUserDetailsOnSignUp(user.uid, user.email, ROLES.HR);
+    postUserDetailsOnSignUp(user.uid, user.email, ROLES.HR, {
+      companyDetails: {
+        companyId: docRef.id,
+      },
+    });
     return {
       alert: 'success',
       message: 'Signed In',

@@ -5,13 +5,15 @@ import { db } from '../shared/firebase-config';
 export const postUserDetailsOnSignUp = async (
   userId: any,
   email: any,
-  role: any
+  role: any,
+  values: any
 ) => {
   const userData = {
     email,
     role,
     ON_BOARDED: false,
     active: true,
+    ...values,
   };
 
   const newUser = await setDoc(doc(db, DOCUMENTS.USERS, userId), userData);

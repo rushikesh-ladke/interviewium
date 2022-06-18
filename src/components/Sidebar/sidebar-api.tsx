@@ -15,7 +15,7 @@ export const addProfileData = async (values: any, newDocId: any) => {
     },
     currentPosition: values.position,
     ON_BOARDED: true,
-    cretedAt: serverTimestamp(),
+    createdAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
   });
   return;

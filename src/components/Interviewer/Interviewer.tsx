@@ -9,14 +9,19 @@ import styles from './styles.module.scss';
 import ProfileImg from '../../images/avatar.svg';
 import { db } from '../../shared/firebase-config';
 import { signUp } from '../Login/login-api';
+import { ROLES } from '../../constants/roles';
+import { postUserDetailsOnSignUp } from '../../functions/postUserDetailsOnSignUp';
+import useAuth from '../../hooks/useAuth';
 
 export const Interviewer = () => {
   const [form] = Form.useForm();
   const [HRform] = Form.useForm();
+  const { auth }: any = useAuth();
   const userID: any = localStorage.getItem('uid');
+  console.log(auth, 'auth');
 
   const [interviewers, setinterviewers] = useState([]);
-  const [interviewer, setInterviewer] = useState('');
+  const [associate, setAssociate] = useState('');
   const [addInterviewer, setAddInterviewer] = useState(false);
   const [interviewerStatus, setInterviewerStatus] = useState('');
 
@@ -44,21 +49,32 @@ export const Interviewer = () => {
     });
   };
 
-  const addInterviewerHandler = async () => {
+  const addAssociateHandler = async (
+    role: any,
+    statusHandler: any,
+    form: any
+  ) => {
     try {
-      const signInData = await signUp(interviewer, 'Jarvis@668');
+      const signInData = await signUp(associate, 'Jarvis@668');
       const { user }: any = signInData;
       if (user.uid) {
-        setInterviewerStatus('Interviewer Added');
+        statusHandler(`${role} Added`);
         setTimeout(() => {
-          setInterviewerStatus('');
+          statusHandler('');
           form.resetFields();
         }, 1000);
+        postUserDetailsOnSignUp(user.uid, associate, role, {
+          companyDetails: {
+            companyId: auth?.profile?.companyDetails?.companyId
+              ? auth?.profile?.companyDetails?.companyId
+              : '',
+          },
+        });
       }
     } catch (error: any) {
-      setInterviewerStatus('Email Already Exists');
+      statusHandler('Email Already Exists');
       setTimeout(() => {
-        setInterviewerStatus('');
+        statusHandler('');
         form.resetFields();
       }, 2000);
     }
@@ -117,14 +133,18 @@ export const Interviewer = () => {
                   {addHRs && (
                     <Badge.Ribbon
                       text={HRStatus}
-                      color={HRStatus === 'HR Added' ? 'green' : 'pink'}
+                      color={
+                        HRStatus === `${ROLES.HR} Added` ? 'green' : 'pink'
+                      }
                     >
                       <div className='d-flex flex-column'>
                         <Form
                           name='normal_login'
                           className='login-form'
                           initialValues={{ remember: true }}
-                          onFinish={addInterviewerHandler}
+                          onFinish={() =>
+                            addAssociateHandler(ROLES.HR, setHRStatus, HRform)
+                          }
                           form={HRform}
                         >
                           <Form.Item
@@ -145,14 +165,14 @@ export const Interviewer = () => {
                               style={{ width: 260, margin: 5 }}
                               placeholder='please enter email'
                               onChange={(e: any) => {
-                                setInterviewer(e.target.value);
+                                setAssociate(e.target.value);
                               }}
-                              value={interviewer}
+                              value={associate}
                             ></Input>
                           </Form.Item>
                           <Form.Item>
                             <Button type='primary' block htmlType='submit'>
-                              Add Interviewer
+                              Add HR
                             </Button>
                           </Form.Item>
                         </Form>
@@ -198,7 +218,7 @@ export const Interviewer = () => {
                     <Badge.Ribbon
                       text={interviewerStatus}
                       color={
-                        interviewerStatus === 'Interviewer Added'
+                        interviewerStatus === `${ROLES.INTERVIEWER} Added`
                           ? 'green'
                           : 'pink'
                       }
@@ -208,7 +228,13 @@ export const Interviewer = () => {
                           name='normal_login'
                           className='login-form'
                           initialValues={{ remember: true }}
-                          onFinish={addInterviewerHandler}
+                          onFinish={() =>
+                            addAssociateHandler(
+                              ROLES.INTERVIEWER,
+                              setInterviewerStatus,
+                              form
+                            )
+                          }
                           form={form}
                         >
                           <Form.Item
@@ -229,9 +255,9 @@ export const Interviewer = () => {
                               style={{ width: 260, margin: 5 }}
                               placeholder='please enter email'
                               onChange={(e: any) => {
-                                setInterviewer(e.target.value);
+                                setAssociate(e.target.value);
                               }}
-                              value={interviewer}
+                              value={associate}
                             ></Input>
                           </Form.Item>
                           <Form.Item>
