@@ -9,7 +9,7 @@ import { getSingleDocument } from '../../functions/getUserProfile';
 import { DOCUMENTS } from '../../constants/firebase-docs';
 import { PATH } from '../../constants/path';
 
-export const JobProfile = () => {
+export const JobDetails = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 

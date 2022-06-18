@@ -101,7 +101,7 @@ export const Login = ({ title, signInPage }: LoginProps) => {
       const { user }: any = signInData;
       await getDataAndStoreToLocalStorage(user);
       notificationAlert.success(getUserName(user));
-      navigate(PATH.SELECTROLE);
+      navigate(PATH.SELECT_ROLE);
     } catch (error) {
       notificationAlert.error(error);
     }
