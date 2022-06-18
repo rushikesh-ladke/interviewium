@@ -2,10 +2,15 @@ import { doc, setDoc } from 'firebase/firestore';
 import { DOCUMENTS } from '../constants/firebase-docs';
 import { db } from '../shared/firebase-config';
 
-export const addUserDetailsOnSignUp = async (userId: any, email: any) => {
+export const postUserDetailsOnSignUp = async (
+  userId: any,
+  email: any,
+  role: any
+) => {
   const userData = {
     email,
-    onBoarded: false,
+    role,
+    ON_BOARDED: false,
     active: true,
   };
 

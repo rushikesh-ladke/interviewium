@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { PATH } from '../../constants/path';
 import { saveToLocalStorage } from '../../shared/util';
 import useAuth from '../../hooks/useAuth';
+import { getProfile } from '../../functions/getUserProfile';
 
 interface LoginProps {
   title: string;
@@ -70,7 +71,8 @@ export const Login = ({ title, signInPage }: LoginProps) => {
       const { user }: any = signInData;
       await getDataAndStoreToLocalStorage(user);
       notificationAlert.success(getUserName(user));
-      navigate(PATH.ASSIGN);
+      await getProfileData(user.uid);
+      navigate(PATH.DASHBOARD);
     } catch (error) {
       notificationAlert.error(error);
     }
@@ -83,7 +85,8 @@ export const Login = ({ title, signInPage }: LoginProps) => {
         const { user }: any = signInData;
         await getDataAndStoreToLocalStorage(user);
         notificationAlert.success(getUserName(user));
-        navigate(PATH.ASSIGN);
+        await getProfileData(user.uid);
+        navigate(PATH.DASHBOARD);
       }
     } catch (error) {
       notificationAlert.error(error);
@@ -109,6 +112,18 @@ export const Login = ({ title, signInPage }: LoginProps) => {
     } else {
       //todo : write new fuction for signup
       signUpWithEmailPassword(values);
+    }
+  };
+
+  const getProfileData = async (id: any) => {
+    const profile = await getProfile(id);
+    if (profile.loaded && profile.error === null) {
+      setAuth({
+        ...auth,
+        profile: profile?.data,
+      });
+    } else {
+      navigate(PATH.LOGIN);
     }
   };
 

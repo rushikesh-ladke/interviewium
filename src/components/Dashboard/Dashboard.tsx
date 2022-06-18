@@ -133,10 +133,15 @@ export const Dashboard = () => {
                       <p>Today, 10:15 AM</p>
                     </div>
                     <div className={styles.comment}>
-                      <h6>Commented on <strong>Buka Bersama</strong></h6>
+                      <h6>
+                        Commented on <strong>Buka Bersama</strong>
+                      </h6>
                     </div>
                     <div className={styles.commentSec}>
-                      It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution
+                      It is a long established fact that a reader will be
+                      distracted by the readable content of a page when looking
+                      at its layout. The point of using Lorem Ipsum is that it
+                      has a more-or-less normal distribution
                     </div>
                   </div>
                 </div>
@@ -151,10 +156,15 @@ export const Dashboard = () => {
                       <p>Today, 10:15 AM</p>
                     </div>
                     <div className={styles.comment}>
-                      <h6>Commented on <strong>Buka Bersama</strong></h6>
+                      <h6>
+                        Commented on <strong>Buka Bersama</strong>
+                      </h6>
                     </div>
                     <div className={styles.commentSec}>
-                      It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution
+                      It is a long established fact that a reader will be
+                      distracted by the readable content of a page when looking
+                      at its layout. The point of using Lorem Ipsum is that it
+                      has a more-or-less normal distribution
                     </div>
                   </div>
                 </div>
@@ -169,10 +179,15 @@ export const Dashboard = () => {
                       <p>Today, 10:15 AM</p>
                     </div>
                     <div className={styles.comment}>
-                      <h6>Commented on <strong>Buka Bersama</strong></h6>
+                      <h6>
+                        Commented on <strong>Buka Bersama</strong>
+                      </h6>
                     </div>
                     <div className={styles.commentSec}>
-                      It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution
+                      It is a long established fact that a reader will be
+                      distracted by the readable content of a page when looking
+                      at its layout. The point of using Lorem Ipsum is that it
+                      has a more-or-less normal distribution
                     </div>
                   </div>
                 </div>

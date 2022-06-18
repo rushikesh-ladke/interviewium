@@ -1,16 +1,32 @@
 import React from 'react';
 import { Button, Form, Input, Modal } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 import styles from '../styles.module.scss';
 import { addInterviewerData } from '../sidebar-api';
+import { getProfile } from '../../../functions/getUserProfile';
+import useAuth from '../../../hooks/useAuth';
+import { PATH } from '../../../constants/path';
 
 export const InitialProfileData = (props: any) => {
   const ModalAntd: any = Modal;
   const [form] = Form.useForm();
+  const navigate = useNavigate();
   const userID: any = localStorage.getItem('uid');
+  const { auth, setAuth }: any = useAuth();
 
   const onFinish = async (values: any) => {
     await addInterviewerData(values, userID);
+    const profile = await getProfile(userID);
+    if (profile.loaded && profile.error === null) {
+      setAuth({
+        ...auth,
+        profile: profile?.data,
+      });
+    } else {
+      navigate(PATH.LOGIN);
+    }
+    props.saveProfileDataHandler();
     form.resetFields();
   };
 
@@ -19,11 +35,8 @@ export const InitialProfileData = (props: any) => {
       <ModalAntd
         title='Profile'
         visible={props?.isModalVisible}
-        onOk={() => props?.handleOk()}
-        onCancel={() => {
-          props?.handleCancel();
-        }}
         footer={null}
+        closable={false}
       >
         <Form
           name='profile_data'

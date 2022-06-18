@@ -1,5 +1,7 @@
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { collection, addDoc, doc, updateDoc } from 'firebase/firestore';
+import { ROLES } from '../../constants/roles';
+import { postUserDetailsOnSignUp } from '../../functions/postUserDetailsOnSignUp';
 import { auth, db } from '../../shared/firebase-config';
 
 // Add a new document with a generated id.
@@ -22,6 +24,7 @@ export const saveCompanyData = async (data: any) => {
       },
     });
     console.log('Document written with ID: ', docRef.id);
+    postUserDetailsOnSignUp(user.uid, user.email, ROLES.HR);
     return {
       alert: 'success',
       message: 'Signed In',

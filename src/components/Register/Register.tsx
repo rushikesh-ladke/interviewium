@@ -8,11 +8,12 @@ import { useState } from 'react';
 import { saveToLocalStorage } from '../../shared/util';
 import useAuth from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
+import { getProfile } from '../../functions/getUserProfile';
 
 export const Register = () => {
   const [notificationMessage, setnotificationMessage] = useState(true);
   const [newDocId, setNewDocId] = useState('');
-  const [userDetails, setUserDetails] = useState();
+  const [userDetails, setUserDetails] = useState<any>();
   const { auth, setAuth }: any = useAuth();
   const navigate = useNavigate();
 
@@ -20,8 +21,6 @@ export const Register = () => {
   const [companyInfo] = Form.useForm();
 
   const getDataAndStoreToLocalStorage = async (user: any) => {
-    console.log(user);
-
     const save = {
       accessToken: user.accessToken,
       uid: user.uid,
@@ -66,6 +65,15 @@ export const Register = () => {
     await addAditionalData(values, newDocId);
     form.resetFields();
     getDataAndStoreToLocalStorage(userDetails);
+    const profile = await getProfile(userDetails.uid);
+    if (profile.loaded && profile.error === null) {
+      setAuth({
+        ...auth,
+        profile: profile?.data,
+      });
+    } else {
+      navigate(PATH.LOGIN);
+    }
     navigate(PATH.DASHBOARD);
   };
 
@@ -287,6 +295,7 @@ export const Register = () => {
                 rules={[
                   { min: 10, message: 'Minimum 10 characters Required' },
                   { max: 10, message: 'Maximum 10 characters Required' },
+                  { required: true, message: 'Company Contact is required' },
                 ]}
                 hasFeedback
               >

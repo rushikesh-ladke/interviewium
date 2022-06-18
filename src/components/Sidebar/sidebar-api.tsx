@@ -5,6 +5,7 @@ export const addInterviewerData = async (values: any, newDocId: any) => {
   const frankDocRef = doc(db, 'users', newDocId);
   await updateDoc(frankDocRef, {
     ...values,
+    ON_BOARDED: true,
   });
   return;
 };
