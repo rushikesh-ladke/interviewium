@@ -1,11 +1,22 @@
-import { doc, updateDoc } from 'firebase/firestore';
+import { doc, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { db } from '../../shared/firebase-config';
 
-export const addInterviewerData = async (values: any, newDocId: any) => {
-  const frankDocRef = doc(db, 'users', newDocId);
-  await updateDoc(frankDocRef, {
-    ...values,
+export const addProfileData = async (values: any, newDocId: any) => {
+  const profileDataRef = doc(db, 'users', newDocId);
+  await updateDoc(profileDataRef, {
+    profile: {
+      firstName: values.firstName,
+      lastName: values.lastName,
+      contact: values.contact,
+      location: values.location,
+    },
+    links: {
+      linkedin: values.linkedinURL,
+    },
+    currentPosition: values.position,
     ON_BOARDED: true,
+    cretedAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
   });
   return;
 };

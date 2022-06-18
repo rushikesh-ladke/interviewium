@@ -258,11 +258,11 @@ export const Register = () => {
                 </div>
               </div>
               <Form.Item
-                name='companyDomain'
+                name='companyWebsite'
                 rules={[
                   {
                     required: true,
-                    message: 'Please enter your Company Domain!',
+                    message: 'Please enter your Company Website!',
                   },
                   { min: 3, message: 'Please enter more than 3 characters' },
                   { type: 'url', message: 'Please enter valid URL' },
@@ -271,7 +271,7 @@ export const Register = () => {
               >
                 <Input
                   className={styles.form_control}
-                  placeholder='Company Domain'
+                  placeholder='Company Website'
                 />
               </Form.Item>
               <Form.Item
@@ -291,7 +291,7 @@ export const Register = () => {
                 />
               </Form.Item>
               <Form.Item
-                name='contact'
+                name='companyContact'
                 rules={[
                   { min: 10, message: 'Minimum 10 characters Required' },
                   { max: 10, message: 'Maximum 10 characters Required' },
@@ -301,7 +301,7 @@ export const Register = () => {
               >
                 <Input
                   className={styles.form_control}
-                  placeholder='Contact Number'
+                  placeholder='Company contact number'
                 />
               </Form.Item>
               <Form.Item>

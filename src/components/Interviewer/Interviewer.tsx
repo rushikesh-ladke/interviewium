@@ -12,12 +12,16 @@ import { signUp } from '../Login/login-api';
 
 export const Interviewer = () => {
   const [form] = Form.useForm();
+  const [HRform] = Form.useForm();
   const userID: any = localStorage.getItem('uid');
 
   const [interviewers, setinterviewers] = useState([]);
   const [interviewer, setInterviewer] = useState('');
   const [addInterviewer, setAddInterviewer] = useState(false);
   const [interviewerStatus, setInterviewerStatus] = useState('');
+
+  const [addHRs, setAddHRs] = useState(false);
+  const [HRStatus, setHRStatus] = useState('');
 
   useEffect(() => {
     getInterviewerData();
@@ -64,20 +68,13 @@ export const Interviewer = () => {
     <>
       <div className={styles.appBody}>
         <div className='row'>
+          {/* HR Summary */}
           <div className='col-lg-3'>
             <div className={styles.cards}>
-              <h6>Total Interviewers</h6>
-              <div className={styles.innerInfo}>
-                <h1>124</h1>
-              </div>
-            </div>
-          </div>
-          <div className='col-lg-3'>
-            <div className={styles.cards}>
-              <h6>Active</h6>
+              <h6>Human Resource</h6>
               <div className={`${styles.innerInfo} align-items-baseline`}>
                 <h1>65</h1>
-                {/* <div className={styles.dotNo}>
+                <div className={styles.dotNo}>
                   <h6 className='d-flex align-items-center'>
                     <div className={styles.dot}></div> 2
                   </h6>
@@ -87,20 +84,91 @@ export const Interviewer = () => {
                   <h6 className='d-flex align-items-center'>
                     <div className={`${styles.dot} ${styles.dot2}`}></div> 4
                   </h6>
-                </div> */}
+                </div>
               </div>
             </div>
           </div>
+          {/* add HR */}
           <div className='col-lg-3'>
             <div className={styles.cards}>
-              <h6>Invited</h6>
+              <div className='d-flex justify-content-between'>
+                <h6>Add New HRs</h6>
+                {addHRs ? (
+                  <span
+                    onClick={() => {
+                      setAddHRs(!addHRs);
+                      setHRStatus('');
+                    }}
+                  >
+                    <CloseIcon color='error' />{' '}
+                  </span>
+                ) : (
+                  <span
+                    onClick={() => {
+                      setAddHRs(!addHRs);
+                    }}
+                  >
+                    <AddIcon color='success' />{' '}
+                  </span>
+                )}
+              </div>
               <div className={styles.innerInfo}>
-                <h1>
-                  <span>3</span>/23
-                </h1>
+                <div className='d-flex align-items-end'>
+                  {addHRs && (
+                    <Badge.Ribbon
+                      text={HRStatus}
+                      color={HRStatus === 'HR Added' ? 'green' : 'pink'}
+                    >
+                      <div className='d-flex flex-column'>
+                        <Form
+                          name='normal_login'
+                          className='login-form'
+                          initialValues={{ remember: true }}
+                          onFinish={addInterviewerHandler}
+                          form={HRform}
+                        >
+                          <Form.Item
+                            name='email'
+                            rules={[
+                              {
+                                required: true,
+                                message: 'Please input your Email!',
+                              },
+                              {
+                                type: 'email',
+                                message: 'Please enter valid Email..',
+                              },
+                            ]}
+                            hasFeedback
+                          >
+                            <Input
+                              style={{ width: 260, margin: 5 }}
+                              placeholder='please enter email'
+                              onChange={(e: any) => {
+                                setInterviewer(e.target.value);
+                              }}
+                              value={interviewer}
+                            ></Input>
+                          </Form.Item>
+                          <Form.Item>
+                            <Button type='primary' block htmlType='submit'>
+                              Add Interviewer
+                            </Button>
+                          </Form.Item>
+                        </Form>
+                      </div>
+                    </Badge.Ribbon>
+                  )}
+                </div>
+                {!addHRs && (
+                  <div className={styles.proImg}>
+                    <img src={ProfileImg} alt='profile' />
+                  </div>
+                )}
               </div>
             </div>
           </div>
+          {/* Add interviewer */}
           <div className='col-lg-3'>
             <div className={styles.cards}>
               <div className='d-flex justify-content-between'>
@@ -184,14 +252,28 @@ export const Interviewer = () => {
               </div>
             </div>
           </div>
+          {/* interviewer summary */}
+          <div className='col-lg-3'>
+            <div className={styles.cards}>
+              <h6>Human Resource</h6>
+              <div className={`${styles.innerInfo} align-items-baseline`}>
+                <h1>65</h1>
+                <div className={styles.dotNo}>
+                  <h6 className='d-flex align-items-center'>
+                    <div className={styles.dot}></div> 2
+                  </h6>
+                  <h6 className='d-flex align-items-center'>
+                    <div className={`${styles.dot} ${styles.dot1}`}></div> 12
+                  </h6>
+                  <h6 className='d-flex align-items-center'>
+                    <div className={`${styles.dot} ${styles.dot2}`}></div> 4
+                  </h6>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div className={styles.cards}>
-          {/* <div className={styles.tableHead}>
-            <div className={styles.sech1}>
-              <h4>All Customers</h4>
-            </div>
-          </div> */}
-
           <Table columns={columns} dataSource={interviewers} />
         </div>
       </div>
