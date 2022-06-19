@@ -9,6 +9,9 @@ import { saveToLocalStorage } from '../../shared/util';
 import useAuth from '../../hooks/useAuth';
 import { getSingleDocument } from '../../functions/getUserProfile';
 import { DOCUMENTS } from '../../constants/firebase-docs';
+import { postUserDetailsOnSignUp } from '../../functions/postUserDetailsOnSignUp';
+import { ROLES } from '../../constants/roles';
+import { arrayUnion } from 'firebase/firestore';
 
 interface LoginProps {
   title: string;
@@ -18,6 +21,8 @@ interface LoginProps {
 export const Login = ({ title, signInPage }: LoginProps) => {
   const navigate = useNavigate();
   const { auth, setAuth }: any = useAuth();
+
+  const viewedJob: any = localStorage.getItem('_application');
 
   const getDataAndStoreToLocalStorage = async (user: any) => {
     console.log(user);
@@ -86,6 +91,9 @@ export const Login = ({ title, signInPage }: LoginProps) => {
         const { user }: any = signInData;
         await getDataAndStoreToLocalStorage(user);
         notificationAlert.success(getUserName(user));
+        postUserDetailsOnSignUp(user.uid, user.email, ROLES.HR, {
+          applyJob: viewedJob ? arrayUnion(viewedJob) : [],
+        });
         await getProfileData(user.uid);
         navigate(PATH.DASHBOARD);
       }
@@ -101,6 +109,9 @@ export const Login = ({ title, signInPage }: LoginProps) => {
       const { user }: any = signInData;
       await getDataAndStoreToLocalStorage(user);
       notificationAlert.success(getUserName(user));
+      postUserDetailsOnSignUp(user.uid, user.email, ROLES.HR, {
+        applyJob: viewedJob ? arrayUnion(viewedJob) : [],
+      });
       navigate(PATH.SELECT_ROLE);
     } catch (error) {
       notificationAlert.error(error);

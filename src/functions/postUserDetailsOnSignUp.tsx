@@ -6,7 +6,7 @@ export const postUserDetailsOnSignUp = async (
   userId: any,
   email: any,
   role: any,
-  values: any
+  values?: any
 ) => {
   const userData = {
     email,

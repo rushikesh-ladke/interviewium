@@ -36,8 +36,12 @@ export const JobDetails = () => {
 
   const applyJobHandler = () => {
     const id: any = searchParams.get('id');
-    if (role !== ROLES.HR && role !== ROLES.INTERVIEWER) {
-      postAppliedJob(id, userId);
+    if (userId) {
+      if (role !== ROLES.HR && role !== ROLES.INTERVIEWER) {
+        postAppliedJob(id, userId);
+      }
+    } else {
+      navigate(PATH.REGISTER);
       localStorage.setItem('_application', id);
     }
   };

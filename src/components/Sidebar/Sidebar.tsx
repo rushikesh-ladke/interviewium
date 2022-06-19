@@ -16,12 +16,15 @@ import { Feedback } from './modal/feedback';
 import { Logout } from './modal/logout';
 import { InitialProfileData } from './modal/initialProfile';
 import useAuth from '../../hooks/useAuth';
+import { DOCUMENTS } from '../../constants/firebase-docs';
+import { getSingleDocument } from '../../functions/getUserProfile';
 
 export const Sidebar = () => {
   let location = useLocation();
   const navigate = useNavigate();
   const userRole: any = localStorage.getItem('role');
-  const { auth }: any = useAuth();
+  const userId: any = localStorage.getItem('uid');
+  const { auth, setAuth }: any = useAuth();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [logoutModalVisible, setLogoutModalVisible] = useState(false);
@@ -29,11 +32,28 @@ export const Sidebar = () => {
     useState(false);
 
   useEffect(() => {
-    checkProfileFullfilled();
+    if (Object.keys(auth.profile).length === 0) {
+      getProfileData(userId);
+    } else {
+      checkProfileFulfilled(auth.profile);
+    }
   }, []);
 
-  const checkProfileFullfilled = () => {
-    if (auth.profile.ON_BOARDED === false) setInitialProfileModalVisible(true);
+  const getProfileData = async (id: any) => {
+    const profile = await getSingleDocument(id, DOCUMENTS.USERS);
+    if (profile.loaded && profile.error === null) {
+      setAuth({
+        ...auth,
+        profile: profile?.data,
+      });
+      checkProfileFulfilled(profile?.data);
+    } else {
+      navigate(PATH.LOGIN);
+    }
+  };
+
+  const checkProfileFulfilled = (data: any) => {
+    if (data.ON_BOARDED === false) setInitialProfileModalVisible(true);
   };
 
   const showModal = (handler: any, param: any) => {
