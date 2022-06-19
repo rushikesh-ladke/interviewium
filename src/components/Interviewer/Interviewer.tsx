@@ -69,6 +69,7 @@ export const Interviewer = () => {
               ? auth?.profile?.companyDetails?.companyId
               : '',
           },
+          HRid: userID,
         });
       }
     } catch (error: any) {

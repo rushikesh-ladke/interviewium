@@ -5,6 +5,7 @@ import { collection, addDoc } from 'firebase/firestore';
 interface createUpdateJobProps {
   active: boolean;
   companyName: string;
+  companyId: string;
   department: string;
   details: {
     HRemail: string;
@@ -35,6 +36,7 @@ export const createUpdateJob = async (data: any) => {
   const some1: createUpdateJobProps = {
     active: true,
     companyName: data.companyName,
+    companyId: data.companyId,
     department: data.department,
     details: {
       HRemail: data.HREmail,

@@ -1,6 +1,7 @@
 import { Button, Form, Input, Modal, Radio, InputNumber, Checkbox } from 'antd';
 import { serverTimestamp } from 'firebase/firestore';
 import { useState, useEffect } from 'react';
+import useAuth from '../../../hooks/useAuth';
 import { createUpdateJob } from '../jobs-api';
 import styles from '../styles.module.scss';
 
@@ -9,6 +10,8 @@ export const CreateJob = ({ isModalVisible, handleOk, handleCancel }: any) => {
   const [form] = Form.useForm();
 
   const userID: any = localStorage.getItem('uid');
+
+  const { auth } = useAuth();
 
   const [HREmail, setHREmail] = useState('');
   const [companyName, setCompanyName] = useState('');
@@ -22,6 +25,7 @@ export const CreateJob = ({ isModalVisible, handleOk, handleCancel }: any) => {
     const data = {
       ...values,
       companyName: companyName,
+      companyId: auth.profile.companyDetails.companyId,
       HREmail: HREmail,
       HRid: userID,
       currency: '₹',

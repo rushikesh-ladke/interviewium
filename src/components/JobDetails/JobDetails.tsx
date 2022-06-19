@@ -8,22 +8,38 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import { getSingleDocument } from '../../functions/getUserProfile';
 import { DOCUMENTS } from '../../constants/firebase-docs';
 import { PATH } from '../../constants/path';
-import { Button } from 'antd';
+import { Button, Result } from 'antd';
 import { ROLES } from '../../constants/roles';
-import { postAppliedJob } from './job-details-api';
+import { postInterviewDetails } from './job-details-api';
+import useAuth from '../../hooks/useAuth';
 
 export const JobDetails = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { auth, setAuth } = useAuth();
 
   const [jobData, setJobData] = useState<any>({});
+  const [apply, setApply] = useState(false);
+
   const role = localStorage.getItem('role');
   const userId = localStorage.getItem('uid');
 
   useEffect(() => {
+    if (Object.keys(auth.profile).length === 0 && userId) {
+      getProfileData(userId);
+    }
     getJobData();
   }, []);
 
+  const getProfileData = async (id: any) => {
+    const profile = await getSingleDocument(id, DOCUMENTS.USERS);
+    if (profile.loaded && profile.error === null) {
+      setAuth({
+        ...auth,
+        profile: profile?.data,
+      });
+    }
+  };
   const getJobData = async () => {
     const job = await getSingleDocument(searchParams.get('id'), DOCUMENTS.JOBS);
     if (job.loaded && job.error === null) {
@@ -38,7 +54,22 @@ export const JobDetails = () => {
     const id: any = searchParams.get('id');
     if (userId) {
       if (role !== ROLES.HR && role !== ROLES.INTERVIEWER) {
-        postAppliedJob(id, userId);
+        setApply(true);
+        postInterviewDetails({
+          HRid: jobData?.details?.HRid,
+          companyId: jobData?.companyId,
+          intervieweeId: userId,
+          jobId: id,
+          jobPost: jobData?.position,
+          intervieweeDetails: {
+            name:
+              auth.profile.profile.firstName +
+              ' ' +
+              auth.profile.profile.lastName,
+            email: auth.profile.email,
+            contact: auth.profile.profile.contact,
+          },
+        });
       }
     } else {
       navigate(PATH.REGISTER);
@@ -116,16 +147,20 @@ export const JobDetails = () => {
               </li>
             </ul> */}
           </div>
-          <Button
-            type='primary'
-            block
-            onClick={() => applyJobHandler()}
-            disabled={
-              role !== ROLES.HR && role !== ROLES.INTERVIEWER ? false : true
-            }
-          >
-            Apply
-          </Button>
+          {apply ? (
+            <Result title='Applied' status='success' />
+          ) : (
+            <Button
+              type='primary'
+              block
+              onClick={() => applyJobHandler()}
+              disabled={
+                role !== ROLES.HR && role !== ROLES.INTERVIEWER ? false : true
+              }
+            >
+              Apply
+            </Button>
+          )}
         </div>
       </div>
     </>

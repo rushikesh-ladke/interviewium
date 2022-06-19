@@ -12,6 +12,7 @@ import { MainLayout } from '../components/MainLayout/MainLayout';
 import Login from '../components/Login';
 import Jobs from '../components/Jobs';
 import SelectRole from '../components/SelectRole';
+import OngoingInterviews from '../components/OngoingInterviews';
 import Interviews from '../components/Interviews';
 import Interviewer from '../components/Interviewer';
 import Profile from '../components/Profile';
@@ -115,7 +116,7 @@ export const Router = () => {
         element={
           <AuthRoute roles={[ROLES.HR]}>
             <MainLayout>
-              <Interviews />
+              <OngoingInterviews />
             </MainLayout>
           </AuthRoute>
         }
@@ -125,7 +126,7 @@ export const Router = () => {
         element={
           <AuthRoute roles={[ROLES.HR]}>
             <MainLayout>
-              <Interviews />
+              <OngoingInterviews />
             </MainLayout>
           </AuthRoute>
         }

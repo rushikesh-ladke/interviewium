@@ -19,6 +19,7 @@ import useAuth from '../../hooks/useAuth';
 import { DOCUMENTS } from '../../constants/firebase-docs';
 import { getSingleDocument } from '../../functions/getUserProfile';
 import { Badge } from 'antd';
+import { ApplyJobModal } from './modal/applyJob';
 
 export const Sidebar = () => {
   let location = useLocation();
@@ -31,6 +32,7 @@ export const Sidebar = () => {
   const [logoutModalVisible, setLogoutModalVisible] = useState(false);
   const [initialProfileModalVisible, setInitialProfileModalVisible] =
     useState(false);
+  const [applyJobModal, setApplyJobModal] = useState(false);
 
   useEffect(() => {
     if (Object.keys(auth.profile).length === 0) {
@@ -134,8 +136,7 @@ export const Sidebar = () => {
                     onClick={() => navigate(PATH.ONGOING)}
                   >
                     <ListAltOutlinedIcon className={styles.icons} />
-                    Ongoing
-                    <br /> Interviews
+                    Interviews
                   </li>
                   <li
                     className={`col-6 ${
@@ -193,7 +194,7 @@ export const Sidebar = () => {
                     className={`col-6 ${
                       location?.pathname === PATH.JOBS ? styles.active : null
                     }`}
-                    onClick={() => console.log('Apply')}
+                    onClick={() => setApplyJobModal(true)}
                   >
                     <Badge
                       count={
@@ -321,6 +322,14 @@ export const Sidebar = () => {
         <InitialProfileData
           isModalVisible={initialProfileModalVisible}
           saveProfileDataHandler={saveProfileDataHandler}
+        />
+        <ApplyJobModal
+          isModalVisible={applyJobModal}
+          setIsModalVisible={setApplyJobModal}
+          handleCancel={() => {
+            showModal(setApplyJobModal, applyJobModal);
+          }}
+          jobId={auth?.profile?.applyJob ? auth?.profile?.applyJob : []}
         />
         {/* all Modals end*/}
       </div>

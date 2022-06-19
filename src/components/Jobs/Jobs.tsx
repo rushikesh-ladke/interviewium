@@ -13,7 +13,6 @@ import { Badge, Tag, Segmented, Popover, Button } from 'antd';
 import { CreateJob } from './modal/createJob';
 import { collection, getDocs, orderBy, query, where } from 'firebase/firestore';
 import { db } from '../../shared/firebase-config';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { PATH } from '../../constants/path';
 
 export const Jobs = () => {
