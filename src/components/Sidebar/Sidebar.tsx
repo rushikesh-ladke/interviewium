@@ -18,6 +18,7 @@ import { InitialProfileData } from './modal/initialProfile';
 import useAuth from '../../hooks/useAuth';
 import { DOCUMENTS } from '../../constants/firebase-docs';
 import { getSingleDocument } from '../../functions/getUserProfile';
+import { Badge } from 'antd';
 
 export const Sidebar = () => {
   let location = useLocation();
@@ -187,6 +188,23 @@ export const Sidebar = () => {
                   >
                     <AssignmentIndOutlinedIcon className={styles.icons} />
                     Feedback
+                  </li>
+                  <li
+                    className={`col-6 ${
+                      location?.pathname === PATH.JOBS ? styles.active : null
+                    }`}
+                    onClick={() => console.log('Apply')}
+                  >
+                    <Badge
+                      count={
+                        auth?.profile?.applyJob
+                          ? auth?.profile?.applyJob.length
+                          : null
+                      }
+                    >
+                      <WorkOutlineOutlinedIcon className={styles.icons} />
+                    </Badge>
+                    Apply
                   </li>
                 </div>
               </>
