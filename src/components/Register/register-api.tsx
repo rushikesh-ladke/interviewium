@@ -1,5 +1,13 @@
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { collection, addDoc, doc, updateDoc } from 'firebase/firestore';
+import {
+  collection,
+  addDoc,
+  doc,
+  updateDoc,
+  serverTimestamp,
+} from 'firebase/firestore';
+import { ROLES } from '../../constants/roles';
+import { postUserDetailsOnSignUp } from '../../functions/postUserDetailsOnSignUp';
 import { auth, db } from '../../shared/firebase-config';
 
 // Add a new document with a generated id.
@@ -15,13 +23,19 @@ export const saveCompanyData = async (data: any) => {
     console.log(user);
     const docRef = await addDoc(collection(db, 'companyDocuments'), {
       companyName: data.companyName,
-      headHRDetails: {
+      companyHR: {
         email: data.email,
         firstName: data.firstName,
         lastName: data.lastName,
+        id: user.uid,
       },
     });
     console.log('Document written with ID: ', docRef.id);
+    postUserDetailsOnSignUp(user.uid, user.email, ROLES.HR, {
+      companyDetails: {
+        companyId: docRef.id,
+      },
+    });
     return {
       alert: 'success',
       message: 'Signed In',
@@ -42,7 +56,20 @@ export const saveCompanyData = async (data: any) => {
 export const addAditionalData = async (values: any, newDocId: any) => {
   const frankDocRef = doc(db, 'companyDocuments', newDocId);
   await updateDoc(frankDocRef, {
-    ...values,
+    location: {
+      country: values.location,
+      timezone: values.timezone,
+    },
+    companyWebsite: values.companyWebsite,
+    workspaceName: values.workspaceName,
+    companyContact: values.companyContact,
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
+    billing: {
+      tier: 'free',
+      tierStartDate: serverTimestamp(),
+      tierEndDate: serverTimestamp(),
+    },
   });
   return;
 };

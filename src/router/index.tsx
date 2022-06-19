@@ -17,7 +17,7 @@ import Interviewer from '../components/Interviewer';
 import Profile from '../components/Profile';
 import Feedback from '../components/Feedback';
 import Application from '../components/Application';
-import JobProfile from '../components/JobProfile';
+import JobProfile from '../components/JobDetails';
 import Register from '../components/Register';
 
 /**
@@ -45,14 +45,7 @@ export const Router = () => {
           </PublicRoute>
         }
       />
-      <Route
-        path={PATH.JOBPROFILE}
-        element={
-          <PublicRoute>
-            <JobProfile />
-          </PublicRoute>
-        }
-      />
+      <Route path={PATH.JOB_DETAILS} element={<JobProfile />} />
       <Route
         path={PATH.HOME}
         element={
@@ -70,7 +63,7 @@ export const Router = () => {
         }
       />
       <Route
-        path={PATH.SELECTROLE}
+        path={PATH.SELECT_ROLE}
         element={
           <AuthRoute roles={[ROLES.TEMPUSER]}>
             <SelectRole />
@@ -108,7 +101,7 @@ export const Router = () => {
         }
       />
       <Route
-        path={PATH.INTERVIEWEEDETAILS}
+        path={PATH.INTERVIEWEE_DETAILS}
         element={
           <AuthRoute roles={[ROLES.HR]}>
             <MainLayout>

@@ -8,11 +8,13 @@ import { useState } from 'react';
 import { saveToLocalStorage } from '../../shared/util';
 import useAuth from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
+import { getSingleDocument } from '../../functions/getUserProfile';
+import { DOCUMENTS } from '../../constants/firebase-docs';
 
 export const Register = () => {
   const [notificationMessage, setnotificationMessage] = useState(true);
   const [newDocId, setNewDocId] = useState('');
-  const [userDetails, setUserDetails] = useState();
+  const [userDetails, setUserDetails] = useState<any>();
   const { auth, setAuth }: any = useAuth();
   const navigate = useNavigate();
 
@@ -20,8 +22,6 @@ export const Register = () => {
   const [companyInfo] = Form.useForm();
 
   const getDataAndStoreToLocalStorage = async (user: any) => {
-    console.log(user);
-
     const save = {
       accessToken: user.accessToken,
       uid: user.uid,
@@ -66,6 +66,15 @@ export const Register = () => {
     await addAditionalData(values, newDocId);
     form.resetFields();
     getDataAndStoreToLocalStorage(userDetails);
+    const profile = await getSingleDocument(userDetails.uid, DOCUMENTS.USERS);
+    if (profile.loaded && profile.error === null) {
+      setAuth({
+        ...auth,
+        profile: profile?.data,
+      });
+    } else {
+      navigate(PATH.LOGIN);
+    }
     navigate(PATH.DASHBOARD);
   };
 
@@ -250,11 +259,11 @@ export const Register = () => {
                 </div>
               </div>
               <Form.Item
-                name='companyDomain'
+                name='companyWebsite'
                 rules={[
                   {
                     required: true,
-                    message: 'Please enter your Company Domain!',
+                    message: 'Please enter your Company Website!',
                   },
                   { min: 3, message: 'Please enter more than 3 characters' },
                   { type: 'url', message: 'Please enter valid URL' },
@@ -263,7 +272,7 @@ export const Register = () => {
               >
                 <Input
                   className={styles.form_control}
-                  placeholder='Company Domain'
+                  placeholder='Company Website'
                 />
               </Form.Item>
               <Form.Item
@@ -283,16 +292,17 @@ export const Register = () => {
                 />
               </Form.Item>
               <Form.Item
-                name='contact'
+                name='companyContact'
                 rules={[
                   { min: 10, message: 'Minimum 10 characters Required' },
                   { max: 10, message: 'Maximum 10 characters Required' },
+                  { required: true, message: 'Company Contact is required' },
                 ]}
                 hasFeedback
               >
                 <Input
                   className={styles.form_control}
-                  placeholder='Contact Number'
+                  placeholder='Company contact number'
                 />
               </Form.Item>
               <Form.Item>

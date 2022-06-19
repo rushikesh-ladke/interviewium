@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './styles.module.scss';
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
@@ -15,15 +15,26 @@ import { PATH } from '../../constants/path';
 import { Feedback } from './modal/feedback';
 import { Logout } from './modal/logout';
 import { InitialProfileData } from './modal/initialProfile';
+import useAuth from '../../hooks/useAuth';
 
 export const Sidebar = () => {
   let location = useLocation();
   const navigate = useNavigate();
   const userRole: any = localStorage.getItem('role');
+  const { auth }: any = useAuth();
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [logoutModalVisible, setLogoutModalVisible] = useState(false);
   const [initialProfileModalVisible, setInitialProfileModalVisible] =
     useState(false);
+
+  useEffect(() => {
+    checkProfileFullfilled();
+  }, []);
+
+  const checkProfileFullfilled = () => {
+    if (auth.profile.ON_BOARDED === false) setInitialProfileModalVisible(true);
+  };
 
   const showModal = (handler: any, param: any) => {
     handler(!param);
@@ -39,7 +50,7 @@ export const Sidebar = () => {
   };
 
   const saveProfileDataHandler = (value: any) => {
-    console.log(value);
+    setInitialProfileModalVisible(false);
   };
 
   return (
@@ -157,15 +168,6 @@ export const Sidebar = () => {
                     <AssignmentIndOutlinedIcon className={styles.icons} />
                     Feedback
                   </li>
-                  <li
-                    className={`col-6 ${
-                      location?.pathname === PATH.PROFILE ? styles.active : null
-                    } `}
-                    onClick={() => navigate(PATH.PROFILE)}
-                  >
-                    <PersonPinOutlinedIcon className={styles.icons} />
-                    Profile
-                  </li>
                 </div>
               </>
             ) : userRole === ROLES.INTERVIEWER ? (
@@ -206,15 +208,6 @@ export const Sidebar = () => {
                     <AssignmentIndOutlinedIcon className={styles.icons} />
                     Interviews
                   </li>
-                  <li
-                    className={`col-6 ${
-                      location?.pathname === PATH.PROFILE ? styles.active : null
-                    } `}
-                    onClick={() => navigate(PATH.PROFILE)}
-                  >
-                    <PersonPinOutlinedIcon className={styles.icons} />
-                    Profile
-                  </li>
                 </div>
               </>
             ) : null}
@@ -229,47 +222,32 @@ export const Sidebar = () => {
                 <CommentOutlinedIcon className={styles.icons} />
                 Feedback
               </li>
-              <Feedback
-                isModalVisible={isModalVisible}
-                handleOk={() => feedbackHandler()}
-                handleCancel={() => {
-                  showModal(setIsModalVisible, isModalVisible);
-                }}
-                setIsModalVisible={setIsModalVisible}
-              />
+
+              <li
+                className={`col-6 ${
+                  location?.pathname === PATH.PROFILE ? styles.active : null
+                } `}
+                onClick={() => navigate(PATH.PROFILE)}
+              >
+                <PersonPinOutlinedIcon className={styles.icons} />
+                Profile
+              </li>
+            </div>
+
+            <div className='d-flex'>
               <li className={`col-6 `}>
                 <SettingsApplicationsIcon
                   className={styles.icons}
-                  onClick={() =>
-                    showModal(
-                      setInitialProfileModalVisible,
-                      initialProfileModalVisible
-                    )
-                  }
+                  // TODO:secondary profile info
+                  // onClick={() =>
+                  //   showModal(
+                  //     setInitialProfileModalVisible,
+                  //     initialProfileModalVisible
+                  //   )
+                  // }
                 />
                 Settings
               </li>
-            </div>
-            <Logout
-              isModalVisible={logoutModalVisible}
-              handleOk={() => logoutHandler()}
-              handleCancel={() => {
-                showModal(setLogoutModalVisible, logoutModalVisible);
-              }}
-              setIsModalVisible={setLogoutModalVisible}
-            />
-            <InitialProfileData
-              isModalVisible={initialProfileModalVisible}
-              handleOk={saveProfileDataHandler}
-              handleCancel={() => {
-                showModal(
-                  setInitialProfileModalVisible,
-                  initialProfileModalVisible
-                );
-              }}
-              setIsModalVisible={setInitialProfileModalVisible}
-            />
-            <div className='d-flex'>
               <li
                 className={`col-6 `}
                 onClick={() =>
@@ -285,6 +263,28 @@ export const Sidebar = () => {
             <div className={styles.boxMain}></div>
           </ul>
         </aside>
+        {/* all Modals start */}
+        <Feedback
+          isModalVisible={isModalVisible}
+          handleOk={() => feedbackHandler()}
+          handleCancel={() => {
+            showModal(setIsModalVisible, isModalVisible);
+          }}
+          setIsModalVisible={setIsModalVisible}
+        />
+        <Logout
+          isModalVisible={logoutModalVisible}
+          handleOk={() => logoutHandler()}
+          handleCancel={() => {
+            showModal(setLogoutModalVisible, logoutModalVisible);
+          }}
+          setIsModalVisible={setLogoutModalVisible}
+        />
+        <InitialProfileData
+          isModalVisible={initialProfileModalVisible}
+          saveProfileDataHandler={saveProfileDataHandler}
+        />
+        {/* all Modals end*/}
       </div>
     </div>
   );

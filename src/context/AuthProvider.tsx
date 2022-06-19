@@ -8,15 +8,17 @@ type User = {
   userId: string;
   loggedIn: boolean;
   role: string;
+  profile: object;
 };
 
-const AuthContext = createContext({});
+const AuthContext = createContext<any>({});
 
 export const AuthProvider = ({ children }: AuthenticatedUser) => {
   const [auth, setAuth] = useState<User>({
     userId: '',
     loggedIn: false,
     role: '',
+    profile: {},
   });
 
   return (

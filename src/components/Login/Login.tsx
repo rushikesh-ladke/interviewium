@@ -7,6 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { PATH } from '../../constants/path';
 import { saveToLocalStorage } from '../../shared/util';
 import useAuth from '../../hooks/useAuth';
+import { getSingleDocument } from '../../functions/getUserProfile';
+import { DOCUMENTS } from '../../constants/firebase-docs';
 
 interface LoginProps {
   title: string;
@@ -70,7 +72,8 @@ export const Login = ({ title, signInPage }: LoginProps) => {
       const { user }: any = signInData;
       await getDataAndStoreToLocalStorage(user);
       notificationAlert.success(getUserName(user));
-      navigate(PATH.ASSIGN);
+      await getProfileData(user.uid);
+      navigate(PATH.DASHBOARD);
     } catch (error) {
       notificationAlert.error(error);
     }
@@ -83,7 +86,8 @@ export const Login = ({ title, signInPage }: LoginProps) => {
         const { user }: any = signInData;
         await getDataAndStoreToLocalStorage(user);
         notificationAlert.success(getUserName(user));
-        navigate(PATH.ASSIGN);
+        await getProfileData(user.uid);
+        navigate(PATH.DASHBOARD);
       }
     } catch (error) {
       notificationAlert.error(error);
@@ -97,7 +101,7 @@ export const Login = ({ title, signInPage }: LoginProps) => {
       const { user }: any = signInData;
       await getDataAndStoreToLocalStorage(user);
       notificationAlert.success(getUserName(user));
-      navigate(PATH.SELECTROLE);
+      navigate(PATH.SELECT_ROLE);
     } catch (error) {
       notificationAlert.error(error);
     }
@@ -109,6 +113,18 @@ export const Login = ({ title, signInPage }: LoginProps) => {
     } else {
       //todo : write new fuction for signup
       signUpWithEmailPassword(values);
+    }
+  };
+
+  const getProfileData = async (id: any) => {
+    const profile = await getSingleDocument(id, DOCUMENTS.USERS);
+    if (profile.loaded && profile.error === null) {
+      setAuth({
+        ...auth,
+        profile: profile?.data,
+      });
+    } else {
+      navigate(PATH.LOGIN);
     }
   };
 

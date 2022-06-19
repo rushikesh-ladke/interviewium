@@ -131,7 +131,7 @@ export const Interviews = () => {
               <h6>Active Members</h6>
               <div className={styles.innerInfo}>
                 <h1 className='d-flex align-items-end'>
-                  9 <h5> &nbsp;now</h5>
+                  9 <span> &nbsp;now</span>
                 </h1>
                 <div className={styles.proImg}>
                   <img src={ProfileImg} alt='profile' />
