@@ -1,4 +1,5 @@
 export const DOCUMENTS = {
   USERS: 'users',
-  JOBS: 'jobs'
+  JOBS: 'jobs',
+  JOB_NOTIFICATION: 'jobNotification'
 };

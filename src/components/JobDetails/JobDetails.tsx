@@ -8,12 +8,17 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import { getSingleDocument } from '../../functions/getUserProfile';
 import { DOCUMENTS } from '../../constants/firebase-docs';
 import { PATH } from '../../constants/path';
+import { Button } from 'antd';
+import { ROLES } from '../../constants/roles';
+import { postAppliedJob } from './job-details-api';
 
 export const JobDetails = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
   const [jobData, setJobData] = useState<any>({});
+  const role = localStorage.getItem('role');
+  const userId = localStorage.getItem('uid');
 
   useEffect(() => {
     getJobData();
@@ -26,6 +31,14 @@ export const JobDetails = () => {
       setJobData(job.data);
     } else {
       navigate(PATH.DASHBOARD);
+    }
+  };
+
+  const applyJobHandler = () => {
+    const id: any = searchParams.get('id');
+    if (role !== ROLES.HR && role !== ROLES.INTERVIEWER) {
+      postAppliedJob(id, userId);
+      localStorage.setItem('_application', id);
     }
   };
 
@@ -99,6 +112,16 @@ export const JobDetails = () => {
               </li>
             </ul> */}
           </div>
+          <Button
+            type='primary'
+            block
+            onClick={() => applyJobHandler()}
+            disabled={
+              role !== ROLES.HR && role !== ROLES.INTERVIEWER ? false : true
+            }
+          >
+            Apply
+          </Button>
         </div>
       </div>
     </>

@@ -14,6 +14,7 @@ import { CreateJob } from './modal/createJob';
 import { collection, getDocs, orderBy, query, where } from 'firebase/firestore';
 import { db } from '../../shared/firebase-config';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import { PATH } from '../../constants/path';
 
 export const Jobs = () => {
   const userID: any = localStorage.getItem('uid');
@@ -102,7 +103,7 @@ export const Jobs = () => {
           type='dashed'
           onClick={() => {
             navigator.clipboard.writeText(
-              window.location.origin + `/jobprofile?id=${jobId}`
+              window.location.origin + `${PATH.JOB_DETAILS}?id=${jobId}`
             );
           }}
         >

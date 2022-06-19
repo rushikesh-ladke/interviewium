@@ -11,7 +11,7 @@ export const PublicRoute = ({ children }: { children: JSX.Element }) => {
     userRole === ROLES.HR
       ? PATH.DASHBOARD
       : userRole === ROLES.INTERVIEWEE
-      ? PATH.ASSIGN
+      ? PATH.DASHBOARD
       : userRole === ROLES.INTERVIEWER
       ? PATH.DASHBOARD
       : null;

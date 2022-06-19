@@ -17,7 +17,7 @@ import Interviewer from '../components/Interviewer';
 import Profile from '../components/Profile';
 import Feedback from '../components/Feedback';
 import Application from '../components/Application';
-import JobProfile from '../components/JobDetails';
+import JobDetails from '../components/JobDetails';
 import Register from '../components/Register';
 
 /**
@@ -45,7 +45,7 @@ export const Router = () => {
           </PublicRoute>
         }
       />
-      <Route path={PATH.JOB_DETAILS} element={<JobProfile />} />
+      <Route path={PATH.JOB_DETAILS} element={<JobDetails />} />
       <Route
         path={PATH.HOME}
         element={
