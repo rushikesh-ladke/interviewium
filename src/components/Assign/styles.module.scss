@@ -1,170 +1,171 @@
 @mixin studentA {
-    padding: 15px;
-    border-radius: 8px;
-    background-color: #fff;
-    width: 100%;
-    max-width: 250px;
-    margin-right: 20px;
-    cursor: grab;
-    &:last-child {
-        margin-left: 0;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #fff;
+  width: 100%;
+  max-width: 250px;
+  margin-right: 20px;
+  cursor: grab;
+  &:last-child {
+    margin-left: 0;
+  }
+  h6 {
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .profile {
+    background-color: #f7cc1b24;
+    color: #f7cc1b;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    border-radius: 50px;
+    font-size: 12px;
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #f7cc1b;
+      margin-right: 10px;
     }
-    h6 {
-        font-weight: 700;
-        font-size: 14px;
+  }
+  .activeStatus {
+    display: flex;
+    align-items: center;
+    color: #4285f4;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-size: 12px;
+    .time {
+      fill: #4285f4;
+      width: 15px;
+      height: 15px;
+      margin-right: 8px;
     }
-    .profile {
-        background-color: #f7cc1b24;
-        color: #f7cc1b;
-        padding: 5px 10px;
-        display: flex;
-        align-items: center;
-        font-weight: 600;
-        border-radius: 50px;
-        font-size: 12px;
-        .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: #f7cc1b;
-            margin-right: 10px;
-        }
-    }
-    .activeStatus {
-        display: flex;
-        align-items: center;
-        color: #4285f4;
-        margin-top: 10px;
-        margin-bottom: 20px;
-        font-size: 12px;
-        .time {
-            fill: #4285f4;
-            width: 15px;
-            height: 15px;
-            margin-right: 8px;
-        }
-    }
-    .profilePic {
-        width: 70px;
-        border-radius: 50%;
-        height: 70px;
-        background: #f5f5f5ad;
-    }
+  }
+  .profilePic {
+    width: 70px;
+    border-radius: 50%;
+    height: 70px;
+    background: #f5f5f5ad;
+  }
 }
 
 .appMain {
-    display: flex;
-    .header {
-        .c_link {
-            img {
-                width: 100px;
-            }
-        }
-        .aside {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            transition: width 0.3s, left 0.3s;
-            z-index: 600;
-            width: 220px;
-            top: 0;
-            padding: 20px 0;
-            background-color: #4285f4;
-            ul {
-                list-style: none;
-                padding: 0 20px;
-                margin-bottom: 5px;
-                h6 {
-                    color: #fff;
-                    font-weight: 800;
-                    margin-bottom: 20px;
-                }
-                li {
-                    text-align: center;
-                    cursor: pointer;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    margin-bottom: 18px;
-                    color: #fff;
-                    font-weight: 700;
-                    font-size: 12px;
-                    &.active {
-                        color: #f7cc1b;
-                        .icons {
-                            background-color: #f7cc1b;
-                        }
-                    }
-                    &:hover {
-                        color: #f7cc1b;
-                        .icons {
-                            background-color: #f7cc1b;
-                        }
-                    }
-                    .icons {
-                        margin-bottom: 8px;
-                        border: none;
-                        padding: 8px;
-                        width: 38px;
-                        height: 38px;
-                        background: #cec7c780;
-                        border-radius: 5px;
-                        fill: #fff;
-                    }
-                }
-                .boxMain {
-                    width: 100%;
-                    margin: 0 auto;
-                    height: 150px;
-                    border-radius: 8px;
-                    background-color: #ffffff9c;
-                }
-            }
-        }
+  display: flex;
+  .header {
+    .c_link {
+      img {
+        width: 100px;
+      }
     }
-    .appBody {
-        background-color: #f7f7f7;
+    .aside {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      transition: width 0.3s, left 0.3s;
+      z-index: 600;
+      width: 220px;
+      top: 0;
+      padding: 20px 0;
+      background-color: #4285f4;
+      ul {
+        list-style: none;
+        padding: 0 20px;
+        margin-bottom: 5px;
+        h6 {
+          color: #fff;
+          font-weight: 800;
+          margin-bottom: 20px;
+        }
+        li {
+          text-align: center;
+          cursor: pointer;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin-bottom: 18px;
+          color: #fff;
+          font-weight: 700;
+          font-size: 12px;
+          &.active {
+            color: #f7cc1b;
+            .icons {
+              background-color: #f7cc1b;
+            }
+          }
+          &:hover {
+            color: #f7cc1b;
+            .icons {
+              background-color: #f7cc1b;
+            }
+          }
+          .icons {
+            margin-bottom: 8px;
+            border: none;
+            padding: 8px;
+            width: 38px;
+            height: 38px;
+            background: #cec7c780;
+            border-radius: 5px;
+            fill: #fff;
+          }
+        }
+        .boxMain {
+          width: 100%;
+          margin: 0 auto;
+          height: 150px;
+          border-radius: 8px;
+          background-color: #ffffff9c;
+        }
+      }
+    }
+  }
+  .appBody {
+    background-color: #f7f7f7;
+    width: 100%;
+    padding: 20px 20px 20px 240px;
+    overflow-x: hidden;
+    .assignBody {
+      display: flex;
+      .TabScroll {
+        align-items: center;
+        position: relative;
+        :global(.MuiButtonBase-root) {
+          height: 40px;
+          background-color: #ffffff;
+          border-radius: 50%;
+          box-shadow: 0 4px 20px 0 #00000017;
+        }
+        :global(.MuiTabs-indicator) {
+          border: none;
+          background-color: transparent;
+        }
+      }
+      .studentCard {
+        @include studentA;
+      }
+    }
+    .assignMain {
+      display: flex;
+      overflow-x: auto;
+      overflow-y: hidden;
+      white-space: nowrap;
+      .assignCards {
+        padding: 15px;
+        border-radius: 8px;
+        background-color: #c6c6c61f;
         width: 100%;
-        padding: 20px 20px 20px 240px;
-        overflow-x: hidden;
-        .assignBody {
-            display: flex;
-            .TabScroll {
-                align-items: center;
-                position: relative;
-                :global(.MuiButtonBase-root) {
-                    height: 40px;
-                    background-color: #ffffff;
-                    border-radius: 50%;
-                    box-shadow: 0 4px 20px 0 #00000017;
-                }
-                :global(.MuiTabs-indicator) {
-                    border: none;
-                    background-color: transparent;
-                }
-            }
-            .studentCard {
-                @include studentA;
-            }
+        max-width: 200px;
+        min-width: 200px;
+        height: calc(100vh - 284px);
+        margin-right: 20px;
+        border: 1px dashed #4285f4;
+        .studentCard {
+          @include studentA;
         }
-        .assignMain {
-            display: flex;
-            overflow-x: auto;
-            overflow-y: hidden;
-            white-space: nowrap;
-            .assignCards {
-                padding: 15px;
-                border-radius: 8px;
-                background-color: #c6c6c61f;
-                width: 100%;
-                max-width: 280px;
-                height: calc(100vh - 284px);
-                margin-right: 20px;
-                border: 1px dashed #4285f4;
-                .studentCard {
-                    @include studentA;
-                }
-            }
-        }
+      }
     }
+  }
 }

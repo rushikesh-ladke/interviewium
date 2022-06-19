@@ -7,7 +7,7 @@ import { query, collection, where, getDocs } from 'firebase/firestore';
 import { db } from '../../shared/firebase-config';
 import { DOCUMENTS } from '../../constants/firebase-docs';
 import useAuth from '../../hooks/useAuth';
-import { STATUS } from '../../shared/interview-status';
+import { STATUS } from '../../constants/interview-status';
 import { updateStatus } from './ongoing-interview-api';
 
 export const OngoingInterviews = () => {
