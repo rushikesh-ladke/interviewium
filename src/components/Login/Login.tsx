@@ -133,6 +133,7 @@ export const Login = ({ title, signInPage }: LoginProps) => {
         ...auth,
         profile: profile?.data,
       });
+      localStorage.setItem('_profile', JSON.stringify(profile?.data));
     } else {
       navigate(PATH.LOGIN);
     }

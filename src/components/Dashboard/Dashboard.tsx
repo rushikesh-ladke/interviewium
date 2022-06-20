@@ -3,8 +3,33 @@ import Avatar from '../../images/avatar.svg';
 import Rocket from '../../images/rocket.svg';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import G_Logo from '../../images/g_logo.svg';
-
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../../shared/firebase-config';
+import { DOCUMENTS } from '../../constants/firebase-docs';
 export const Dashboard = () => {
+  const checkQuery = async () => {
+    //getSingleDocument
+    const docRef: any = doc(
+      db,
+      `/companyDocuments/ziBSKwp7uOESg83J3ug1/rounds/rounds`
+    );
+    const userData: any = await getDoc(docRef);
+    if (userData.exists()) {
+      console.log(userData.data());
+      return {
+        data: userData.data(),
+        loaded: true,
+        error: null,
+      };
+    } else {
+      return {
+        data: null,
+        loaded: true,
+        error: 'User Profile doesnot Exists',
+      };
+    }
+  };
+
   return (
     <div className={`${styles.appMain}`}>
       <div className={styles.appBody}>
@@ -38,7 +63,12 @@ export const Dashboard = () => {
                 <button className={`${styles.ActiveBtn} ${styles.NewBtn}`}>
                   Archive
                 </button>
-                <button className={styles.NewBtn}>
+                <button
+                  className={styles.NewBtn}
+                  onClick={() => {
+                    checkQuery();
+                  }}
+                >
                   <AddOutlinedIcon className={styles.AddIcon} />
                   New
                 </button>

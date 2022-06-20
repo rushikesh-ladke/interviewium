@@ -10,7 +10,8 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import IntervieweeCard from './dnd/intervieweeCard';
 import AuditorCard from './dnd/auditorCard';
-import { assignHandler, createInterviewRound } from './assign-api';
+import { assignHandler } from './assign-api';
+import { createInterviewRound } from '../../functions/createInterviewRound';
 
 export const Assign = () => {
   const [value, setValue] = React.useState(0);
@@ -84,7 +85,6 @@ export const Assign = () => {
       jobId: interviewDetails.jobId,
       HRid: interviewDetails.HRid,
     });
-
     assignHandler(interviewDetails.id, autditorId);
     getCandidateToAssign();
   };

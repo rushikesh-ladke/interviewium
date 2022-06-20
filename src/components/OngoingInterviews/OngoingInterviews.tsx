@@ -6,14 +6,13 @@ import ProfileImg from '../../images/avatar.svg';
 import { query, collection, where, getDocs } from 'firebase/firestore';
 import { db } from '../../shared/firebase-config';
 import { DOCUMENTS } from '../../constants/firebase-docs';
-import useAuth from '../../hooks/useAuth';
 import { STATUS } from '../../constants/interview-status';
 import { updateStatus } from './ongoing-interview-api';
 
 export const OngoingInterviews = () => {
   const { TabPane } = Tabs;
-  const { auth } = useAuth();
-
+  let profile: any = localStorage.getItem('_profile');
+  profile = JSON.parse(profile);
   const [candidateRequests, setCandidateRequests] = useState<any>([]);
 
   useEffect(() => {
@@ -21,11 +20,11 @@ export const OngoingInterviews = () => {
   }, []);
 
   const getCandidateRequests = async () => {
-    const companyID = auth.profile.companyDetails.companyId;
+    const companyId = profile.companyDetails.companyId;
     const q = query(
       collection(db, DOCUMENTS.INTERVIEW),
       where('active', '==', true),
-      where('companyId', '==', companyID),
+      where('companyId', '==', companyId),
       where('status', '==', STATUS.REQUEST)
     );
 
@@ -45,9 +44,11 @@ export const OngoingInterviews = () => {
 
   const confirmAccept: any = (id: any) => {
     updateStatus(STATUS.ASSIGN, id);
+    getCandidateRequests();
   };
   const confirmReject: any = (id: any) => {
     updateStatus(STATUS.REJECTED, id);
+    getCandidateRequests();
   };
 
   const cancel: any = (e: any) => {};

@@ -20,6 +20,7 @@ import { DOCUMENTS } from '../../constants/firebase-docs';
 import { getSingleDocument } from '../../functions/getUserProfile';
 import { Badge } from 'antd';
 import { ApplyJobModal } from './modal/applyJob';
+import { CompanySettings } from './modal/companySettings';
 
 export const Sidebar = () => {
   let location = useLocation();
@@ -33,6 +34,7 @@ export const Sidebar = () => {
   const [initialProfileModalVisible, setInitialProfileModalVisible] =
     useState(false);
   const [applyJobModal, setApplyJobModal] = useState(false);
+  const [companySettings, setCompanySettings] = useState(false);
 
   useEffect(() => {
     if (Object.keys(auth.profile).length === 0) {
@@ -172,7 +174,7 @@ export const Sidebar = () => {
                       location?.pathname === PATH.APPLICATION
                         ? styles.active
                         : null
-                    }}`}
+                    } `}
                     onClick={() => navigate(PATH.APPLICATION)}
                   >
                     <WorkOutlineOutlinedIcon className={styles.icons} />
@@ -275,7 +277,7 @@ export const Sidebar = () => {
             </div>
 
             <div className='d-flex'>
-              <li className={`col-6 `}>
+              <li className={`col-6 `} onClick={() => setCompanySettings(true)}>
                 <SettingsApplicationsIcon
                   className={styles.icons}
                   // TODO:secondary profile info
@@ -332,6 +334,16 @@ export const Sidebar = () => {
           }}
           jobId={auth?.profile?.applyJob ? auth?.profile?.applyJob : []}
         />
+        {auth.profile.companyDetails && (
+          <CompanySettings
+            isModalVisible={companySettings}
+            handleOk={() => setCompanySettings(false)}
+            handleCancel={() => {
+              showModal(setCompanySettings, companySettings);
+            }}
+            setIsModalVisible={setCompanySettings}
+          />
+        )}
         {/* all Modals end*/}
       </div>
     </div>
