@@ -399,7 +399,7 @@
 }
 
 .modalAnt {
-  width: 635px !important;
+  width: 935px !important;
   :global(.ant-modal-content) {
     :global(.ant-modal-header) {
       padding: 30px 30px 10px 30px;
@@ -409,7 +409,7 @@
     }
     :global(.ant-modal-body) {
       padding: 25px 30px 30px 30px;
-      height: 300px;
+      height: 450px;
       overflow-y: auto;
       .formAll {
         margin-bottom: 20px;
@@ -423,7 +423,7 @@
           font-size: 14px;
         }
         textarea {
-          height: 150px;
+          height: 100px;
           font-size: 14px;
         }
       }
@@ -436,7 +436,7 @@
 
 .salaryblock {
   display: flex;
-  justify-content: space-around;
+  margin: 10px 2px;
 }
 .icon {
   width: 16px;

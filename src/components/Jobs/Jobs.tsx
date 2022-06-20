@@ -14,7 +14,7 @@ import { CreateJob } from './modal/createJob';
 import { collection, getDocs, orderBy, query, where } from 'firebase/firestore';
 import { db } from '../../shared/firebase-config';
 import { PATH } from '../../constants/path';
-
+import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 export const Jobs = () => {
   const userID: any = localStorage.getItem('uid');
 
@@ -25,6 +25,8 @@ export const Jobs = () => {
   const [showSort, setShowSort] = useState(true);
   const [fixedFilter, setFixedFilter] = useState('');
   const [search, setSearch] = useState('');
+  const [editJob, seteditJob] = useState<any>();
+
   useEffect(() => {
     getJobsData({ field: 'details.updatedAt', value: 'asc' }, 'plain');
   }, []);
@@ -57,8 +59,7 @@ export const Jobs = () => {
       q = query(
         collection(db, 'jobs'),
         where('active', '==', true),
-        where('details.HRid', '==', userID),
-        orderBy(order.field, order.value)
+        where('HRDetails.HRid', '==', userID)
       );
     } else if (reqQuery === 'withoutOrder') {
       setSortValue('Asc');
@@ -66,8 +67,7 @@ export const Jobs = () => {
       q = query(
         collection(db, 'jobs'),
         where('active', '==', true),
-        where('details.HRid', '==', userID),
-        where(order.field, '==', order.value)
+        where('HRDetails.HRid', '==', userID)
       );
     }
     const jobs: any = [];
@@ -86,14 +86,6 @@ export const Jobs = () => {
     setIsModalVisible(!isModalVisible);
   };
 
-  const handleOk = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
-
   const content = (jobId: any) => {
     return (
       <div>
@@ -110,15 +102,18 @@ export const Jobs = () => {
       </div>
     );
   };
-
   return (
     <div className={`${styles.appMain}`}>
       <div className={styles.appBody}>
-        <CreateJob
-          isModalVisible={isModalVisible}
-          handleOk={handleOk}
-          handleCancel={handleCancel}
-        />
+        {isModalVisible && (
+          <CreateJob
+            isModalVisible={isModalVisible}
+            handleOk={showModal}
+            handleCancel={showModal}
+            data={editJob}
+          />
+        )}
+
         <div className={styles.dataBody}>
           <div className='row'>
             <div className='col-lg-8'>
@@ -226,7 +221,10 @@ export const Jobs = () => {
                   <div className={styles.twoBtn}>
                     <button
                       className={styles.NewBtn}
-                      onClick={() => showModal()}
+                      onClick={() => {
+                        showModal();
+                        seteditJob(null);
+                      }}
                     >
                       <AddOutlinedIcon className={styles.AddIcon} />
                       New
@@ -260,9 +258,9 @@ export const Jobs = () => {
                             </div>
                             <div className='col-lg-8 ps-4'>
                               <div className={styles.companyI}>
-                                <h4>{e.companyName}</h4>
+                                <h4>{e?.companyDetails?.companyName}</h4>
                                 <h6>
-                                  {e.position}, {e.companyName}
+                                  {e.position}, {e?.companyDetails?.companyName}
                                 </h6>
                                 <div className='d-flex'>
                                   <div className={styles.Locate}>
@@ -299,8 +297,12 @@ export const Jobs = () => {
                             <div className='col-lg-3'>
                               <div className={styles.info}>
                                 <div className={styles.infoI}>
-                                  <BookmarkBorderOutlinedIcon
+                                  <AutoFixHighIcon
                                     className={styles.icon}
+                                    onClick={() => {
+                                      seteditJob(e);
+                                      setIsModalVisible(true);
+                                    }}
                                   />
                                   <Popover content={() => content(e.id)}>
                                     <InfoOutlinedIcon className={styles.icon} />
@@ -309,13 +311,15 @@ export const Jobs = () => {
                                 <div className={styles.infoDetail}>
                                   <p>Team</p>
                                   <h6>{e.department}</h6>
-                                  <h6 className={styles.package}>
-                                    <strong>
-                                      {e.salary?.currency}
-                                      {e.salary?.salary}
-                                    </strong>{' '}
-                                    / {e.salary?.tenure}
-                                  </h6>
+                                  {e.salary?.salary !== '-' && (
+                                    <h6 className={styles.package}>
+                                      <strong>
+                                        {e.salary?.currency}
+                                        {e.salary?.salary}
+                                      </strong>{' '}
+                                      {e.salary?.tenure}
+                                    </h6>
+                                  )}
                                 </div>
                               </div>
                             </div>

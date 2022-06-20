@@ -60,7 +60,12 @@ export const CompanySettings = (props: any) => {
                 onFinish={onFinish}
                 autoComplete='off'
               >
-                <Form.List name='users' initialValue={roundsDetails.data.value}>
+                <Form.List
+                  name='users'
+                  initialValue={
+                    roundsDetails.data ? roundsDetails.data.value : []
+                  }
+                >
                   {(fields, { add, remove }) => (
                     <>
                       {fields.map(({ key, name, ...restField }, index) => (
