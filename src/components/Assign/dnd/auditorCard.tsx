@@ -8,9 +8,7 @@ const AuditorCard = (props: any) => {
   const [{ canDrop, isOver }, drop] = useDrop(() => ({
     accept: 'interviewee',
     drop: (monitor: any) => {
-      props.dragAndDrop(monitor.itemID.e.id, props.e.id);
-
-      // console.log('moving item:', monitor.itemID , props.id)
+      props.dragAndDrop(monitor.itemID.e, props.e.id);
     },
     collect: monitor => ({
       isOver: monitor.isOver(),
@@ -32,6 +30,7 @@ const AuditorCard = (props: any) => {
       className={styles.assignCards}
       ref={drop}
       style={{ backgroundColor, border, transition }}
+      key={props?.index}
     >
       <div className={styles.studentCard}>
         <h6>

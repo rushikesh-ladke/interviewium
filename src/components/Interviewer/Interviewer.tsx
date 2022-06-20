@@ -18,7 +18,6 @@ export const Interviewer = () => {
   const [HRform] = Form.useForm();
   const { auth }: any = useAuth();
   const userID: any = localStorage.getItem('uid');
-  console.log(auth, 'auth');
 
   const [interviewers, setinterviewers] = useState([]);
   const [associate, setAssociate] = useState('');
@@ -44,7 +43,6 @@ export const Interviewer = () => {
       snapshot.forEach((doc: any) => {
         interviewers.push({ ...doc.data(), id: doc.id });
       });
-      console.log(interviewers);
       setinterviewers(interviewers);
     });
   };

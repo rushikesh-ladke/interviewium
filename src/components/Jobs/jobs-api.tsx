@@ -65,5 +65,4 @@ export const createUpdateJob = async (data: any) => {
   const docRef = await addDoc(collection(db, 'jobs'), {
     ...some1,
   });
-  console.log('Document written with ID: ', docRef.id);
 };

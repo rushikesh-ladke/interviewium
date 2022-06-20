@@ -10,12 +10,13 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import IntervieweeCard from './dnd/intervieweeCard';
 import AuditorCard from './dnd/auditorCard';
-import { assignHandler } from './assign-api';
+import { assignHandler, createInterviewRound } from './assign-api';
 
 export const Assign = () => {
   const [value, setValue] = React.useState(0);
   const { auth } = useAuth();
-
+  let profile: any = localStorage.getItem('_profile');
+  profile = JSON.parse(profile);
   const [candidateAssign, setCandidateAssign] = React.useState<any>([]);
   const [auditorAssign, setAuditorAssign] = React.useState<any>([]);
 
@@ -25,7 +26,7 @@ export const Assign = () => {
   }, []);
 
   const getCandidateToAssign = async () => {
-    const companyID = auth.profile.companyDetails.companyId;
+    const companyID = profile.companyDetails.companyId;
     const q = query(
       collection(db, DOCUMENTS.INTERVIEW),
       where('active', '==', true),
@@ -48,7 +49,7 @@ export const Assign = () => {
   };
 
   const getAuditorToAssign = async () => {
-    const companyID = auth.profile.companyDetails.companyId;
+    const companyID = profile.companyDetails.companyId;
     const q = query(
       collection(db, DOCUMENTS.USERS),
       where('active', '==', true),
@@ -73,8 +74,18 @@ export const Assign = () => {
     setValue(newValue);
   };
 
-  const getAllInassignterviewers = (interviewId: any, autditorId: any) => {
-    assignHandler(interviewId, autditorId);
+  const getAllInassignterviewers = async (
+    interviewDetails: any,
+    autditorId: any
+  ) => {
+    const auditorProfile = await createInterviewRound({
+      auditorId: autditorId,
+      intervieweeId: interviewDetails.intervieweeId,
+      jobId: interviewDetails.jobId,
+      HRid: interviewDetails.HRid,
+    });
+
+    assignHandler(interviewDetails.id, autditorId);
     getCandidateToAssign();
   };
 
@@ -96,8 +107,8 @@ export const Assign = () => {
               }}
             >
               {candidateAssign && candidateAssign.length > 0 ? (
-                candidateAssign.map((e: any) => {
-                  return <IntervieweeCard e={e} />;
+                candidateAssign.map((e: any, index: any) => {
+                  return <IntervieweeCard e={e} index={index} />;
                 })
               ) : (
                 <div>No Data</div>
@@ -108,9 +119,13 @@ export const Assign = () => {
           <div className={styles.assignMain}>
             {auditorAssign &&
               auditorAssign.length > 0 &&
-              auditorAssign.map((e: any) => {
+              auditorAssign.map((e: any, index: any) => {
                 return (
-                  <AuditorCard e={e} dragAndDrop={getAllInassignterviewers} />
+                  <AuditorCard
+                    e={e}
+                    dragAndDrop={getAllInassignterviewers}
+                    index={index}
+                  />
                 );
               })}
           </div>

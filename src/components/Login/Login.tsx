@@ -25,7 +25,6 @@ export const Login = ({ title, signInPage }: LoginProps) => {
   const viewedJob: any = localStorage.getItem('_application');
 
   const getDataAndStoreToLocalStorage = async (user: any) => {
-    console.log(user);
     const userData: any = await checkUserExist(user.uid); //check if user exists in the DB
 
     const save = {

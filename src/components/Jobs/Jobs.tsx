@@ -75,7 +75,6 @@ export const Jobs = () => {
       snapshot.forEach((doc: any) => {
         jobs.push({ ...doc.data(), id: doc.id });
       });
-      console.log(jobs);
       setJobsData(jobs);
       if (jobs.length > 0) {
         setjobDetails(jobs[0]);

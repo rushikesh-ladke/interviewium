@@ -20,7 +20,6 @@ export const saveCompanyData = async (data: any) => {
   try {
     const signInData = await signUp(data.email, data.password);
     const { user }: any = signInData;
-    console.log(user);
     const docRef = await addDoc(collection(db, 'companyDocuments'), {
       companyName: data.companyName,
       companyHR: {
@@ -30,7 +29,6 @@ export const saveCompanyData = async (data: any) => {
         id: user.uid,
       },
     });
-    console.log('Document written with ID: ', docRef.id);
     postUserDetailsOnSignUp(user.uid, user.email, ROLES.HR, {
       companyDetails: {
         companyId: docRef.id,

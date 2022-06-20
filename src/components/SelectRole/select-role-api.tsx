@@ -8,5 +8,4 @@ export const addNewUserToDB = async (userId: any, email: any, role: any) => {
   };
 
   const newUser = await updateDoc(doc(db, DOCUMENTS.USERS, userId), userData);
-  console.log(newUser);
 };

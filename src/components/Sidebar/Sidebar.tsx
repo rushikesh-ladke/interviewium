@@ -49,6 +49,7 @@ export const Sidebar = () => {
         ...auth,
         profile: profile?.data,
       });
+      localStorage.setItem('_profile', JSON.stringify(profile?.data));
       checkProfileFulfilled(profile?.data);
     } else {
       navigate(PATH.LOGIN);

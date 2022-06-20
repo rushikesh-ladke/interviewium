@@ -43,7 +43,6 @@ export const JobDetails = () => {
   const getJobData = async () => {
     const job = await getSingleDocument(searchParams.get('id'), DOCUMENTS.JOBS);
     if (job.loaded && job.error === null) {
-      console.log(job);
       setJobData(job.data);
     } else {
       navigate(PATH.DASHBOARD);

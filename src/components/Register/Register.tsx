@@ -43,7 +43,6 @@ export const Register = () => {
   };
 
   const onFinish = async (values: any) => {
-    console.log(values);
     const { alert, message, doc, user }: any = await saveCompanyData(values);
     setNewDocId(doc);
     setUserDetails(user);

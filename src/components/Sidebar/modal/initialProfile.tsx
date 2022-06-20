@@ -8,6 +8,7 @@ import { getSingleDocument } from '../../../functions/getUserProfile';
 import useAuth from '../../../hooks/useAuth';
 import { PATH } from '../../../constants/path';
 import { DOCUMENTS } from '../../../constants/firebase-docs';
+import { ROLES } from '../../../constants/roles';
 
 export const InitialProfileData = (props: any) => {
   const ModalAntd: any = Modal;
@@ -149,6 +150,25 @@ export const InitialProfileData = (props: any) => {
               placeholder='Linkedin Profile URL'
             />
           </Form.Item>
+          {auth?.profile?.role !== ROLES.INTERVIEWEE && (
+            <Form.Item
+              name='meetingLink'
+              rules={[
+                {
+                  required: true,
+                  message: 'Please enter your meetingLink',
+                },
+                { min: 3, message: 'Please enter more than 3 characters' },
+                { type: 'url', message: 'Please enter valid URL' },
+              ]}
+              hasFeedback
+            >
+              <Input
+                className={styles.form_control}
+                placeholder='Meet/Zoom Joining Link'
+              />
+            </Form.Item>
+          )}
           <Form.Item>
             <Button className={styles.signBtn} htmlType='submit'>
               Next
