@@ -1,7 +1,7 @@
 import { addDoc, serverTimestamp, collection } from 'firebase/firestore';
 import { DOCUMENTS } from '../constants/firebase-docs';
 import { db } from '../shared/firebase-config';
-import { STATUS } from '../constants/interview-status';
+import { STATUS } from '../constants/status';
 import { getSingleDocument } from './getUserProfile';
 
 export const createInterviewRound = async (data: any, values?: any) => {

@@ -7,7 +7,7 @@ import {
   updateDoc,
 } from 'firebase/firestore';
 import { DOCUMENTS } from '../../constants/firebase-docs';
-import { STATUS } from '../../constants/interview-status';
+import { STATUS } from '../../constants/status';
 import { db } from '../../shared/firebase-config';
 
 export const addProfileData = async (values: any, newDocId: any) => {

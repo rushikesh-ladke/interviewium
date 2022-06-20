@@ -3,7 +3,7 @@ import styles from './styles.module.scss';
 import Tabs, { tabsClasses } from '@mui/material/Tabs';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { DOCUMENTS } from '../../constants/firebase-docs';
-import { STATUS } from '../../constants/interview-status';
+import { STATUS } from '../../constants/status';
 import useAuth from '../../hooks/useAuth';
 import { db } from '../../shared/firebase-config';
 import { HTML5Backend } from 'react-dnd-html5-backend';
