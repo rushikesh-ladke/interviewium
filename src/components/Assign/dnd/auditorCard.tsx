@@ -8,12 +8,8 @@ const AuditorCard = (props: any) => {
   const [{ canDrop, isOver }, drop] = useDrop(() => ({
     accept: 'interviewee',
     drop: (monitor: any) => {
-      props.dragAndDrop(
-        monitor.itemID.humanResourceId,
-        monitor.itemID.intervieweeId,
-        monitor.itemID.jobId,
-        props.id
-      );
+      props.dragAndDrop(monitor.itemID.e.id, props.e.id);
+
       // console.log('moving item:', monitor.itemID , props.id)
     },
     collect: monitor => ({

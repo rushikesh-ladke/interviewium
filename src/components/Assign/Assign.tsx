@@ -1,18 +1,16 @@
 import * as React from 'react';
 import styles from './styles.module.scss';
-import TimelapseOutlinedIcon from '@mui/icons-material/TimelapseOutlined';
-import Avatar from '../../images/avatar.svg';
 import Tabs, { tabsClasses } from '@mui/material/Tabs';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { DOCUMENTS } from '../../constants/firebase-docs';
 import { STATUS } from '../../constants/interview-status';
 import useAuth from '../../hooks/useAuth';
 import { db } from '../../shared/firebase-config';
-import { ROLES } from '../../constants/roles';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import IntervieweeCard from './dnd/intervieweeCard';
 import AuditorCard from './dnd/auditorCard';
+import { assignHandler } from './assign-api';
 
 export const Assign = () => {
   const [value, setValue] = React.useState(0);
@@ -75,13 +73,9 @@ export const Assign = () => {
     setValue(newValue);
   };
 
-  const getAllInassignterviewers = (
-    humanResourceId: any,
-    intervieweeId: any,
-    jobId: any,
-    id: any
-  ) => {
-    console.log(humanResourceId, intervieweeId, jobId, id);
+  const getAllInassignterviewers = (interviewId: any, autditorId: any) => {
+    assignHandler(interviewId, autditorId);
+    getCandidateToAssign();
   };
 
   return (

@@ -10,8 +10,8 @@ const IntervieweeCard = (props: any) => {
     item: { itemID: props },
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult();
+      // info: fires after drop from auditorCard
       if (item && dropResult) {
-        console.log(props.id);
       }
     },
     collect: monitor => ({
