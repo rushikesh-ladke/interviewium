@@ -31,11 +31,16 @@ const IntervieweeCard = (props: any) => {
   return (
     <div className={styles.studentCard} ref={drag} id={props?.index}>
       {/* style={{color : isDragging ? '#FF3F3F' : 'blue'}} */}
-      <h6>{props?.e.name}</h6>
+      <h6>
+        {props?.e.intervieweeDetails &&
+        props?.e.intervieweeDetails.intervieweeName
+          ? props?.e.intervieweeDetails.intervieweeName
+          : ''}
+      </h6>
       <div className='d-flex'>
         <div className={styles.profile}>
           <div className={styles.dot}></div>
-          {props?.e.jobPost}
+          {props?.e.jobDetails ? props?.e.jobDetails.jobPost : ''}
         </div>
       </div>
       <div className={styles.activeStatus}>

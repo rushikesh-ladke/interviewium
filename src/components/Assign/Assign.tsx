@@ -3,7 +3,7 @@ import styles from './styles.module.scss';
 import Tabs, { tabsClasses } from '@mui/material/Tabs';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { DOCUMENTS } from '../../constants/firebase-docs';
-import { STATUS } from '../../constants/status';
+import { OVER_ALL_STATUS, STATUS } from '../../constants/status';
 import useAuth from '../../hooks/useAuth';
 import { db } from '../../shared/firebase-config';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -31,8 +31,9 @@ export const Assign = () => {
     const q = query(
       collection(db, DOCUMENTS.INTERVIEWS),
       where('active', '==', true),
-      where('companyId', '==', companyID),
-      where('status', '==', STATUS.ASSIGN)
+      where('companyDetails.companyId', '==', companyID),
+      where('status', '==', STATUS.ASSIGN),
+      where('overAllStatus', '==', OVER_ALL_STATUS.ONGOING_MAIN)
     );
 
     const querySnapshot = await getDocs(q);
@@ -42,10 +43,10 @@ export const Assign = () => {
       const data = doc.data();
       requests.push({
         ...data,
-        ...data.intervieweeDetails,
         id: doc.id,
       });
     });
+    console.log(requests, 'setCandidateAssign');
     setCandidateAssign(requests);
   };
 
@@ -54,6 +55,7 @@ export const Assign = () => {
     const q = query(
       collection(db, DOCUMENTS.USERS),
       where('active', '==', true),
+      where('ON_BOARDED', '==', true),
       where('companyDetails.companyId', '==', companyID)
     );
 
@@ -68,6 +70,7 @@ export const Assign = () => {
         id: doc.id,
       });
     });
+    console.log(requests, 'setAuditorAssign');
     setAuditorAssign(requests);
   };
 
@@ -77,16 +80,29 @@ export const Assign = () => {
 
   const getAllInassignterviewers = async (
     interviewDetails: any,
-    autditorId: any
+    auditor: any
   ) => {
-    const auditorProfile = await createInterviewRound({
-      auditorId: autditorId,
-      intervieweeId: interviewDetails.intervieweeId,
-      jobId: interviewDetails.jobId,
-      HRid: interviewDetails.HRid,
+    createInterviewRound({
+      companyDetails: {
+        ...interviewDetails.companyDetails,
+      },
+      intervieweeDetails: {
+        ...interviewDetails.intervieweeDetails,
+        id: interviewDetails.intervieweeId,
+      },
+      jobDetails: {
+        ...interviewDetails.jobDetails,
+      },
+      interviewId: interviewDetails.id,
+      auditorDetails: {
+        auditorEmail: auditor.email,
+        auditorId: auditor.id,
+        auditorName: auditor.profile.firstName + ' ' + auditor.profile.lastName,
+        auditorMeetingLink: auditor.links.meetingLink,
+      },
     });
-    assignHandler(interviewDetails.id, autditorId);
-    getCandidateToAssign();
+    // assignHandler(interviewDetails.id, autditorId);
+    // getCandidateToAssign();
   };
 
   return (

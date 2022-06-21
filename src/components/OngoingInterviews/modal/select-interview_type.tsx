@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Segmented, Empty, Button, Typography, Input } from 'antd';
+import {
+  Modal,
+  Segmented,
+  Empty,
+  Button,
+  Typography,
+  Input,
+  Divider,
+} from 'antd';
 import { getSingleDocument } from '../../../functions/getUserProfile';
 import { DOCUMENTS } from '../../../constants/firebase-docs';
 import { updateStatus } from '../ongoing-interview-api';
@@ -9,6 +17,7 @@ export const SelectInterviewType = (props: any) => {
   const ModalAntd: any = Modal;
   const { Text } = Typography;
 
+  let userId: any = localStorage.getItem('uid');
   let profile: any = localStorage.getItem('_profile');
   profile = JSON.parse(profile);
 
@@ -59,6 +68,9 @@ export const SelectInterviewType = (props: any) => {
       status: STATUS.ASSIGN,
       interviewProcessData: convertSelectedType,
       HRComments: HRComments,
+      totalInterviewRounds: selectedType.rounds.length,
+      totalInterviewRoundsRemaining: selectedType.rounds.length,
+      acceptedHRId: userId,
     };
     updateStatus(acceptedInterviewData, id);
     props.getCandidateRequests();
@@ -78,6 +90,7 @@ export const SelectInterviewType = (props: any) => {
         {interviewTypes && interviewTypes.length > 0 ? (
           <>
             <h4>Select the Interview Type</h4>
+            <Divider />
             Candidate Name :
             <Text type='success'>
               {' '}
