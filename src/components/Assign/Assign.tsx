@@ -29,7 +29,7 @@ export const Assign = () => {
   const getCandidateToAssign = async () => {
     const companyID = profile.companyDetails.companyId;
     const q = query(
-      collection(db, DOCUMENTS.INTERVIEW),
+      collection(db, DOCUMENTS.INTERVIEWS),
       where('active', '==', true),
       where('companyId', '==', companyID),
       where('status', '==', STATUS.ASSIGN)

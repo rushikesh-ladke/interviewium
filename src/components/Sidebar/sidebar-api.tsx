@@ -1,13 +1,5 @@
-import {
-  addDoc,
-  collection,
-  doc,
-  serverTimestamp,
-  setDoc,
-  updateDoc,
-} from 'firebase/firestore';
+import { doc, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore';
 import { DOCUMENTS } from '../../constants/firebase-docs';
-import { STATUS } from '../../constants/status';
 import { db } from '../../shared/firebase-config';
 
 export const addProfileData = async (values: any, newDocId: any) => {
@@ -32,8 +24,5 @@ export const addProfileData = async (values: any, newDocId: any) => {
 };
 
 export const postInterviewDetails = async (data: any, companyId: any) => {
-  const docRef = await setDoc(
-    doc(db, DOCUMENTS.COMPANY_ROUNDS, companyId),
-    data
-  );
+  await setDoc(doc(db, DOCUMENTS.COMPANY_ROUNDS, companyId), data);
 };

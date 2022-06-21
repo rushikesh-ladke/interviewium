@@ -14,6 +14,12 @@ export const STATUS = {
   OFFER_REJECTED: 'OFFER_REJECTED',
 };
 
+export const OVER_ALL_STATUS = {
+  ONGOING_MAIN: 'ONGOING_MAIN',
+  COMPLETED_MAIN: 'COMPLETED_MAIN',
+  ON_HOLD_MAIN: 'ON_HOLD_MAIN',
+};
+
 export const ROUND_INFO = {
   round_1: {
     roundId: 'round_1',

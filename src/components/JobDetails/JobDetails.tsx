@@ -12,6 +12,8 @@ import { Button, Result } from 'antd';
 import { ROLES } from '../../constants/roles';
 import { postInterviewDetails } from './job-details-api';
 import useAuth from '../../hooks/useAuth';
+import { updateDocument } from '../../functions/updateDoc';
+import { arrayRemove } from 'firebase/firestore';
 
 export const JobDetails = () => {
   const [searchParams] = useSearchParams();
@@ -44,6 +46,9 @@ export const JobDetails = () => {
     const job = await getSingleDocument(searchParams.get('id'), DOCUMENTS.JOBS);
     if (job.loaded && job.error === null) {
       setJobData(job.data);
+      updateDocument(DOCUMENTS.JOBS, searchParams.get('id'), {
+        views: job.data.views + 1,
+      });
     } else {
       navigate(PATH.DASHBOARD);
     }
@@ -53,21 +58,34 @@ export const JobDetails = () => {
     const id: any = searchParams.get('id');
     if (userId) {
       if (role !== ROLES.HR && role !== ROLES.INTERVIEWER) {
+        updateDocument(DOCUMENTS.USERS, userId, {
+          applyJob: arrayRemove(id),
+        });
+        updateDocument(DOCUMENTS.JOBS, searchParams.get('id'), {
+          totalApplied: jobData.totalApplied + 1,
+        });
         setApply(true);
         postInterviewDetails({
-          HRid: jobData?.details?.HRid,
-          companyId: jobData?.companyId,
-          intervieweeId: userId,
-          jobId: id,
-          jobPost: jobData?.position,
+          HRDetails: {
+            ...jobData.HRDetails,
+            HRComments: '',
+          },
+          companyDetails: {
+            ...jobData.companyDetails,
+          },
           intervieweeDetails: {
-            name:
+            intervieweeName:
               auth.profile.profile.firstName +
               ' ' +
               auth.profile.profile.lastName,
-            email: auth.profile.email,
-            contact: auth.profile.profile.contact,
+            intervieweeEmail: auth.profile.email,
+            intervieweeContact: auth.profile.profile.contact,
           },
+          jobDetails: {
+            jobId: id,
+            jobPost: jobData?.position,
+          },
+          intervieweeId: userId,
         });
       }
     } else {

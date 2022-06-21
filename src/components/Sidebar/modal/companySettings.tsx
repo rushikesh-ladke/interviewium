@@ -19,7 +19,6 @@ import { getSingleDocument } from '../../../functions/getUserProfile';
 export const CompanySettings = (props: any) => {
   const ModalAntd: any = Modal;
   const { TabPane } = Tabs;
-  const userId = localStorage.getItem('uid');
   let profile: any = localStorage.getItem('_profile');
   profile = JSON.parse(profile);
 
@@ -41,7 +40,6 @@ export const CompanySettings = (props: any) => {
   }, []);
 
   const [form] = Form.useForm();
-  const { Option } = Select;
 
   // const onFinish = (values: any) => {
   //   console.log('Received values of form:', values);

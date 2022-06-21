@@ -6,8 +6,9 @@ import ProfileImg from '../../images/avatar.svg';
 import { query, collection, where, getDocs } from 'firebase/firestore';
 import { db } from '../../shared/firebase-config';
 import { DOCUMENTS } from '../../constants/firebase-docs';
-import { STATUS } from '../../constants/status';
+import { OVER_ALL_STATUS, STATUS } from '../../constants/status';
 import { updateStatus } from './ongoing-interview-api';
+import { PATH } from '../../constants/path';
 
 export const OngoingInterviews = () => {
   const { TabPane } = Tabs;
@@ -22,10 +23,11 @@ export const OngoingInterviews = () => {
   const getCandidateRequests = async () => {
     const companyId = profile.companyDetails.companyId;
     const q = query(
-      collection(db, DOCUMENTS.INTERVIEW),
+      collection(db, DOCUMENTS.INTERVIEWS),
       where('active', '==', true),
-      where('companyId', '==', companyId),
-      where('status', '==', STATUS.REQUEST)
+      where('companyDetails.companyId', '==', companyId),
+      where('status', '==', STATUS.REQUEST),
+      where('overAllStatus', '==', OVER_ALL_STATUS.ONGOING_MAIN)
     );
 
     const querySnapshot = await getDocs(q);
@@ -36,9 +38,11 @@ export const OngoingInterviews = () => {
       requests.push({
         ...data,
         ...data.intervieweeDetails,
+        ...data.jobDetails,
         id: doc.id,
       });
     });
+    console.log(requests);
     setCandidateRequests(requests);
   };
 
@@ -58,21 +62,55 @@ export const OngoingInterviews = () => {
       title: 'Job Position',
       dataIndex: 'jobPost',
       key: 'jobPost',
+      render: (_, record: any) => (
+        <a
+          href={`${window.location.origin}${PATH.JOB_DETAILS}?id=${record.jobDetails.jobId}`}
+          target='_blank'
+          rel='noreferrer'
+        >
+          {record?.jobDetails?.jobPost}
+        </a>
+      ),
     },
     {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
+      render: (_, record: any) => (
+        <strong>
+          <a
+            href={`${window.location.origin}${PATH.INTERVIEWEE_DETAILS}?id=${record.intervieweeId}`}
+            target='_blank'
+            rel='noreferrer'
+          >
+            {record?.intervieweeDetails?.intervieweeName}
+          </a>
+        </strong>
+      ),
     },
     {
       title: 'Email',
       dataIndex: 'email',
       key: 'email',
+      render: (_, record: any) => (
+        <a
+          href={`mailto:${record?.intervieweeDetails?.intervieweeEmail}`}
+          target='_blank'
+          rel='noreferrer'
+        >
+          {record?.intervieweeDetails?.intervieweeEmail}
+        </a>
+      ),
     },
     {
       title: 'Contact',
       dataIndex: 'contact',
       key: 'contact',
+      render: (_, record: any) => (
+        <a href={`tel:${record?.intervieweeDetails?.intervieweeContact}`}>
+          {record?.intervieweeDetails?.intervieweeContact}
+        </a>
+      ),
     },
     {
       title: 'Action',

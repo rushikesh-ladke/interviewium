@@ -12,6 +12,7 @@ import { DOCUMENTS } from '../../constants/firebase-docs';
 import { postUserDetailsOnSignUp } from '../../functions/postUserDetailsOnSignUp';
 import { ROLES } from '../../constants/roles';
 import { arrayUnion } from 'firebase/firestore';
+import { updateDocument } from '../../functions/updateDoc';
 
 interface LoginProps {
   title: string;
@@ -77,6 +78,9 @@ export const Login = ({ title, signInPage }: LoginProps) => {
       await getDataAndStoreToLocalStorage(user);
       notificationAlert.success(getUserName(user));
       await getProfileData(user.uid);
+      await updateDocument(DOCUMENTS.USERS, user.uid, {
+        applyJob: viewedJob ? arrayUnion(viewedJob) : [],
+      });
       navigate(PATH.DASHBOARD);
     } catch (error) {
       notificationAlert.error(error);
