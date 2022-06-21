@@ -10,16 +10,19 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import IntervieweeCard from './dnd/intervieweeCard';
 import AuditorCard from './dnd/auditorCard';
-import { assignHandler } from './assign-api';
 import { createInterviewRound } from '../../functions/createInterviewRound';
+import { AddComments } from './modal/addComments';
 
 export const Assign = () => {
   const [value, setValue] = React.useState(0);
-  const { auth } = useAuth();
   let profile: any = localStorage.getItem('_profile');
   profile = JSON.parse(profile);
   const [candidateAssign, setCandidateAssign] = React.useState<any>([]);
   const [auditorAssign, setAuditorAssign] = React.useState<any>([]);
+  const [addCommentsModal, setAddCommentsModal] = React.useState(false);
+  const [HRComment, setHRComment] = React.useState('');
+  const [interviewDetails, setInterviewDetails] = React.useState<any>();
+  const [auditor, setAuditor] = React.useState<any>();
 
   React.useEffect(() => {
     getCandidateToAssign();
@@ -78,11 +81,8 @@ export const Assign = () => {
     setValue(newValue);
   };
 
-  const getAllInassignterviewers = async (
-    interviewDetails: any,
-    auditor: any
-  ) => {
-    createInterviewRound({
+  const createRound = async () => {
+    await createInterviewRound({
       companyDetails: {
         ...interviewDetails.companyDetails,
       },
@@ -100,9 +100,16 @@ export const Assign = () => {
         auditorName: auditor.profile.firstName + ' ' + auditor.profile.lastName,
         auditorMeetingLink: auditor.links.meetingLink,
       },
+      HRComments: HRComment,
     });
-    // assignHandler(interviewDetails.id, autditorId);
-    // getCandidateToAssign();
+    // assignHandler(interviewDetails.id, auditor.id);
+    getCandidateToAssign();
+  };
+
+  const addCommentsModalHandler = (interviewDetails: any, auditor: any) => {
+    setAddCommentsModal(true);
+    setInterviewDetails(interviewDetails);
+    setAuditor(auditor);
   };
 
   return (
@@ -139,14 +146,23 @@ export const Assign = () => {
                 return (
                   <AuditorCard
                     e={e}
-                    dragAndDrop={getAllInassignterviewers}
+                    dragAndDrop={createRound}
                     index={index}
+                    commentsModal={addCommentsModalHandler}
                   />
                 );
               })}
           </div>
         </div>
       </DndProvider>
+      <AddComments
+        isModalVisible={addCommentsModal}
+        setIsModalVisible={setAddCommentsModal}
+        setHRComment={setHRComment}
+        onOk={() => {
+          createRound();
+        }}
+      />
     </div>
   );
 };

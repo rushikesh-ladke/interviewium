@@ -1,4 +1,11 @@
-import { addDoc, serverTimestamp, collection } from 'firebase/firestore';
+import {
+  addDoc,
+  serverTimestamp,
+  collection,
+  doc,
+  updateDoc,
+  arrayUnion,
+} from 'firebase/firestore';
 import { DOCUMENTS } from '../constants/firebase-docs';
 import { db } from '../shared/firebase-config';
 import { STATUS } from '../constants/status';
@@ -6,12 +13,11 @@ import { STATUS } from '../constants/status';
 export const createInterviewRound = async (data: any) => {
   const roundsData = {
     ...data,
-    HRComments: '',
     interviewerComments: '',
     intervieweeComments: '',
     status: STATUS.BOOKING,
     interviewerReview: '',
-    interviewerVerdit: '',
+    interviewerVerdict: '',
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
     interviewTimeAndDate: '',
@@ -21,4 +27,10 @@ export const createInterviewRound = async (data: any) => {
     ...roundsData,
   });
   console.log(round.id);
+
+  await updateDoc(doc(db, DOCUMENTS.INTERVIEWS, data.interviewId), {
+    roundIds: arrayUnion(round.id),
+    status: STATUS.ONGOING,
+    updatedAt: serverTimestamp(),
+  });
 };
