@@ -4,7 +4,7 @@ import { db } from '../../shared/firebase-config';
 
 export const updateStatus = async (data: any, id: any) => {
   await updateDoc(doc(db, DOCUMENTS.INTERVIEWS, id), {
-    status: data,
+    ...data,
     updatedAt: serverTimestamp(),
   });
 };

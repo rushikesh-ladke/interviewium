@@ -82,18 +82,23 @@ export const CompanySettings = (props: any) => {
   };
 
   const onFinish = (values: any) => {
-    let fieldValuesData = fieldValues.map((e: any) => {
+    let fieldValuesData = fieldValues.map((e: any, index: any) => {
       if (e.interview_type === values.interview_type) {
         return {
           ...e,
-          rounds: values.rounds,
+          rounds: values.rounds.map((e1: any, index: any) => {
+            return {
+              ...e1,
+              round: index + 1,
+            };
+          }),
         };
       } else {
         return e;
       }
     });
 
-    setFieldValues(fieldValues);
+    setFieldValues(fieldValuesData);
 
     const companyId = profile.companyDetails.companyId;
     let roundsData = JSON.stringify(fieldValuesData);
@@ -139,8 +144,9 @@ export const CompanySettings = (props: any) => {
                   <Form.List name='rounds'>
                     {(fields, { add, remove }) => (
                       <>
-                        {fields.map(field => (
+                        {fields.map((field, index) => (
                           <Space key={field.key} align='baseline'>
+                            <div>Round {index + 1}</div>
                             <Form.Item
                               noStyle
                               shouldUpdate={(prevValues, curValues) =>
@@ -151,7 +157,7 @@ export const CompanySettings = (props: any) => {
                               {() => (
                                 <Form.Item
                                   {...field}
-                                  label='roundInfo'
+                                  label='Round Info'
                                   name={[field.name, 'roundInfo']}
                                   rules={[
                                     {
@@ -166,7 +172,7 @@ export const CompanySettings = (props: any) => {
                             </Form.Item>
                             <Form.Item
                               {...field}
-                              label='roundType'
+                              label='Round Medium'
                               name={[field.name, 'roundType']}
                               rules={[
                                 {

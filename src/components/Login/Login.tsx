@@ -77,10 +77,10 @@ export const Login = ({ title, signInPage }: LoginProps) => {
       const { user }: any = signInData;
       await getDataAndStoreToLocalStorage(user);
       notificationAlert.success(getUserName(user));
-      await getProfileData(user.uid);
       await updateDocument(DOCUMENTS.USERS, user.uid, {
         applyJob: viewedJob ? arrayUnion(viewedJob) : [],
       });
+      await getProfileData(user.uid);
       navigate(PATH.DASHBOARD);
     } catch (error) {
       notificationAlert.error(error);

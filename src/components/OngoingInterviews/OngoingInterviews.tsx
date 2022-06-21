@@ -3,18 +3,22 @@ import type { ColumnsType } from 'antd/lib/table';
 import React, { useState, useEffect } from 'react';
 import styles from './styles.module.scss';
 import ProfileImg from '../../images/avatar.svg';
-import { query, collection, where, getDocs } from 'firebase/firestore';
+import { query, collection, where, getDocs, limit } from 'firebase/firestore';
 import { db } from '../../shared/firebase-config';
 import { DOCUMENTS } from '../../constants/firebase-docs';
 import { OVER_ALL_STATUS, STATUS } from '../../constants/status';
 import { updateStatus } from './ongoing-interview-api';
 import { PATH } from '../../constants/path';
+import { SelectInterviewType } from './modal/select-interview_type';
 
 export const OngoingInterviews = () => {
   const { TabPane } = Tabs;
   let profile: any = localStorage.getItem('_profile');
   profile = JSON.parse(profile);
   const [candidateRequests, setCandidateRequests] = useState<any>([]);
+  const [selectInterviewTypeModal, setSelectInterviewTypeModal] =
+    useState(false);
+  const [candidateViewed, setCandidateViewed] = useState();
 
   useEffect(() => {
     getCandidateRequests();
@@ -27,7 +31,8 @@ export const OngoingInterviews = () => {
       where('active', '==', true),
       where('companyDetails.companyId', '==', companyId),
       where('status', '==', STATUS.REQUEST),
-      where('overAllStatus', '==', OVER_ALL_STATUS.ONGOING_MAIN)
+      where('overAllStatus', '==', OVER_ALL_STATUS.ONGOING_MAIN),
+      limit(5)
     );
 
     const querySnapshot = await getDocs(q);
@@ -37,8 +42,6 @@ export const OngoingInterviews = () => {
       const data = doc.data();
       requests.push({
         ...data,
-        ...data.intervieweeDetails,
-        ...data.jobDetails,
         id: doc.id,
       });
     });
@@ -46,12 +49,14 @@ export const OngoingInterviews = () => {
     setCandidateRequests(requests);
   };
 
-  const confirmAccept: any = (id: any) => {
-    updateStatus(STATUS.ASSIGN, id);
-    getCandidateRequests();
-  };
   const confirmReject: any = (id: any) => {
-    updateStatus(STATUS.REJECTED, id);
+    const rejectedInterviewData = {
+      status: STATUS.REJECTED,
+      HRComments:
+        'Sorry, we cannot Accept the your Application as of now. Thank you for applying',
+      overAllStatus: OVER_ALL_STATUS.COMPLETED_MAIN,
+    };
+    updateStatus(rejectedInterviewData, id);
     getCandidateRequests();
   };
 
@@ -117,16 +122,16 @@ export const OngoingInterviews = () => {
       key: 'action',
       render: (_, record: any) => (
         <Space size='middle'>
-          <Popconfirm
-            title='Accept The Candidate?'
-            onConfirm={() => confirmAccept(record.id)}
-            onCancel={cancel}
-            okText='Yes'
-            cancelText='No'
+          <Button
+            type='primary'
+            onClick={() => {
+              setSelectInterviewTypeModal(true);
+              setCandidateViewed(record);
+            }}
           >
             {' '}
-            <Button type='primary'> Accept</Button>
-          </Popconfirm>
+            Accept
+          </Button>
           <Popconfirm
             title='Reject The Candidate?'
             onConfirm={() => confirmReject(record.id)}
@@ -217,6 +222,14 @@ export const OngoingInterviews = () => {
             </TabPane>
           </Tabs>
         </div>
+        {selectInterviewTypeModal && (
+          <SelectInterviewType
+            isModalVisible={selectInterviewTypeModal}
+            setIsModalVisible={setSelectInterviewTypeModal}
+            candidateViewed={candidateViewed}
+            getCandidateRequests={getCandidateRequests}
+          />
+        )}
       </div>
     </>
   );

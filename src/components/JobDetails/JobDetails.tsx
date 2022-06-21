@@ -68,7 +68,6 @@ export const JobDetails = () => {
         postInterviewDetails({
           HRDetails: {
             ...jobData.HRDetails,
-            HRComments: '',
           },
           companyDetails: {
             ...jobData.companyDetails,
