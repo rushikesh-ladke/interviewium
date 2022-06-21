@@ -3,23 +3,26 @@ import styles from './styles.module.scss';
 import Tabs, { tabsClasses } from '@mui/material/Tabs';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { DOCUMENTS } from '../../constants/firebase-docs';
-import { STATUS } from '../../constants/status';
+import { OVER_ALL_STATUS, STATUS } from '../../constants/status';
 import useAuth from '../../hooks/useAuth';
 import { db } from '../../shared/firebase-config';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import IntervieweeCard from './dnd/intervieweeCard';
 import AuditorCard from './dnd/auditorCard';
-import { assignHandler } from './assign-api';
 import { createInterviewRound } from '../../functions/createInterviewRound';
+import { AddComments } from './modal/addComments';
 
 export const Assign = () => {
   const [value, setValue] = React.useState(0);
-  const { auth } = useAuth();
   let profile: any = localStorage.getItem('_profile');
   profile = JSON.parse(profile);
   const [candidateAssign, setCandidateAssign] = React.useState<any>([]);
   const [auditorAssign, setAuditorAssign] = React.useState<any>([]);
+  const [addCommentsModal, setAddCommentsModal] = React.useState(false);
+  const [HRComment, setHRComment] = React.useState('');
+  const [interviewDetails, setInterviewDetails] = React.useState<any>();
+  const [auditor, setAuditor] = React.useState<any>();
 
   React.useEffect(() => {
     getCandidateToAssign();
@@ -31,8 +34,9 @@ export const Assign = () => {
     const q = query(
       collection(db, DOCUMENTS.INTERVIEWS),
       where('active', '==', true),
-      where('companyId', '==', companyID),
-      where('status', '==', STATUS.ASSIGN)
+      where('companyDetails.companyId', '==', companyID),
+      where('status', '==', STATUS.ASSIGN),
+      where('overAllStatus', '==', OVER_ALL_STATUS.ONGOING_MAIN)
     );
 
     const querySnapshot = await getDocs(q);
@@ -42,10 +46,10 @@ export const Assign = () => {
       const data = doc.data();
       requests.push({
         ...data,
-        ...data.intervieweeDetails,
         id: doc.id,
       });
     });
+    console.log(requests, 'setCandidateAssign');
     setCandidateAssign(requests);
   };
 
@@ -54,6 +58,7 @@ export const Assign = () => {
     const q = query(
       collection(db, DOCUMENTS.USERS),
       where('active', '==', true),
+      where('ON_BOARDED', '==', true),
       where('companyDetails.companyId', '==', companyID)
     );
 
@@ -68,6 +73,7 @@ export const Assign = () => {
         id: doc.id,
       });
     });
+    console.log(requests, 'setAuditorAssign');
     setAuditorAssign(requests);
   };
 
@@ -75,18 +81,35 @@ export const Assign = () => {
     setValue(newValue);
   };
 
-  const getAllInassignterviewers = async (
-    interviewDetails: any,
-    autditorId: any
-  ) => {
-    const auditorProfile = await createInterviewRound({
-      auditorId: autditorId,
-      intervieweeId: interviewDetails.intervieweeId,
-      jobId: interviewDetails.jobId,
-      HRid: interviewDetails.HRid,
+  const createRound = async () => {
+    await createInterviewRound({
+      companyDetails: {
+        ...interviewDetails.companyDetails,
+      },
+      intervieweeDetails: {
+        ...interviewDetails.intervieweeDetails,
+        id: interviewDetails.intervieweeId,
+      },
+      jobDetails: {
+        ...interviewDetails.jobDetails,
+      },
+      interviewId: interviewDetails.id,
+      auditorDetails: {
+        auditorEmail: auditor.email,
+        auditorId: auditor.id,
+        auditorName: auditor.profile.firstName + ' ' + auditor.profile.lastName,
+        auditorMeetingLink: auditor.links.meetingLink,
+      },
+      HRComments: HRComment,
     });
-    assignHandler(interviewDetails.id, autditorId);
+    // assignHandler(interviewDetails.id, auditor.id);
     getCandidateToAssign();
+  };
+
+  const addCommentsModalHandler = (interviewDetails: any, auditor: any) => {
+    setAddCommentsModal(true);
+    setInterviewDetails(interviewDetails);
+    setAuditor(auditor);
   };
 
   return (
@@ -123,14 +146,23 @@ export const Assign = () => {
                 return (
                   <AuditorCard
                     e={e}
-                    dragAndDrop={getAllInassignterviewers}
+                    dragAndDrop={createRound}
                     index={index}
+                    commentsModal={addCommentsModalHandler}
                   />
                 );
               })}
           </div>
         </div>
       </DndProvider>
+      <AddComments
+        isModalVisible={addCommentsModal}
+        setIsModalVisible={setAddCommentsModal}
+        setHRComment={setHRComment}
+        onOk={() => {
+          createRound();
+        }}
+      />
     </div>
   );
 };

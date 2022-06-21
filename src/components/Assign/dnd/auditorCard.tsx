@@ -8,7 +8,7 @@ const AuditorCard = (props: any) => {
   const [{ canDrop, isOver }, drop] = useDrop(() => ({
     accept: 'interviewee',
     drop: (monitor: any) => {
-      props.dragAndDrop(monitor.itemID.e, props.e.id);
+      props.commentsModal(monitor.itemID.e, props.e);
     },
     collect: monitor => ({
       isOver: monitor.isOver(),
