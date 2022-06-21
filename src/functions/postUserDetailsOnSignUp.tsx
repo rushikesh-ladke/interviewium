@@ -16,5 +16,5 @@ export const postUserDetailsOnSignUp = async (
     ...values,
   };
 
-  const newUser = await setDoc(doc(db, DOCUMENTS.USERS, userId), userData);
+  await setDoc(doc(db, DOCUMENTS.USERS, userId), userData);
 };
