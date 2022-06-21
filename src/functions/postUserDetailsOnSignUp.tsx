@@ -6,7 +6,7 @@ export const postUserDetailsOnSignUp = async (
   userId: any,
   email: any,
   role: any,
-  values: any
+  values?: any
 ) => {
   const userData = {
     email,
@@ -16,6 +16,5 @@ export const postUserDetailsOnSignUp = async (
     ...values,
   };
 
-  const newUser = await setDoc(doc(db, DOCUMENTS.USERS, userId), userData);
-  console.log(newUser);
+  await setDoc(doc(db, DOCUMENTS.USERS, userId), userData);
 };

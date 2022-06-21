@@ -1,35 +1,74 @@
-import { Button, Form, Input, Modal, Radio, InputNumber, Checkbox } from 'antd';
+import {
+  Button,
+  Form,
+  Input,
+  Modal,
+  Radio,
+  InputNumber,
+  Checkbox,
+  Slider,
+  Select,
+} from 'antd';
+import { SliderMarks } from 'antd/lib/slider';
 import { serverTimestamp } from 'firebase/firestore';
 import { useState, useEffect } from 'react';
-import { createUpdateJob } from '../jobs-api';
+import useAuth from '../../../hooks/useAuth';
+import { createUpdateJob, updateJob } from '../jobs-api';
 import styles from '../styles.module.scss';
 
-export const CreateJob = ({ isModalVisible, handleOk, handleCancel }: any) => {
-  const ModalAntd: any = Modal;
+export const CreateJob = ({
+  isModalVisible,
+  handleOk,
+  handleCancel,
+  data,
+  getData,
+}: any) => {
   const [form] = Form.useForm();
+  const ModalAntd: any = Modal;
 
   const userID: any = localStorage.getItem('uid');
 
+  const { auth } = useAuth();
+  const { Option } = Select;
+
   const [HREmail, setHREmail] = useState('');
   const [companyName, setCompanyName] = useState('');
-  const [addSalaryData, setAddSalaryData] = useState(false);
-
+  const [addSalaryData, setAddSalaryData] = useState(
+    data && data.salary !== '-' ? true : false
+  );
+  const [minExp, setMinExp] = useState(data ? data.minExp : 0);
+  const [maxExp, setMaxExp] = useState(data ? data.maxExp : 1);
+  const [currency] = useState('₹');
   useEffect(() => {
     getUserDetails();
   }, []);
-
   const onFinish = (values: any) => {
-    const data = {
-      ...values,
-      companyName: companyName,
-      HREmail: HREmail,
-      HRid: userID,
-      currency: '₹',
-      createdAt: serverTimestamp(),
-      updatedAt: serverTimestamp(),
-    };
-    createUpdateJob(data);
+    console.log(values);
+    if (data && data.id) {
+      const createJob = {
+        ...values,
+        currency: currency,
+        minExp: minExp,
+        maxExp: maxExp,
+      };
+      updateJob(createJob, data.id);
+    } else {
+      const createJob = {
+        ...values,
+        companyName: companyName,
+        companyId: auth.profile.companyDetails.companyId,
+        HREmail: HREmail,
+        HRid: userID,
+        currency: currency,
+        minExp: minExp,
+        maxExp: maxExp,
+        createdAt: serverTimestamp(),
+      };
+      createUpdateJob(createJob);
+    }
     form.resetFields();
+    getData();
+    handleCancel();
   };
   const getUserDetails = () => {
     const userDetails: any = localStorage.getItem('user');
@@ -43,9 +82,9 @@ export const CreateJob = ({ isModalVisible, handleOk, handleCancel }: any) => {
     setCompanyName('Interviewium');
   };
 
-  const selectAfter = <div>₹</div>;
-  const selectBefore = <div>~</div>;
-
+  const marks: SliderMarks = {
+    0: 'Fresher',
+  };
   return (
     <>
       <ModalAntd
@@ -54,7 +93,6 @@ export const CreateJob = ({ isModalVisible, handleOk, handleCancel }: any) => {
         onOk={() => handleOk()}
         onCancel={() => handleCancel()}
         className={styles.modalAnt}
-        bodyStyle={{ innerHeight: 1000 }}
         key={'create_job'}
       >
         <h6>
@@ -79,38 +117,60 @@ export const CreateJob = ({ isModalVisible, handleOk, handleCancel }: any) => {
                 },
               ]}
               hasFeedback
+              initialValue={data ? data.position : ''}
             >
               <Input
                 className={styles.form_control}
                 placeholder='Software Developer'
               />
             </Form.Item>
-            <div className='d-flex justify-content-between'>
-              <div>
+            <div className='d-flex '>
+              <div className='p-3'>
                 {' '}
                 <label className='form-label'>Min Experience*</label>
-                <Form.Item
-                  name='minExp'
-                  rules={[
-                    { required: true, message: 'Please input Min Experience' },
-                  ]}
-                >
-                  <InputNumber addonBefore={selectBefore} placeholder='0' />
+                <Form.Item name='minExp'>
+                  {' '}
+                  <Slider
+                    marks={marks}
+                    defaultValue={minExp}
+                    min={0}
+                    max={25}
+                    onChange={(value: any) => {
+                      setMinExp(value);
+                    }}
+                  />
                 </Form.Item>
               </div>
-              <div>
+              <div className='p-3'>
                 <label className='form-label'>Max Experience*</label>
-                <Form.Item
-                  name='maxExp'
-                  rules={[
-                    { required: true, message: 'Please input Max Experience' },
-                  ]}
-                >
-                  <InputNumber addonBefore={selectBefore} placeholder='1' />
+                <Form.Item name='maxExp'>
+                  {' '}
+                  <Slider
+                    marks={marks}
+                    defaultValue={maxExp}
+                    min={0}
+                    max={25}
+                    onChange={(value: any) => {
+                      setMaxExp(value);
+                    }}
+                  />
                 </Form.Item>
               </div>
             </div>
-            <Form.Item label='Job Type' name='jobType'>
+            <label className='form-label'>Number of Candidates Required</label>
+            <Form.Item
+              name='totalHiresRequired'
+              initialValue={
+                data && data.totalHiresRequired ? data.totalHiresRequired : ''
+              }
+            >
+              <InputNumber style={{ width: 150 }} />
+            </Form.Item>
+            <Form.Item
+              label='Job Type'
+              name='jobType'
+              initialValue={data ? data.jobType : ''}
+            >
               <Radio.Group>
                 <Radio.Button value='Full-time'>Full-time</Radio.Button>
                 <Radio.Button value='Part-time'>Part-time</Radio.Button>
@@ -118,7 +178,11 @@ export const CreateJob = ({ isModalVisible, handleOk, handleCancel }: any) => {
                 <Radio.Button value='Internship'>Internship</Radio.Button>
               </Radio.Group>
             </Form.Item>
-            <Form.Item label='Workspace Type' name='workspaceType'>
+            <Form.Item
+              label='Workspace Type'
+              name='workspaceType'
+              initialValue={data ? data.workspaceType : ''}
+            >
               <Radio.Group>
                 <Radio.Button value='Office'>Office</Radio.Button>
                 <Radio.Button value='Hybrid'>Hybrid</Radio.Button>
@@ -140,6 +204,7 @@ export const CreateJob = ({ isModalVisible, handleOk, handleCancel }: any) => {
                 },
               ]}
               hasFeedback
+              initialValue={data ? data.location : ''}
             >
               <Input
                 className={styles.form_control}
@@ -160,6 +225,7 @@ export const CreateJob = ({ isModalVisible, handleOk, handleCancel }: any) => {
                 },
               ]}
               hasFeedback
+              initialValue={data ? data.department : ''}
             >
               <Input
                 className={styles.form_control}
@@ -179,22 +245,35 @@ export const CreateJob = ({ isModalVisible, handleOk, handleCancel }: any) => {
             {addSalaryData && (
               <div className={styles.salaryblock}>
                 <label className='form-label'>Salary</label>
-                <Form.Item name='salary'>
-                  <InputNumber addonAfter={selectAfter} placeholder='350000' />
+                <Form.Item
+                  name='salary'
+                  style={{ padding: '0px 10px' }}
+                  initialValue={data && data.salary ? data.salary : ''}
+                >
+                  <InputNumber
+                    formatter={value =>
+                      `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                    }
+                    style={{ width: 150 }}
+                  />
                 </Form.Item>
                 <Form.Item
                   name='tenure'
                   rules={[
                     {
                       required: addSalaryData ? true : false,
-                      message: addSalaryData
-                        ? 'Please input your Office Department'
-                        : '',
+                      message: addSalaryData ? 'Please Select tenure' : '',
                     },
                   ]}
                   hasFeedback
+                  initialValue={data && data.tenure}
                 >
-                  <Input placeholder='per year' />
+                  <Select style={{ width: 120 }}>
+                    <Option value='/year'>/year</Option>
+                    <Option value='/month'>/month</Option>
+                    <Option value='/day'>/day</Option>
+                    <Option value='/hour'>/hour</Option>
+                  </Select>
                 </Form.Item>
               </div>
             )}
@@ -212,16 +291,20 @@ export const CreateJob = ({ isModalVisible, handleOk, handleCancel }: any) => {
                 },
               ]}
               hasFeedback
+              initialValue={data && data.description ? data.description : ''}
             >
               <Input.TextArea />
             </Form.Item>{' '}
             <label className='form-label'>About the Job*</label>
-            <Form.Item name='aboutJob'>
+            <Form.Item
+              name='aboutJob'
+              initialValue={data && data.aboutJob ? data.aboutJob : ''}
+            >
               <Input.TextArea />
             </Form.Item>
             <Form.Item>
               <Button className={styles.signBtn} htmlType='submit'>
-                Create Job
+                {data === null ? `Create Job` : 'Update Job'}
               </Button>
             </Form.Item>
           </Form>

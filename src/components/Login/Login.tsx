@@ -9,6 +9,10 @@ import { saveToLocalStorage } from '../../shared/util';
 import useAuth from '../../hooks/useAuth';
 import { getSingleDocument } from '../../functions/getUserProfile';
 import { DOCUMENTS } from '../../constants/firebase-docs';
+import { postUserDetailsOnSignUp } from '../../functions/postUserDetailsOnSignUp';
+import { ROLES } from '../../constants/roles';
+import { arrayUnion } from 'firebase/firestore';
+import { updateDocument } from '../../functions/updateDoc';
 
 interface LoginProps {
   title: string;
@@ -19,8 +23,9 @@ export const Login = ({ title, signInPage }: LoginProps) => {
   const navigate = useNavigate();
   const { auth, setAuth }: any = useAuth();
 
+  const viewedJob: any = localStorage.getItem('_application');
+
   const getDataAndStoreToLocalStorage = async (user: any) => {
-    console.log(user);
     const userData: any = await checkUserExist(user.uid); //check if user exists in the DB
 
     const save = {
@@ -73,6 +78,9 @@ export const Login = ({ title, signInPage }: LoginProps) => {
       await getDataAndStoreToLocalStorage(user);
       notificationAlert.success(getUserName(user));
       await getProfileData(user.uid);
+      await updateDocument(DOCUMENTS.USERS, user.uid, {
+        applyJob: viewedJob ? arrayUnion(viewedJob) : [],
+      });
       navigate(PATH.DASHBOARD);
     } catch (error) {
       notificationAlert.error(error);
@@ -86,6 +94,9 @@ export const Login = ({ title, signInPage }: LoginProps) => {
         const { user }: any = signInData;
         await getDataAndStoreToLocalStorage(user);
         notificationAlert.success(getUserName(user));
+        postUserDetailsOnSignUp(user.uid, user.email, ROLES.HR, {
+          applyJob: viewedJob ? arrayUnion(viewedJob) : [],
+        });
         await getProfileData(user.uid);
         navigate(PATH.DASHBOARD);
       }
@@ -101,6 +112,9 @@ export const Login = ({ title, signInPage }: LoginProps) => {
       const { user }: any = signInData;
       await getDataAndStoreToLocalStorage(user);
       notificationAlert.success(getUserName(user));
+      postUserDetailsOnSignUp(user.uid, user.email, ROLES.HR, {
+        applyJob: viewedJob ? arrayUnion(viewedJob) : [],
+      });
       navigate(PATH.SELECT_ROLE);
     } catch (error) {
       notificationAlert.error(error);
@@ -123,6 +137,7 @@ export const Login = ({ title, signInPage }: LoginProps) => {
         ...auth,
         profile: profile?.data,
       });
+      localStorage.setItem('_profile', JSON.stringify(profile?.data));
     } else {
       navigate(PATH.LOGIN);
     }

@@ -16,24 +16,50 @@ import { Feedback } from './modal/feedback';
 import { Logout } from './modal/logout';
 import { InitialProfileData } from './modal/initialProfile';
 import useAuth from '../../hooks/useAuth';
+import { DOCUMENTS } from '../../constants/firebase-docs';
+import { getSingleDocument } from '../../functions/getUserProfile';
+import { Badge } from 'antd';
+import { ApplyJobModal } from './modal/applyJob';
+import { CompanySettings } from './modal/companySettings';
 
 export const Sidebar = () => {
   let location = useLocation();
   const navigate = useNavigate();
   const userRole: any = localStorage.getItem('role');
-  const { auth }: any = useAuth();
+  const userId: any = localStorage.getItem('uid');
+  const { auth, setAuth }: any = useAuth();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [logoutModalVisible, setLogoutModalVisible] = useState(false);
   const [initialProfileModalVisible, setInitialProfileModalVisible] =
     useState(false);
+  const [applyJobModal, setApplyJobModal] = useState(false);
+  const [companySettings, setCompanySettings] = useState(false);
 
   useEffect(() => {
-    checkProfileFullfilled();
+    if (Object.keys(auth.profile).length === 0) {
+      getProfileData(userId);
+    } else {
+      checkProfileFulfilled(auth.profile);
+    }
   }, []);
 
-  const checkProfileFullfilled = () => {
-    if (auth.profile.ON_BOARDED === false) setInitialProfileModalVisible(true);
+  const getProfileData = async (id: any) => {
+    const profile = await getSingleDocument(id, DOCUMENTS.USERS);
+    if (profile.loaded && profile.error === null) {
+      setAuth({
+        ...auth,
+        profile: profile?.data,
+      });
+      localStorage.setItem('_profile', JSON.stringify(profile?.data));
+      checkProfileFulfilled(profile?.data);
+    } else {
+      navigate(PATH.LOGIN);
+    }
+  };
+
+  const checkProfileFulfilled = (data: any) => {
+    if (data.ON_BOARDED === false) setInitialProfileModalVisible(true);
   };
 
   const showModal = (handler: any, param: any) => {
@@ -113,8 +139,7 @@ export const Sidebar = () => {
                     onClick={() => navigate(PATH.ONGOING)}
                   >
                     <ListAltOutlinedIcon className={styles.icons} />
-                    Ongoing
-                    <br /> Interviews
+                    Interviews
                   </li>
                   <li
                     className={`col-6 ${
@@ -149,7 +174,7 @@ export const Sidebar = () => {
                       location?.pathname === PATH.APPLICATION
                         ? styles.active
                         : null
-                    }}`}
+                    } `}
                     onClick={() => navigate(PATH.APPLICATION)}
                   >
                     <WorkOutlineOutlinedIcon className={styles.icons} />
@@ -167,6 +192,23 @@ export const Sidebar = () => {
                   >
                     <AssignmentIndOutlinedIcon className={styles.icons} />
                     Feedback
+                  </li>
+                  <li
+                    className={`col-6 ${
+                      location?.pathname === PATH.JOBS ? styles.active : null
+                    }`}
+                    onClick={() => setApplyJobModal(true)}
+                  >
+                    <Badge
+                      count={
+                        auth?.profile?.applyJob
+                          ? auth?.profile?.applyJob.length
+                          : null
+                      }
+                    >
+                      <WorkOutlineOutlinedIcon className={styles.icons} />
+                    </Badge>
+                    Apply
                   </li>
                 </div>
               </>
@@ -235,7 +277,7 @@ export const Sidebar = () => {
             </div>
 
             <div className='d-flex'>
-              <li className={`col-6 `}>
+              <li className={`col-6 `} onClick={() => setCompanySettings(true)}>
                 <SettingsApplicationsIcon
                   className={styles.icons}
                   // TODO:secondary profile info
@@ -284,6 +326,24 @@ export const Sidebar = () => {
           isModalVisible={initialProfileModalVisible}
           saveProfileDataHandler={saveProfileDataHandler}
         />
+        <ApplyJobModal
+          isModalVisible={applyJobModal}
+          setIsModalVisible={setApplyJobModal}
+          handleCancel={() => {
+            showModal(setApplyJobModal, applyJobModal);
+          }}
+          jobId={auth?.profile?.applyJob ? auth?.profile?.applyJob : []}
+        />
+        {auth.profile.companyDetails && (
+          <CompanySettings
+            isModalVisible={companySettings}
+            handleOk={() => setCompanySettings(false)}
+            handleCancel={() => {
+              showModal(setCompanySettings, companySettings);
+            }}
+            setIsModalVisible={setCompanySettings}
+          />
+        )}
         {/* all Modals end*/}
       </div>
     </div>

@@ -36,6 +36,6 @@ export const checkUserExist = async (userId: any) => {
   if (userData.exists()) {
     return userData.data();
   } else {
-    console.log('No such document!');
+    console.error('No such document!');
   }
 };

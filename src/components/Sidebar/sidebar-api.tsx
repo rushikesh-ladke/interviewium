@@ -1,4 +1,5 @@
-import { doc, serverTimestamp, updateDoc } from 'firebase/firestore';
+import { doc, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore';
+import { DOCUMENTS } from '../../constants/firebase-docs';
 import { db } from '../../shared/firebase-config';
 
 export const addProfileData = async (values: any, newDocId: any) => {
@@ -12,6 +13,7 @@ export const addProfileData = async (values: any, newDocId: any) => {
     },
     links: {
       linkedin: values.linkedinURL,
+      meetingLink: values.meetingLink ? values.meetingLink : '',
     },
     currentPosition: values.position,
     ON_BOARDED: true,
@@ -19,4 +21,8 @@ export const addProfileData = async (values: any, newDocId: any) => {
     updatedAt: serverTimestamp(),
   });
   return;
+};
+
+export const postInterviewDetails = async (data: any, companyId: any) => {
+  await setDoc(doc(db, DOCUMENTS.COMPANY_ROUNDS, companyId), data);
 };

@@ -5,15 +5,27 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import AvTimerIcon from '@mui/icons-material/AvTimer';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import G_Logo from '../../images/company.png';
-import { Badge, Tag, Segmented, Popover, Button } from 'antd';
+import {
+  Badge,
+  Tag,
+  Segmented,
+  Popover,
+  Button,
+  Popconfirm,
+  Tooltip,
+} from 'antd';
 import { CreateJob } from './modal/createJob';
 import { collection, getDocs, orderBy, query, where } from 'firebase/firestore';
 import { db } from '../../shared/firebase-config';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import { PATH } from '../../constants/path';
+import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
+import FunctionsIcon from '@mui/icons-material/Functions';
+import { updateJob } from './jobs-api';
+import AutoFixOffIcon from '@mui/icons-material/AutoFixOff';
+import CheckIcon from '@mui/icons-material/Check';
 
 export const Jobs = () => {
   const userID: any = localStorage.getItem('uid');
@@ -22,11 +34,13 @@ export const Jobs = () => {
   const [jobsData, setJobsData] = useState([]);
   const [jobDetails, setjobDetails] = useState<any>(null);
   const [sortValue, setSortValue] = useState<string | number>('Asc');
-  const [showSort, setShowSort] = useState(true);
+  const [showSort] = useState(true);
   const [fixedFilter, setFixedFilter] = useState('');
   const [search, setSearch] = useState('');
+  const [editJob, seteditJob] = useState<any>();
+
   useEffect(() => {
-    getJobsData({ field: 'details.updatedAt', value: 'asc' }, 'plain');
+    getJobsData({ field: 'createdAt', value: 'asc' }, 'plain');
   }, []);
 
   const fixedFilters = [
@@ -56,8 +70,8 @@ export const Jobs = () => {
       setFixedFilter('');
       q = query(
         collection(db, 'jobs'),
-        where('active', '==', true),
-        where('details.HRid', '==', userID),
+        where('disabled', '==', false),
+        where('HRDetails.HRid', '==', userID),
         orderBy(order.field, order.value)
       );
     } else if (reqQuery === 'withoutOrder') {
@@ -65,8 +79,8 @@ export const Jobs = () => {
       if (order.field === 'position' && order.value === '') return;
       q = query(
         collection(db, 'jobs'),
-        where('active', '==', true),
-        where('details.HRid', '==', userID),
+        where('disabled', '==', false),
+        where('HRDetails.HRid', '==', userID),
         where(order.field, '==', order.value)
       );
     }
@@ -75,7 +89,6 @@ export const Jobs = () => {
       snapshot.forEach((doc: any) => {
         jobs.push({ ...doc.data(), id: doc.id });
       });
-      console.log(jobs);
       setJobsData(jobs);
       if (jobs.length > 0) {
         setjobDetails(jobs[0]);
@@ -87,12 +100,23 @@ export const Jobs = () => {
     setIsModalVisible(!isModalVisible);
   };
 
-  const handleOk = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
+  const publishJob = (value: any, field: any) => {
+    if (field === 'published') {
+      updateJob(
+        {
+          published: value,
+        },
+        jobDetails.id
+      );
+    } else if (field === 'disabled') {
+      updateJob(
+        {
+          disabled: value,
+        },
+        jobDetails.id
+      );
+    }
+    getJobsData({ field: 'createdAt', value: 'asc' }, 'plain');
   };
 
   const content = (jobId: any) => {
@@ -102,7 +126,7 @@ export const Jobs = () => {
           type='dashed'
           onClick={() => {
             navigator.clipboard.writeText(
-              window.location.origin + `/jobprofile?id=${jobId}`
+              window.location.origin + `${PATH.JOB_DETAILS}?id=${jobId}`
             );
           }}
         >
@@ -111,15 +135,21 @@ export const Jobs = () => {
       </div>
     );
   };
-
   return (
     <div className={`${styles.appMain}`}>
       <div className={styles.appBody}>
-        <CreateJob
-          isModalVisible={isModalVisible}
-          handleOk={handleOk}
-          handleCancel={handleCancel}
-        />
+        {isModalVisible && (
+          <CreateJob
+            isModalVisible={isModalVisible}
+            handleOk={showModal}
+            handleCancel={showModal}
+            data={editJob}
+            getData={() =>
+              getJobsData({ field: 'createdAt', value: 'asc' }, 'plain')
+            }
+          />
+        )}
+
         <div className={styles.dataBody}>
           <div className='row'>
             <div className='col-lg-8'>
@@ -155,7 +185,7 @@ export const Jobs = () => {
                       className={`${styles.filtericon}`}
                       onClick={() => {
                         getJobsData(
-                          { field: 'details.updatedAt', value: 'asc' },
+                          { field: 'createdAt', value: 'asc' },
                           'plain'
                         );
                         setSearch('');
@@ -191,10 +221,7 @@ export const Jobs = () => {
                   <div
                     className={styles.cresult}
                     onClick={() =>
-                      getJobsData(
-                        { field: 'details.updatedAt', value: 'asc' },
-                        'plain'
-                      )
+                      getJobsData({ field: 'createdAt', value: 'asc' }, 'plain')
                     }
                   >
                     <p>Clear filters</p>
@@ -217,7 +244,7 @@ export const Jobs = () => {
                             value = 'asc';
                           }
                           getJobsData(
-                            { field: 'details.updatedAt', value: value },
+                            { field: 'createdAt', value: value },
                             'plain'
                           );
                         }}
@@ -227,7 +254,10 @@ export const Jobs = () => {
                   <div className={styles.twoBtn}>
                     <button
                       className={styles.NewBtn}
-                      onClick={() => showModal()}
+                      onClick={() => {
+                        showModal();
+                        seteditJob(null);
+                      }}
                     >
                       <AddOutlinedIcon className={styles.AddIcon} />
                       New
@@ -261,9 +291,16 @@ export const Jobs = () => {
                             </div>
                             <div className='col-lg-8 ps-4'>
                               <div className={styles.companyI}>
-                                <h4>{e.companyName}</h4>
+                                <h4>
+                                  {e?.companyDetails?.companyName}{' '}
+                                  {e.published ? (
+                                    <Tooltip title='Published'>
+                                      <CheckIcon color='success' />
+                                    </Tooltip>
+                                  ) : null}
+                                </h4>
                                 <h6>
-                                  {e.position}, {e.companyName}
+                                  {e.position}, {e?.companyDetails?.companyName}
                                 </h6>
                                 <div className='d-flex'>
                                   <div className={styles.Locate}>
@@ -278,7 +315,12 @@ export const Jobs = () => {
                                   </div>
                                   <div className={`${styles.Locate} ms-3`}>
                                     <AvTimerIcon className={styles.icon} />
-                                    &nbsp;{e.minExp} - {e.maxExp} Expericence
+                                    &nbsp;{e.minExp} - {e.maxExp} Experience
+                                  </div>
+                                  <div className={`${styles.Locate} ms-3`}>
+                                    <FunctionsIcon className={styles.icon} />
+                                    &nbsp; {e.totalHiresRequired} Open Position
+                                    {e.totalHiresRequired > 1 ? 's' : ''}
                                   </div>
                                 </div>
                                 <div className={styles.dot}>
@@ -300,8 +342,21 @@ export const Jobs = () => {
                             <div className='col-lg-3'>
                               <div className={styles.info}>
                                 <div className={styles.infoI}>
-                                  <BookmarkBorderOutlinedIcon
+                                  <Popconfirm
+                                    title='Delete? Permanently Delete Job?'
+                                    okText='Delete'
+                                    onConfirm={() =>
+                                      publishJob(true, 'disabled')
+                                    }
+                                  >
+                                    <AutoFixOffIcon className={styles.icon} />
+                                  </Popconfirm>
+                                  <AutoFixHighIcon
                                     className={styles.icon}
+                                    onClick={() => {
+                                      seteditJob(e);
+                                      setIsModalVisible(true);
+                                    }}
                                   />
                                   <Popover content={() => content(e.id)}>
                                     <InfoOutlinedIcon className={styles.icon} />
@@ -310,13 +365,15 @@ export const Jobs = () => {
                                 <div className={styles.infoDetail}>
                                   <p>Team</p>
                                   <h6>{e.department}</h6>
-                                  <h6 className={styles.package}>
-                                    <strong>
-                                      {e.salary?.currency}
-                                      {e.salary?.salary}
-                                    </strong>{' '}
-                                    / {e.salary?.tenure}
-                                  </h6>
+                                  {e.salary !== '-' && (
+                                    <h6 className={styles.package}>
+                                      <strong>
+                                        {e.currency}
+                                        {e.salary}
+                                      </strong>{' '}
+                                      {e.tenure}
+                                    </h6>
+                                  )}
                                 </div>
                               </div>
                             </div>
@@ -338,10 +395,11 @@ export const Jobs = () => {
                       <h6>
                         {jobDetails?.position},
                         <br />
-                        {jobDetails?.companyName}
+                        {jobDetails?.companyDetails?.companyName}
                       </h6>
                       <p>
-                        {jobDetails?.companyName}, {jobDetails?.location}
+                        {jobDetails?.companyDetails?.companyName},{' '}
+                        {jobDetails?.location}
                       </p>
                     </div>
                     <hr />
@@ -350,13 +408,13 @@ export const Jobs = () => {
                         <h6>Description</h6>
                         <p>
                           <h6>-</h6>
-                          {jobDetails?.jobDetails?.description}{' '}
+                          {jobDetails?.description}{' '}
                         </p>
                         <hr />
                       </div>
                       <div className={styles.minimumD}>
                         <h6>About the Job:</h6>
-                        <p> {jobDetails?.jobDetails?.aboutJob}</p>
+                        <p> {jobDetails?.aboutJob}</p>
                       </div>
                       {/* <Accordion className={styles.acc}>
                       <Accordion.Item eventKey='0'>
@@ -377,7 +435,17 @@ export const Jobs = () => {
                     </div>
                   </div>
                   <div className={styles.apply}>
-                    <button className={styles.applyBtn}>Apply Now</button>
+                    <Popconfirm
+                      title='Publish? Once confirmed Job cannot be edited..!'
+                      okText='Publish'
+                      cancelText='With-hold'
+                      onConfirm={() => publishJob(true, 'published')}
+                      onCancel={() => publishJob(false, 'published')}
+                    >
+                      <button className={styles.applyBtn}>
+                        Publish/With-Hold Job
+                      </button>
+                    </Popconfirm>
                   </div>
                 </div>
               )}
