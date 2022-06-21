@@ -88,10 +88,11 @@ export const JobDetails = () => {
           <div className='d-flex justify-content-between'>
             <div className={styles.careerRole}>
               <h4>
-                {jobData?.position} at {jobData?.companyName}
+                {jobData?.position} at {jobData?.companyDetails?.companyName}
               </h4>
               <p>
-                <strong>{jobData?.companyName}</strong> - {jobData?.location}.
+                <strong>{jobData?.companyDetails?.companyName}</strong> -{' '}
+                {jobData?.location}.
               </p>
             </div>
             <div className={styles.careerRole}>
@@ -112,6 +113,10 @@ export const JobDetails = () => {
               </h6>
             </div>
             <div className={styles.details}>
+              <p>Open Positions</p>
+              <h6>{jobData.totalHiresRequired}</h6>
+            </div>
+            <div className={styles.details}>
               <p>Employee Type</p>
               <h6>{jobData?.jobType}</h6>
             </div>
@@ -122,18 +127,18 @@ export const JobDetails = () => {
             <div className={styles.details}>
               <p>Offer Salary</p>
               <h6>
-                {jobData?.salary?.currency}
-                {jobData?.salary?.salary}/{jobData?.salary?.tenure}
+                {jobData?.currency}
+                {jobData?.salary}/{jobData?.tenure}
               </h6>
             </div>
           </div>
           <div className={styles.detailJob}>
             <h4>About Job</h4>
-            <p>{jobData?.jobDetails?.aboutJob}</p>
+            <p>{jobData?.aboutJob}</p>
           </div>
           <div className={styles.detailJob}>
             <h4>Job Description</h4>
-            <p>{jobData?.jobDetails?.description}</p>
+            <p>{jobData?.description}</p>
             {/* <ul>
               <li>
                 a reader will be distracted by the readable content of a page wh
@@ -154,7 +159,12 @@ export const JobDetails = () => {
               block
               onClick={() => applyJobHandler()}
               disabled={
-                role !== ROLES.HR && role !== ROLES.INTERVIEWER ? false : true
+                role === ROLES.HR ||
+                role === ROLES.INTERVIEWER ||
+                jobData?.disabled === true ||
+                jobData?.published === false
+                  ? true
+                  : false
               }
             >
               Apply

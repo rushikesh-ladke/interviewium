@@ -21,6 +21,7 @@ export const CreateJob = ({
   handleOk,
   handleCancel,
   data,
+  getData,
 }: any) => {
   const [form] = Form.useForm();
   const ModalAntd: any = Modal;
@@ -33,11 +34,11 @@ export const CreateJob = ({
   const [HREmail, setHREmail] = useState('');
   const [companyName, setCompanyName] = useState('');
   const [addSalaryData, setAddSalaryData] = useState(
-    data && data.salary.salary !== '-' ? true : false
+    data && data.salary !== '-' ? true : false
   );
   const [minExp, setMinExp] = useState(data ? data.minExp : 0);
   const [maxExp, setMaxExp] = useState(data ? data.maxExp : 1);
-  const [currency, setCurrency] = useState('₹');
+  const [currency] = useState('₹');
   useEffect(() => {
     getUserDetails();
   }, []);
@@ -46,14 +47,9 @@ export const CreateJob = ({
     if (data && data.id) {
       const createJob = {
         ...values,
-        companyName: companyName,
-        companyId: auth.profile.companyDetails.companyId,
-        HREmail: HREmail,
-        HRid: userID,
         currency: currency,
         minExp: minExp,
         maxExp: maxExp,
-        updatedAt: serverTimestamp(),
       };
       updateJob(createJob, data.id);
     } else {
@@ -67,11 +63,11 @@ export const CreateJob = ({
         minExp: minExp,
         maxExp: maxExp,
         createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
       };
       createUpdateJob(createJob);
     }
     form.resetFields();
+    getData();
     handleCancel();
   };
   const getUserDetails = () => {
@@ -252,9 +248,7 @@ export const CreateJob = ({
                 <Form.Item
                   name='salary'
                   style={{ padding: '0px 10px' }}
-                  initialValue={
-                    data && data.salary.salary ? data.salary.salary : ''
-                  }
+                  initialValue={data && data.salary ? data.salary : ''}
                 >
                   <InputNumber
                     formatter={value =>
@@ -272,7 +266,7 @@ export const CreateJob = ({
                     },
                   ]}
                   hasFeedback
-                  initialValue={data && data.salary && data.salary.tenure}
+                  initialValue={data && data.tenure}
                 >
                   <Select style={{ width: 120 }}>
                     <Option value='/year'>/year</Option>
@@ -297,24 +291,20 @@ export const CreateJob = ({
                 },
               ]}
               hasFeedback
-              initialValue={
-                data && data.jobDetails ? data.jobDetails.description : ''
-              }
+              initialValue={data && data.description ? data.description : ''}
             >
               <Input.TextArea />
             </Form.Item>{' '}
             <label className='form-label'>About the Job*</label>
             <Form.Item
               name='aboutJob'
-              initialValue={
-                data && data.jobDetails ? data.jobDetails.aboutJob : ''
-              }
+              initialValue={data && data.aboutJob ? data.aboutJob : ''}
             >
               <Input.TextArea />
             </Form.Item>
             <Form.Item>
               <Button className={styles.signBtn} htmlType='submit'>
-                Create Job
+                {data === null ? `Create Job` : 'Update Job'}
               </Button>
             </Form.Item>
           </Form>
