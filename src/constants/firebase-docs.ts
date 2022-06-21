@@ -4,5 +4,6 @@ export const DOCUMENTS = {
   JOB_NOTIFICATION: 'jobNotification',
   INTERVIEW: 'interview',
   ROUNDS: 'rounds',
-  COMPANY_DOCUMENTS: 'companyDocuments'
+  COMPANY_DOCUMENTS: 'companyDocuments',
+  COMPANY_ROUNDS: 'companyRounds'
 };

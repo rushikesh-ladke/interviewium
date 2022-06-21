@@ -31,13 +31,9 @@ export const addProfileData = async (values: any, newDocId: any) => {
   return;
 };
 
-export const postInterviewDetails = async (data?: any) => {
+export const postInterviewDetails = async (data: any, companyId: any) => {
   const docRef = await setDoc(
-    doc(
-      db,
-      `${DOCUMENTS.COMPANY_DOCUMENTS}/${data.companyId}/rounds`,
-      'rounds'
-    ),
+    doc(db, DOCUMENTS.COMPANY_ROUNDS, companyId),
     data
   );
 };

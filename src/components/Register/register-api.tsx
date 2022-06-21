@@ -32,6 +32,7 @@ export const saveCompanyData = async (data: any) => {
     postUserDetailsOnSignUp(user.uid, user.email, ROLES.HR, {
       companyDetails: {
         companyId: docRef.id,
+        headHR: true,
       },
     });
     return {
