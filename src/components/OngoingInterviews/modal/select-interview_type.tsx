@@ -69,7 +69,6 @@ export const SelectInterviewType = (props: any) => {
       interviewProcessData: convertSelectedType,
       HRComments: HRComments,
       totalInterviewRounds: selectedType.rounds.length,
-      totalInterviewRoundsRemaining: selectedType.rounds.length,
       acceptedHRId: userId,
     };
     updateStatus(acceptedInterviewData, id);

@@ -48,7 +48,7 @@ export const Application = () => {
     <Popover
       content={
         <span>
-          step {index} status: {status}
+          step {index + 1} status: {status}
         </span>
       }
     >
@@ -131,7 +131,7 @@ export const Application = () => {
                 return (
                   <Steps
                     progressDot={customDot}
-                    current={record.roundIds.length - 1}
+                    current={record.ongoingRoundData - 1}
                     status='process'
                   >
                     {interviewProcess.rounds.map((e: any) => {
@@ -182,6 +182,18 @@ const columns: ColumnsType<any> = [
         {record.jobDetails.jobPost}
       </a>
     ),
+  },
+  {
+    title: 'Ongoing Interview Round',
+    dataIndex: 'ongoingRound',
+    key: 'ongoingRound',
+    render: (_, record: any) => (
+      <Badge
+        count={record.ongoingRoundData ? record.ongoingRoundData : '-'}
+      ></Badge>
+    ),
+    align: 'center',
+    width: 250,
   },
   {
     title: 'Total Interview Rounds',

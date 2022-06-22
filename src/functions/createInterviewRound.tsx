@@ -16,11 +16,13 @@ export const createInterviewRound = async (data: any) => {
     interviewerComments: '',
     intervieweeComments: '',
     status: STATUS.BOOKING,
-    interviewerReview: '',
+    interviewerReviewForHR: '',
+    interviewerReviewForInterviewee: '',
     interviewerVerdict: '',
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
     interviewTimeAndDate: '',
+    dispute: '',
   };
 
   const round: any = await addDoc(collection(db, DOCUMENTS.ROUNDS), {
@@ -32,5 +34,6 @@ export const createInterviewRound = async (data: any) => {
     roundIds: arrayUnion(round.id),
     status: STATUS.ONGOING,
     updatedAt: serverTimestamp(),
+    ongoingRoundData: data.ongoingRoundData,
   });
 };

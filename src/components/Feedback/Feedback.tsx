@@ -120,28 +120,6 @@ export const Feedback = () => {
             columns={columns}
             dataSource={applicationData}
             bordered
-            expandable={{
-              expandedRowRender: (record: any) => {
-                const interviewProcess = JSON.parse(
-                  record.interviewProcessData
-                );
-                console.log(interviewProcess);
-                return (
-                  <Steps
-                    progressDot={customDot}
-                    current={record.roundIds.length - 1}
-                    status='process'
-                  >
-                    {interviewProcess.rounds.map((e: any) => {
-                      return (
-                        <Step title={e.roundInfo} description={e.roundType} />
-                      );
-                    })}
-                  </Steps>
-                );
-              },
-              rowExpandable: record => record.status !== 'REQUEST',
-            }}
             rowKey='id'
           />
         </div>
@@ -188,12 +166,12 @@ const columns: ColumnsType<any> = [
     ),
   },
   {
-    title: 'Total Interview Rounds',
+    title: 'Interview Round Number',
     dataIndex: 'rounds',
     key: 'rounds',
     render: (_, record: any) => (
       <Badge
-        count={record.totalInterviewRounds ? record.totalInterviewRounds : '-'}
+        count={record.ongoingRoundData ? record.ongoingRoundData : '-'}
       ></Badge>
     ),
     align: 'center',
@@ -227,33 +205,9 @@ const columns: ColumnsType<any> = [
     key: 'action',
     render: (_, record) => (
       <Space size='middle'>
-        <a href='/'>Invite {record.name}</a>
+        <a href='/'>Book {record.name}</a>
         <a href='/'>Delete</a>
       </Space>
     ),
-  },
-];
-
-const data: DataType[] = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
   },
 ];
