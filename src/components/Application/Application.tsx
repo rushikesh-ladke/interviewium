@@ -1,16 +1,60 @@
-import { Space, Table, Tag } from 'antd';
+import { Badge, Popover, Space, Steps, Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/lib/table';
 import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import ProfileImg from '../../images/avatar.svg';
+import { profile } from 'console';
+import { query, collection, where, limit, getDocs } from 'firebase/firestore';
+import { DOCUMENTS } from '../../constants/firebase-docs';
+import { STATUS, OVER_ALL_STATUS } from '../../constants/status';
+import { db } from '../../shared/firebase-config';
+import { PATH } from '../../constants/path';
+import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
+
 export const Application = () => {
+  const uid: any = localStorage.getItem('uid');
+  const { Step } = Steps;
+
   const [applicationData, setApplicationData] = useState([]);
 
   useEffect(() => {
     getApplicationData();
   }, []);
 
-  const getApplicationData = () => {};
+  const getApplicationData = async () => {
+    const q = query(
+      collection(db, DOCUMENTS.INTERVIEWS),
+      where('active', '==', true),
+      where('intervieweeId', '==', uid),
+      where('overAllStatus', '==', OVER_ALL_STATUS.ONGOING_MAIN),
+      limit(5)
+    );
+
+    const querySnapshot = await getDocs(q);
+    const requests: any = [];
+    querySnapshot.forEach(doc => {
+      // doc.data() is never undefined for query doc snapshots
+      const data = doc.data();
+      requests.push({
+        ...data,
+        id: doc.id,
+      });
+    });
+    console.log(requests);
+    setApplicationData(requests);
+  };
+
+  const customDot = (dot: any, { status, index }: any) => (
+    <Popover
+      content={
+        <span>
+          step {index} status: {status}
+        </span>
+      }
+    >
+      {dot}
+    </Popover>
+  );
 
   return (
     <>
@@ -74,7 +118,34 @@ export const Application = () => {
             </div>
           </div> */}
 
-          <Table columns={columns} dataSource={data} />
+          <Table
+            columns={columns}
+            dataSource={applicationData}
+            bordered
+            expandable={{
+              expandedRowRender: (record: any) => {
+                const interviewProcess = JSON.parse(
+                  record.interviewProcessData
+                );
+                console.log(interviewProcess);
+                return (
+                  <Steps
+                    progressDot={customDot}
+                    current={record.roundIds.length - 1}
+                    status='process'
+                  >
+                    {interviewProcess.rounds.map((e: any) => {
+                      return (
+                        <Step title={e.roundInfo} description={e.roundType} />
+                      );
+                    })}
+                  </Steps>
+                );
+              },
+              rowExpandable: record => record.status !== 'REQUEST',
+            }}
+            rowKey='id'
+          />
         </div>
       </div>
     </>
@@ -82,6 +153,7 @@ export const Application = () => {
 };
 
 interface DataType {
+  status?: string;
   key: string;
   name: string;
   age: number;
@@ -89,42 +161,62 @@ interface DataType {
   tags: string[];
 }
 
-const columns: ColumnsType<DataType> = [
+const columns: ColumnsType<any> = [
+  Table.EXPAND_COLUMN,
   {
-    title: 'Name',
+    title: 'Company Name',
     dataIndex: 'name',
     key: 'name',
-    render: text => <a href='/'>{text}</a>,
+    render: (_, record: any) => <div>{record.companyDetails.companyName}</div>,
   },
   {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
+    title: 'Job Post',
+    dataIndex: 'jobPost',
+    key: 'jobPost',
+    render: (_, record: any) => (
+      <a
+        href={`${window.location.origin}${PATH.JOB_DETAILS}?id=${record.jobDetails.jobId}`}
+        target='_blank'
+        rel='noreferrer'
+      >
+        {record.jobDetails.jobPost}
+      </a>
+    ),
   },
   {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
+    title: 'Total Interview Rounds',
+    dataIndex: 'rounds',
+    key: 'rounds',
+    render: (_, record: any) => (
+      <Badge
+        count={record.totalInterviewRounds ? record.totalInterviewRounds : '-'}
+      ></Badge>
+    ),
+    align: 'center',
+    width: 250,
   },
   {
-    title: 'Tags',
-    key: 'tags',
-    dataIndex: 'tags',
-    render: (_, { tags }) => (
+    title: 'Interview Status',
+    key: 'status',
+    dataIndex: 'status',
+    render: (_, { status, id }) => (
       <>
-        {tags.map(tag => {
+        <Tag color={'green'} key={id}>
+          {status}
+        </Tag>
+        {/* {tags.map(tag => {
           let color = tag.length > 5 ? 'geekblue' : 'green';
           if (tag === 'loser') {
             color = 'volcano';
           }
           return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
+           
           );
-        })}
+        })} */}
       </>
     ),
+    align: 'center',
+    width: 150,
   },
   {
     title: 'Action',
