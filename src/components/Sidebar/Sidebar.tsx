@@ -20,7 +20,7 @@ import { DOCUMENTS } from '../../constants/firebase-docs';
 import { getSingleDocument } from '../../functions/getUserProfile';
 import { Badge } from 'antd';
 import { ApplyJobModal } from './modal/applyJob';
-import { CompanySettings } from './modal/companySettings';
+import { Settings } from './modal/settings';
 
 export const Sidebar = () => {
   let location = useLocation();
@@ -335,7 +335,7 @@ export const Sidebar = () => {
           jobId={auth?.profile?.applyJob ? auth?.profile?.applyJob : []}
         />
         {auth.profile.companyDetails && (
-          <CompanySettings
+          <Settings
             isModalVisible={companySettings}
             handleOk={() => setCompanySettings(false)}
             handleCancel={() => {

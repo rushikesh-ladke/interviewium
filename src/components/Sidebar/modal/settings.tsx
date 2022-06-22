@@ -9,6 +9,7 @@ import {
   Tabs,
   Empty,
   Select,
+  DatePicker,
 } from 'antd';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import AddIcon from '@mui/icons-material/Add';
@@ -16,14 +17,15 @@ import { postInterviewDetails } from '../sidebar-api';
 import { DOCUMENTS } from '../../../constants/firebase-docs';
 import { getSingleDocument } from '../../../functions/getUserProfile';
 
-export const CompanySettings = (props: any) => {
+export const Settings = (props: any) => {
   const ModalAntd: any = Modal;
   const { TabPane } = Tabs;
   let profile: any = localStorage.getItem('_profile');
   profile = JSON.parse(profile);
 
   const [roundsDetails, setRoundsDetails] = useState<any>({});
-  const [settingsVisible, setSettingsVisible] = useState(false);
+  const [roundsDataSettingsVisible, setroundsDataSettingsVisible] =
+    useState(false);
   const [fieldValues, setFieldValues] = useState([
     {
       interview_type: 'interview_type_1',
@@ -65,7 +67,7 @@ export const CompanySettings = (props: any) => {
 
   const settingsVisibleHandler = () => {
     if (profile?.companyDetails?.headHR) {
-      setSettingsVisible(true);
+      setroundsDataSettingsVisible(true);
     }
   };
 
@@ -123,10 +125,10 @@ export const CompanySettings = (props: any) => {
         width={800}
         footer={null}
       >
-        {settingsVisible ? (
+        {true ? (
           <Tabs defaultActiveKey='1' centered>
-            <TabPane tab='Interview Rounds' key='1'>
-              {roundsDetails.loaded ? (
+            {roundsDataSettingsVisible && roundsDetails.loaded && (
+              <TabPane tab='Interview Rounds' key='1'>
                 <Form
                   form={form}
                   name='dynamic_form_nest_item'
@@ -209,16 +211,19 @@ export const CompanySettings = (props: any) => {
                     </Button>
                   </Form.Item>
                 </Form>
-              ) : (
-                <Spin />
-              )}
+              </TabPane>
+            )}
+            <TabPane tab='Tab 2' key='2'>
+              Content of Tab Pane 2
+              <DatePicker
+                format='YYYY-MM-DD HH:mm:ss'
+                showTime={true}
+                onOk={() => {}}
+              />
             </TabPane>
-            {/* <TabPane tab='Tab 2' key='2'>
-            Content of Tab Pane 2
-          </TabPane>
-          <TabPane tab='Tab 3' key='3'>
-            Content of Tab Pane 3
-          </TabPane> */}
+            <TabPane tab='Tab 3' key='3'>
+              Content of Tab Pane 3
+            </TabPane>
           </Tabs>
         ) : (
           <Empty description={'Coming Soon'} />
