@@ -1,19 +1,15 @@
-import { Badge, Popover, Space, Steps, Table, Tag } from 'antd';
+import { Badge, Space, Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/lib/table';
 import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import ProfileImg from '../../images/avatar.svg';
-import { profile } from 'console';
 import { query, collection, where, limit, getDocs } from 'firebase/firestore';
 import { DOCUMENTS } from '../../constants/firebase-docs';
-import { STATUS, OVER_ALL_STATUS } from '../../constants/status';
 import { db } from '../../shared/firebase-config';
 import { PATH } from '../../constants/path';
-import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
 
 export const Feedback = () => {
   const uid: any = localStorage.getItem('uid');
-  const { Step } = Steps;
 
   const [applicationData, setApplicationData] = useState([]);
 
@@ -41,18 +37,6 @@ export const Feedback = () => {
     console.log(requests);
     setApplicationData(requests);
   };
-
-  const customDot = (dot: any, { status, index }: any) => (
-    <Popover
-      content={
-        <span>
-          step {index} status: {status}
-        </span>
-      }
-    >
-      {dot}
-    </Popover>
-  );
 
   return (
     <>
@@ -127,15 +111,6 @@ export const Feedback = () => {
     </>
   );
 };
-
-interface DataType {
-  status?: string;
-  key: string;
-  name: string;
-  age: number;
-  address: string;
-  tags: string[];
-}
 
 const columns: ColumnsType<any> = [
   Table.EXPAND_COLUMN,
