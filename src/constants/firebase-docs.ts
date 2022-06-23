@@ -5,5 +5,6 @@ export const DOCUMENTS = {
   INTERVIEWS: 'interviews',
   ROUNDS: 'rounds',
   COMPANY_DOCUMENTS: 'companyDocuments',
-  COMPANY_ROUNDS: 'companyRounds'
+  COMPANY_ROUNDS: 'companyRounds',
+  AUDITOR_SLOTS: 'auditorSlots'
 };

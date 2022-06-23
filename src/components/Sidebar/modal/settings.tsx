@@ -5,7 +5,6 @@ import {
   Input,
   Modal,
   Space,
-  Spin,
   Tabs,
   Empty,
   Select,
@@ -16,12 +15,16 @@ import AddIcon from '@mui/icons-material/Add';
 import { postInterviewDetails } from '../sidebar-api';
 import { DOCUMENTS } from '../../../constants/firebase-docs';
 import { getSingleDocument } from '../../../functions/getUserProfile';
+import moment from 'moment';
+import { createDocument } from '../../../functions/setDoc';
 
 export const Settings = (props: any) => {
   const ModalAntd: any = Modal;
   const { TabPane } = Tabs;
+  const userId: any = localStorage.getItem('uid');
   let profile: any = localStorage.getItem('_profile');
   profile = JSON.parse(profile);
+  const { Option } = Select;
 
   const [roundsDetails, setRoundsDetails] = useState<any>({});
   const [roundsDataSettingsVisible, setroundsDataSettingsVisible] =
@@ -36,16 +39,17 @@ export const Settings = (props: any) => {
       rounds: [],
     },
   ]);
+
+  const [slotsData, setSlotsData] = useState<any>();
+  const [slotsDataLoaded, setSlotsDataLoaded] = useState<any>(false);
+
   useEffect(() => {
     settingsVisibleHandler();
     getInterviewRounds();
+    getBookingSlots();
   }, []);
 
   const [form] = Form.useForm();
-
-  // const onFinish = (values: any) => {
-  //   console.log('Received values of form:', values);
-  // };
 
   const getRounds = (field: any) => {
     let some: any = [];
@@ -54,12 +58,10 @@ export const Settings = (props: any) => {
         some = e.rounds;
       }
     });
-    // console.log(some);
     return some;
   };
 
   const handleChange = (value: any) => {
-    // console.log(value);
     form.setFieldsValue({
       rounds: getRounds(value) ? getRounds(value) : [],
     });
@@ -81,6 +83,22 @@ export const Settings = (props: any) => {
       setFieldValues(JSON.parse(data.data.roundsData));
     }
     setRoundsDetails(data);
+  };
+
+  const getBookingSlots = async () => {
+    const data: any = await getSingleDocument(userId, DOCUMENTS.AUDITOR_SLOTS);
+    if (data.data) {
+      let slotsData = JSON.parse(data.data.slots);
+      slotsData = slotsData.slots.map((e: any) => {
+        return {
+          ...e,
+          slot: moment(e.slot, 'DD-MM-YY hh:mm a'),
+        };
+      });
+
+      setSlotsData({ slots: slotsData });
+    }
+    setSlotsDataLoaded(true);
   };
 
   const onFinish = (values: any) => {
@@ -112,6 +130,18 @@ export const Settings = (props: any) => {
     { label: 'Interview Type 1 - For Freshers', value: 'interview_type_1' },
     { label: 'Interview Type 2 - For Experienced', value: 'interview_type_2' },
   ];
+
+  const scheduleHandler = (fieldsValue: any) => {
+    let slots = fieldsValue.slots.map((e: any) => {
+      return {
+        ...e,
+        slot: e.slot.format('DD-MM-YY hh:mm a'),
+      };
+    });
+    slots = JSON.stringify({ slots: slots });
+    createDocument(DOCUMENTS.AUDITOR_SLOTS, userId, { slots: slots });
+    console.log('Received values of form: ', slots);
+  };
 
   return (
     <div>
@@ -213,17 +243,86 @@ export const Settings = (props: any) => {
                 </Form>
               </TabPane>
             )}
-            <TabPane tab='Tab 2' key='2'>
-              Content of Tab Pane 2
-              <DatePicker
-                format='YYYY-MM-DD HH:mm:ss'
-                showTime={true}
-                onOk={() => {}}
-              />
+            <TabPane tab='Select Time Slots' key='2'>
+              {slotsDataLoaded && (
+                <Form
+                  name='schedule_handler'
+                  onFinish={scheduleHandler}
+                  autoComplete='off'
+                  initialValues={slotsData}
+                >
+                  <Form.List name='slots'>
+                    {(fields, { add, remove }) => (
+                      <>
+                        {fields.map(({ key, name, ...restField }) => {
+                          return (
+                            <Space
+                              key={key}
+                              style={{ display: 'flex', marginBottom: 8 }}
+                              align='baseline'
+                            >
+                              <Form.Item
+                                {...restField}
+                                name={[name, 'slot']}
+                                rules={[
+                                  {
+                                    required: true,
+                                    message: 'Missing slot name',
+                                  },
+                                ]}
+                              >
+                                <DatePicker
+                                  showTime
+                                  use12Hours
+                                  format='DD-MM-YY hh:mm a'
+                                  minuteStep={15}
+                                />
+                              </Form.Item>
+                              <Form.Item
+                                {...restField}
+                                name={[name, 'duration']}
+                                rules={[
+                                  {
+                                    required: true,
+                                    message: 'Missing Duration',
+                                  },
+                                ]}
+                              >
+                                <Select defaultValue='' style={{ width: 120 }}>
+                                  <Option value='15_min'>15 Mins</Option>
+                                  <Option value='30_min'>30 Mins</Option>
+                                  <Option value='45_min'>45 Mins</Option>
+                                  <Option value='60_min'>60 Mins</Option>
+                                </Select>
+                              </Form.Item>
+                              <RemoveCircleIcon onClick={() => remove(name)} />
+                            </Space>
+                          );
+                        })}
+                        <Form.Item>
+                          <Button
+                            type='dashed'
+                            onClick={() => add()}
+                            block
+                            icon={<AddIcon />}
+                          >
+                            Add field
+                          </Button>
+                        </Form.Item>
+                      </>
+                    )}
+                  </Form.List>
+                  <Form.Item>
+                    <Button type='primary' htmlType='submit'>
+                      Submit
+                    </Button>
+                  </Form.Item>
+                </Form>
+              )}
             </TabPane>
-            <TabPane tab='Tab 3' key='3'>
+            {/* <TabPane tab='Tab 3' key='3'>
               Content of Tab Pane 3
-            </TabPane>
+            </TabPane> */}
           </Tabs>
         ) : (
           <Empty description={'Coming Soon'} />

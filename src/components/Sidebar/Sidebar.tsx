@@ -334,7 +334,7 @@ export const Sidebar = () => {
           }}
           jobId={auth?.profile?.applyJob ? auth?.profile?.applyJob : []}
         />
-        {auth.profile.companyDetails && (
+        {auth.profile.companyDetails && companySettings && (
           <Settings
             isModalVisible={companySettings}
             handleOk={() => setCompanySettings(false)}
