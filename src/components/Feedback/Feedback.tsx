@@ -1,4 +1,4 @@
-import { Badge, Space, Table, Tag } from 'antd';
+import { Badge, Button, Space, Table, Tag, Tooltip } from 'antd';
 import type { ColumnsType } from 'antd/lib/table';
 import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
@@ -7,12 +7,14 @@ import { query, collection, where, limit, getDocs } from 'firebase/firestore';
 import { DOCUMENTS } from '../../constants/firebase-docs';
 import { db } from '../../shared/firebase-config';
 import { PATH } from '../../constants/path';
-
+import { BookASlot } from './modal/bookASlot';
+import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
 export const Feedback = () => {
   const uid: any = localStorage.getItem('uid');
 
   const [applicationData, setApplicationData] = useState([]);
-
+  const [bookSlotModalVisible, setBookSlotModalVisible] = useState(false);
+  const [roundDetails, setRoundDetails] = useState('');
   useEffect(() => {
     getApplicationData();
   }, []);
@@ -38,9 +40,104 @@ export const Feedback = () => {
     setApplicationData(requests);
   };
 
+  const columns: ColumnsType<any> = [
+    Table.EXPAND_COLUMN,
+    {
+      title: 'Company Name',
+      dataIndex: 'name',
+      key: 'name',
+      render: (_, record: any) => (
+        <div>{record.companyDetails.companyName}</div>
+      ),
+    },
+    {
+      title: 'Auditor Name',
+      dataIndex: 'auditorName',
+      key: 'auditorName',
+      render: (_, record: any) => (
+        <div>{record.auditorDetails.auditorName}</div>
+      ),
+    },
+    {
+      title: 'Job Post',
+      dataIndex: 'jobPost',
+      key: 'jobPost',
+      render: (_, record: any) => (
+        <a
+          href={`${window.location.origin}${PATH.JOB_DETAILS}?id=${record.jobDetails.jobId}`}
+          target='_blank'
+          rel='noreferrer'
+        >
+          {record.jobDetails.jobPost}
+        </a>
+      ),
+    },
+    {
+      title: 'Interview Round Number',
+      dataIndex: 'rounds',
+      key: 'rounds',
+      render: (_, record: any) => (
+        <Badge
+          count={record.ongoingRoundData ? record.ongoingRoundData : '-'}
+        ></Badge>
+      ),
+      align: 'center',
+      width: 250,
+    },
+    {
+      title: 'Interview Status',
+      key: 'status',
+      dataIndex: 'status',
+      render: (_, { status, id }) => (
+        <>
+          <Tag color={'green'} key={id}>
+            {status}
+          </Tag>
+          {/* {tags.map(tag => {
+          let color = tag.length > 5 ? 'geekblue' : 'green';
+          if (tag === 'loser') {
+            color = 'volcano';
+          }
+          return (
+           
+          );
+        })} */}
+        </>
+      ),
+      align: 'center',
+      width: 150,
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (_, record) => (
+        <Space size='middle'>
+          <Tooltip title='Book Your Slot'>
+            <Button
+              type='dashed'
+              onClick={() => {
+                setBookSlotModalVisible(true);
+                setRoundDetails(record);
+              }}
+            >
+              <CollectionsBookmarkIcon color='info' />
+            </Button>
+          </Tooltip>
+        </Space>
+      ),
+    },
+  ];
+
   return (
     <>
       <div className={styles.appBody}>
+        {bookSlotModalVisible && (
+          <BookASlot
+            isModalVisible={bookSlotModalVisible}
+            setIsModalVisible={setBookSlotModalVisible}
+            roundDetails={roundDetails}
+          />
+        )}
         <div className='row'>
           <div className='col-lg-3'>
             <div className={styles.cards}>
@@ -111,78 +208,3 @@ export const Feedback = () => {
     </>
   );
 };
-
-const columns: ColumnsType<any> = [
-  Table.EXPAND_COLUMN,
-  {
-    title: 'Company Name',
-    dataIndex: 'name',
-    key: 'name',
-    render: (_, record: any) => <div>{record.companyDetails.companyName}</div>,
-  },
-  {
-    title: 'Auditor Name',
-    dataIndex: 'auditorName',
-    key: 'auditorName',
-    render: (_, record: any) => <div>{record.auditorDetails.auditorName}</div>,
-  },
-  {
-    title: 'Job Post',
-    dataIndex: 'jobPost',
-    key: 'jobPost',
-    render: (_, record: any) => (
-      <a
-        href={`${window.location.origin}${PATH.JOB_DETAILS}?id=${record.jobDetails.jobId}`}
-        target='_blank'
-        rel='noreferrer'
-      >
-        {record.jobDetails.jobPost}
-      </a>
-    ),
-  },
-  {
-    title: 'Interview Round Number',
-    dataIndex: 'rounds',
-    key: 'rounds',
-    render: (_, record: any) => (
-      <Badge
-        count={record.ongoingRoundData ? record.ongoingRoundData : '-'}
-      ></Badge>
-    ),
-    align: 'center',
-    width: 250,
-  },
-  {
-    title: 'Interview Status',
-    key: 'status',
-    dataIndex: 'status',
-    render: (_, { status, id }) => (
-      <>
-        <Tag color={'green'} key={id}>
-          {status}
-        </Tag>
-        {/* {tags.map(tag => {
-          let color = tag.length > 5 ? 'geekblue' : 'green';
-          if (tag === 'loser') {
-            color = 'volcano';
-          }
-          return (
-           
-          );
-        })} */}
-      </>
-    ),
-    align: 'center',
-    width: 150,
-  },
-  {
-    title: 'Action',
-    key: 'action',
-    render: (_, record) => (
-      <Space size='middle'>
-        <a href='/'>Book {record.name}</a>
-        <a href='/'>Delete</a>
-      </Space>
-    ),
-  },
-];

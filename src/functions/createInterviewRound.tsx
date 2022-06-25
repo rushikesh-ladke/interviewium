@@ -32,7 +32,7 @@ export const createInterviewRound = async (data: any) => {
 
   await updateDoc(doc(db, DOCUMENTS.INTERVIEWS, data.interviewId), {
     roundIds: arrayUnion(round.id),
-    status: STATUS.ONGOING,
+    status: STATUS.BOOKING,
     updatedAt: serverTimestamp(),
     ongoingRoundData: data.ongoingRoundData,
   });

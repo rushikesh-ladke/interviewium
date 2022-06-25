@@ -134,6 +134,7 @@ export const Settings = (props: any) => {
   const scheduleHandler = (fieldsValue: any) => {
     let slots = fieldsValue.slots.map((e: any) => {
       return {
+        availability: 'available',
         ...e,
         slot: e.slot.format('DD-MM-YY hh:mm a'),
       };

@@ -3,6 +3,7 @@ export const STATUS = {
   ASSIGN: 'ASSIGN',
   ONGOING: 'ONGOING',
   BOOKING: 'BOOKING',
+  BOOKED: 'BOOKED',
   // STALE: 'STALE',
   WAITING_FOR_REVIEW: 'WAITING_FOR_REVIEW',
   SUCCESSFUL: 'SUCCESSFUL',
@@ -18,6 +19,11 @@ export const OVER_ALL_STATUS = {
   ONGOING_MAIN: 'ONGOING_MAIN',
   COMPLETED_MAIN: 'COMPLETED_MAIN',
   ON_HOLD_MAIN: 'ON_HOLD_MAIN',
+};
+
+export const INTERVIEW_SLOT = {
+  AVAILABLE: 'available',
+  BOOKED: 'booked',
 };
 
 export const ROUND_INFO = {
