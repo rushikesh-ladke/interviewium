@@ -126,7 +126,7 @@ export const Router = () => {
         element={
           <AuthRoute roles={[ROLES.HR]}>
             <MainLayout>
-              <OngoingInterviews />
+              <Interviews />
             </MainLayout>
           </AuthRoute>
         }

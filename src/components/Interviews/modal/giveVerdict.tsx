@@ -4,6 +4,7 @@ import { STATUS, VERDICT } from '../../../constants/status';
 import styles from '../../Sidebar/styles.module.scss';
 import { updateDocument } from '../../../functions/updateDoc';
 import { DOCUMENTS } from '../../../constants/firebase-docs';
+import { serverTimestamp } from 'firebase/firestore';
 
 export const GiveVerdict = (props: any) => {
   const ModalAntd: any = Modal;
@@ -14,9 +15,11 @@ export const GiveVerdict = (props: any) => {
     updateDocument(DOCUMENTS.ROUNDS, props.roundDetails.id, {
       ...fieldsValue,
       status: STATUS.ROUND_COMPLETED,
+      updatedAt: serverTimestamp(),
     });
     updateDocument(DOCUMENTS.INTERVIEWS, props.roundDetails.interviewId, {
       status: STATUS.STALE,
+      updatedAt: serverTimestamp(),
     });
     props?.setIsModalVisible(false);
   };

@@ -1,4 +1,13 @@
-import { Space, Table, Tag, Tabs, Button, Popconfirm } from 'antd';
+import {
+  Space,
+  Table,
+  Tag,
+  Tabs,
+  Button,
+  Popconfirm,
+  Popover,
+  Typography,
+} from 'antd';
 import type { ColumnsType } from 'antd/lib/table';
 import React, { useState, useEffect } from 'react';
 import styles from './styles.module.scss';
@@ -10,19 +19,50 @@ import { OVER_ALL_STATUS, STATUS } from '../../constants/status';
 import { updateStatus } from './ongoing-interview-api';
 import { PATH } from '../../constants/path';
 import { SelectInterviewType } from './modal/select-interview_type';
+import { postRoundDetailsToInterview } from '../../functions/postRoundDetailsToInterview';
+import { updateDocument } from '../../functions/updateDoc';
 
 export const OngoingInterviews = () => {
   const { TabPane } = Tabs;
   let profile: any = localStorage.getItem('_profile');
+  const { Text } = Typography;
+
   profile = JSON.parse(profile);
   const [candidateRequests, setCandidateRequests] = useState<any>([]);
   const [selectInterviewTypeModal, setSelectInterviewTypeModal] =
     useState(false);
   const [candidateViewed, setCandidateViewed] = useState();
 
+  const [ongoingRounds, setOngoingRounds] = useState([]);
+
   useEffect(() => {
     getCandidateRequests();
+    getRoundsInterviews();
   }, []);
+
+  const getRoundsInterviews = async () => {
+    const companyId = profile.companyDetails.companyId;
+    const q = query(
+      collection(db, DOCUMENTS.ROUNDS),
+      where('companyDetails.companyId', '==', companyId),
+      where('status', '==', STATUS.ROUND_COMPLETED),
+      where('active', '==', true),
+      limit(5)
+    );
+
+    const querySnapshot = await getDocs(q);
+    const requests: any = [];
+    querySnapshot.forEach(doc => {
+      // doc.data() is never undefined for query doc snapshots
+      const data = doc.data();
+      requests.push({
+        ...data,
+        id: doc.id,
+      });
+    });
+    console.log(requests);
+    setOngoingRounds(requests);
+  };
 
   const getCandidateRequests = async () => {
     const companyId = profile.companyDetails.companyId;
@@ -49,6 +89,20 @@ export const OngoingInterviews = () => {
     setCandidateRequests(requests);
   };
 
+  const nextRoundHandler = (data: any, status: any) => {
+    updateDocument(DOCUMENTS.ROUNDS, data.id, { active: false });
+    const interviewData = {
+      interviewerReviewForInterviewee: data.interviewerReviewForInterviewee,
+      interviewerVerdict: data.interviewerVerdict,
+    };
+    postRoundDetailsToInterview(
+      data.interviewId,
+      DOCUMENTS.INTERVIEWS,
+      interviewData,
+      status
+    );
+  };
+
   const confirmReject: any = (id: any) => {
     const rejectedInterviewData = {
       status: STATUS.REJECTED,
@@ -61,6 +115,113 @@ export const OngoingInterviews = () => {
   };
 
   const cancel: any = (e: any) => {};
+
+  const ongoingInterviewColumns: ColumnsType<DataType> = [
+    {
+      title: 'Job Position',
+      dataIndex: 'jobPost',
+      key: 'jobPost',
+      render: (_, record: any) => (
+        <a
+          href={`${window.location.origin}${PATH.JOB_DETAILS}?id=${record.jobDetails.jobId}`}
+          target='_blank'
+          rel='noreferrer'
+        >
+          {record?.jobDetails?.jobPost}
+        </a>
+      ),
+    },
+    {
+      title: 'Interviewee Name',
+      dataIndex: 'name',
+      key: 'name',
+      render: (_, record: any) => (
+        <strong>
+          <a
+            href={`${window.location.origin}${PATH.INTERVIEWEE_DETAILS}?id=${record.intervieweeId}`}
+            target='_blank'
+            rel='noreferrer'
+          >
+            {record?.intervieweeDetails?.intervieweeName}
+          </a>
+        </strong>
+      ),
+    },
+    {
+      title: 'Auditor Name',
+      dataIndex: 'name',
+      key: 'name',
+      render: (_, record: any) => (
+        <strong>
+          <span>{record.auditorDetails.auditorName}</span>
+        </strong>
+      ),
+    },
+    {
+      title: 'Ongoing Round',
+      dataIndex: 'email',
+      key: 'email',
+      render: (_, record: any) => (
+        <Tag color='lime'>{record.ongoingRoundData}</Tag>
+      ),
+      align: 'center',
+    },
+    {
+      title: 'Verdict',
+      dataIndex: 'contact',
+      key: 'contact',
+      render: (_, record: any) => (
+        <>
+          {' '}
+          <Popover
+            content={
+              <div style={{ width: 300 }}>
+                <Text code>Review For HR</Text>
+                {record.interviewerReviewForHR}
+                <br />
+                <Text code>Review For Interviewee</Text>
+                <Text type='secondary'>
+                  {record.interviewerReviewForInterviewee}
+                </Text>
+              </div>
+            }
+            title={<Tag color='volcano'>{record.interviewerVerdict}</Tag>}
+          >
+            <Tag color='volcano'>{record.interviewerVerdict}</Tag>
+          </Popover>
+        </>
+      ),
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (_, record: any) => (
+        <Space size='middle'>
+          <Popconfirm
+            title='Publish Verdict and Move to Next Round?'
+            onConfirm={() => nextRoundHandler(record, STATUS.ASSIGN)}
+            onCancel={cancel}
+            okText='Yes'
+            cancelText='No'
+          >
+            <Button type='primary'>Move to next Round</Button>
+          </Popconfirm>
+          <Popconfirm
+            title='Publish Verdict and Send a thank you note?'
+            onConfirm={() => nextRoundHandler(record, STATUS.REJECTED)}
+            onCancel={cancel}
+            okText='Yes'
+            cancelText='No'
+          >
+            <Button type='primary' danger>
+              {' '}
+              Tq for Applying
+            </Button>
+          </Popconfirm>
+        </Space>
+      ),
+    },
+  ];
 
   const candidateRequestColumns: ColumnsType<DataType> = [
     {
@@ -152,7 +313,7 @@ export const OngoingInterviews = () => {
   return (
     <>
       <div className={styles.appBody}>
-        <div className='row'>
+        {/* <div className='row'>
           <div className='col-lg-3'>
             <div className={styles.cards}>
               <h6>Total Clients</h6>
@@ -203,7 +364,7 @@ export const OngoingInterviews = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
         <div className={styles.cards}>
           {/* <div className={styles.tableHead}>
             <div className={styles.sech1}>
@@ -211,10 +372,19 @@ export const OngoingInterviews = () => {
             </div>
           </div> */}
           <Tabs defaultActiveKey='1' centered>
-            <TabPane tab='Ongoing Interviews' key='1'>
-              <Table columns={ongoingInterviewColumns} dataSource={data} />
+            <TabPane tab='Interview Rounds' key='1'>
+              <Table
+                columns={ongoingInterviewColumns}
+                dataSource={ongoingRounds}
+              />
             </TabPane>
-            <TabPane tab='Candidates Requests' key='2'>
+            <TabPane tab='Ongoing Interviews' key='2'>
+              <Table
+                columns={candidateRequestColumns}
+                dataSource={ongoingRounds}
+              />
+            </TabPane>
+            <TabPane tab='Candidates Requests' key='3'>
               <Table
                 columns={candidateRequestColumns}
                 dataSource={candidateRequests}
@@ -241,55 +411,6 @@ interface DataType {
   address: string;
   tags: string[];
 }
-
-const ongoingInterviewColumns: ColumnsType<DataType> = [
-  {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
-    render: text => <a href='/'>{text}</a>,
-  },
-  {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
-  },
-  {
-    title: 'Tags',
-    key: 'tags',
-    dataIndex: 'tags',
-    render: (_, { tags }) => (
-      <>
-        {tags.map(tag => {
-          let color = tag.length > 5 ? 'geekblue' : 'green';
-          if (tag === 'loser') {
-            color = 'volcano';
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </>
-    ),
-  },
-  {
-    title: 'Action',
-    key: 'action',
-    render: (_, record) => (
-      <Space size='middle'>
-        <a href='/'>Invite {record.name}</a>
-        <a href='/'>Delete</a>
-      </Space>
-    ),
-  },
-];
 
 const data: DataType[] = [
   {

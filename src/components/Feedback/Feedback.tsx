@@ -25,6 +25,7 @@ export const Feedback = () => {
   const getApplicationData = async () => {
     const q = query(
       collection(db, DOCUMENTS.ROUNDS),
+      where('status', '!=', STATUS.ROUND_COMPLETED),
       where('intervieweeDetails.id', '==', uid),
       limit(5)
     );
@@ -118,6 +119,7 @@ export const Feedback = () => {
                 setBookSlotModalVisible(true);
                 setRoundDetails(record);
               }}
+              disabled={record.interviewTimeAndDate === '' ? false : true}
             >
               <CollectionsBookmarkIcon color='info' />
             </Button>

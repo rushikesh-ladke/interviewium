@@ -23,6 +23,7 @@ export const createInterviewRound = async (data: any) => {
     updatedAt: serverTimestamp(),
     interviewTimeAndDate: '',
     dispute: '',
+    active: true,
   };
 
   const round: any = await addDoc(collection(db, DOCUMENTS.ROUNDS), {

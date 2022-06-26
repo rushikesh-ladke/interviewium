@@ -1,12 +1,14 @@
 import { doc, getDoc } from 'firebase/firestore';
 import { DOCUMENTS } from '../constants/firebase-docs';
+import { OVER_ALL_STATUS, STATUS } from '../constants/status';
 import { db } from '../shared/firebase-config';
 import { updateDocument } from './updateDoc';
 
 export const postRoundDetailsToInterview = async (
   id: any,
   documentName: any,
-  interviewDetails: any
+  interviewDetails: any,
+  status: any
 ) => {
   //getSingleDocument
   const docRef: any = doc(db, documentName, id);
@@ -14,7 +16,7 @@ export const postRoundDetailsToInterview = async (
   if (interviewData.exists()) {
     const data = interviewData.data();
     let interviewProcessData = JSON.parse(data.interviewProcessData);
-    interviewProcessData = interviewData.map((e: any) => {
+    interviewProcessData.rounds = interviewProcessData.rounds.map((e: any) => {
       if (e.round === data.ongoingRoundData) {
         return {
           ...e,
@@ -25,9 +27,27 @@ export const postRoundDetailsToInterview = async (
       }
     });
     interviewProcessData = JSON.stringify(interviewProcessData);
-    updateDocument(DOCUMENTS.INTERVIEWS, 'dsa', {
-      interviewProcessData: interviewProcessData,
-    });
+
+    let ongoingRoundData;
+    if (data.totalInterviewRounds !== data.ongoingRoundData + 1) {
+      ongoingRoundData = data.ongoingRoundData + 1;
+    } else {
+      ongoingRoundData = data.totalInterviewRounds;
+    }
+
+    if (status === STATUS.ASSIGN) {
+      updateDocument(DOCUMENTS.INTERVIEWS, id, {
+        interviewProcessData: interviewProcessData,
+        status: status,
+        ongoingRoundData: ongoingRoundData,
+      });
+    } else if (status === STATUS.REJECTED) {
+      updateDocument(DOCUMENTS.INTERVIEWS, id, {
+        interviewProcessData: interviewProcessData,
+        status: status,
+        overAllStatus: OVER_ALL_STATUS.COMPLETED_MAIN,
+      });
+    }
   } else {
     return {
       data: null,

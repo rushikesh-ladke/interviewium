@@ -83,7 +83,7 @@ export const Assign = () => {
 
   const createRound = async () => {
     const roundNumber = interviewDetails.ongoingRoundData
-      ? interviewDetails.ongoingRoundData + 1
+      ? interviewDetails.ongoingRoundData
       : 1;
 
     await createInterviewRound({
