@@ -8,7 +8,8 @@ export const postRoundDetailsToInterview = async (
   id: any,
   documentName: any,
   interviewDetails: any,
-  status: any
+  status: any,
+  lastRound: any
 ) => {
   //getSingleDocument
   const docRef: any = doc(db, documentName, id);
@@ -29,10 +30,12 @@ export const postRoundDetailsToInterview = async (
     interviewProcessData = JSON.stringify(interviewProcessData);
 
     let ongoingRoundData;
+    let lastRound = false;
     if (data.totalInterviewRounds !== data.ongoingRoundData + 1) {
       ongoingRoundData = data.ongoingRoundData + 1;
     } else {
       ongoingRoundData = data.totalInterviewRounds;
+      lastRound = true;
     }
 
     if (status === STATUS.ASSIGN) {
@@ -40,12 +43,21 @@ export const postRoundDetailsToInterview = async (
         interviewProcessData: interviewProcessData,
         status: status,
         ongoingRoundData: ongoingRoundData,
+        lastRound: lastRound,
       });
     } else if (status === STATUS.REJECTED) {
       updateDocument(DOCUMENTS.INTERVIEWS, id, {
         interviewProcessData: interviewProcessData,
         status: status,
         overAllStatus: OVER_ALL_STATUS.COMPLETED_MAIN,
+        lastRound: lastRound,
+      });
+    } else if (status === STATUS.OFFERED && lastRound) {
+      updateDocument(DOCUMENTS.INTERVIEWS, id, {
+        interviewProcessData: interviewProcessData,
+        status: status,
+        ongoingRoundData: ongoingRoundData,
+        lastRound: lastRound,
       });
     }
   } else {

@@ -11,7 +11,6 @@ import {
 import type { ColumnsType } from 'antd/lib/table';
 import React, { useState, useEffect } from 'react';
 import styles from './styles.module.scss';
-import ProfileImg from '../../images/avatar.svg';
 import { query, collection, where, getDocs, limit } from 'firebase/firestore';
 import { db } from '../../shared/firebase-config';
 import { DOCUMENTS } from '../../constants/firebase-docs';
@@ -95,11 +94,15 @@ export const OngoingInterviews = () => {
       interviewerReviewForInterviewee: data.interviewerReviewForInterviewee,
       interviewerVerdict: data.interviewerVerdict,
     };
+    if (data.lastRound) {
+      status = STATUS.OFFERED;
+    }
     postRoundDetailsToInterview(
       data.interviewId,
       DOCUMENTS.INTERVIEWS,
       interviewData,
-      status
+      status,
+      data.lastRound
     );
   };
 
@@ -198,7 +201,11 @@ export const OngoingInterviews = () => {
       render: (_, record: any) => (
         <Space size='middle'>
           <Popconfirm
-            title='Publish Verdict and Move to Next Round?'
+            title={
+              record.lastRound
+                ? 'Publish Verdict and Move to Offered stage'
+                : 'Publish Verdict and Move to Next Round?'
+            }
             onConfirm={() => nextRoundHandler(record, STATUS.ASSIGN)}
             onCancel={cancel}
             okText='Yes'
@@ -411,27 +418,3 @@ interface DataType {
   address: string;
   tags: string[];
 }
-
-const data: DataType[] = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
-  },
-];
