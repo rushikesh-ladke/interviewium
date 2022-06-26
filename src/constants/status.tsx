@@ -4,7 +4,8 @@ export const STATUS = {
   ONGOING: 'ONGOING',
   BOOKING: 'BOOKING',
   BOOKED: 'BOOKED',
-  // STALE: 'STALE',
+  ROUND_COMPLETED: 'ROUND_COMPLETED',
+  STALE: 'STALE',
   WAITING_FOR_REVIEW: 'WAITING_FOR_REVIEW',
   SUCCESSFUL: 'SUCCESSFUL',
   OFFERED: 'OFFERED',
@@ -24,6 +25,11 @@ export const OVER_ALL_STATUS = {
 export const INTERVIEW_SLOT = {
   AVAILABLE: 'available',
   BOOKED: 'booked',
+};
+
+export const VERDICT = {
+  ACCEPTED: 'ACCEPTED',
+  REJECTED: 'REJECTED',
 };
 
 export const ROUND_INFO = {

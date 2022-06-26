@@ -9,6 +9,9 @@ import { db } from '../../shared/firebase-config';
 import { PATH } from '../../constants/path';
 import { BookASlot } from './modal/bookASlot';
 import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
+import { STATUS } from '../../constants/status';
+import LinkIcon from '@mui/icons-material/Link';
+
 export const Feedback = () => {
   const uid: any = localStorage.getItem('uid');
 
@@ -36,12 +39,10 @@ export const Feedback = () => {
         id: doc.id,
       });
     });
-    console.log(requests);
     setApplicationData(requests);
   };
 
   const columns: ColumnsType<any> = [
-    Table.EXPAND_COLUMN,
     {
       title: 'Company Name',
       dataIndex: 'name',
@@ -77,9 +78,7 @@ export const Feedback = () => {
       dataIndex: 'rounds',
       key: 'rounds',
       render: (_, record: any) => (
-        <Badge
-          count={record.ongoingRoundData ? record.ongoingRoundData : '-'}
-        ></Badge>
+        <Tag color='volcano'>{record.ongoingRoundData}</Tag>
       ),
       align: 'center',
       width: 250,
@@ -121,6 +120,20 @@ export const Feedback = () => {
               }}
             >
               <CollectionsBookmarkIcon color='info' />
+            </Button>
+          </Tooltip>
+          <Tooltip title='Meeting Link'>
+            <Button
+              type='dashed'
+              disabled={record.status === STATUS.BOOKED ? false : true}
+            >
+              <a
+                href={`${record.auditorDetails.auditorMeetingLink}`}
+                target='_blank'
+                rel='noreferrer'
+              >
+                <LinkIcon color='success' />
+              </a>
             </Button>
           </Tooltip>
         </Space>
@@ -191,12 +204,6 @@ export const Feedback = () => {
           </div>
         </div>
         <div className={styles.cards}>
-          {/* <div className={styles.tableHead}>
-            <div className={styles.sech1}>
-              <h4>All Customers</h4>
-            </div>
-          </div> */}
-
           <Table
             columns={columns}
             dataSource={applicationData}
