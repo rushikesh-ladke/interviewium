@@ -7,6 +7,8 @@ import {
   Popconfirm,
   Popover,
   Typography,
+  Tooltip,
+  Steps,
 } from 'antd';
 import type { ColumnsType } from 'antd/lib/table';
 import React, { useState, useEffect } from 'react';
@@ -25,6 +27,7 @@ export const OngoingInterviews = () => {
   const { TabPane } = Tabs;
   let profile: any = localStorage.getItem('_profile');
   const { Text } = Typography;
+  const { Step } = Steps;
 
   profile = JSON.parse(profile);
   const [candidateRequests, setCandidateRequests] = useState<any>([]);
@@ -33,10 +36,13 @@ export const OngoingInterviews = () => {
   const [candidateViewed, setCandidateViewed] = useState();
 
   const [ongoingRounds, setOngoingRounds] = useState([]);
+  const [offeredCandidates, setOfferedCandidates] = useState([]);
+  const [offerPageFilter, setOfferPageFilter] = useState(STATUS.OFFERED);
 
   useEffect(() => {
     getCandidateRequests();
     getRoundsInterviews();
+    getOfferedCandidates(`${STATUS.OFFERED}`);
   }, []);
 
   const getRoundsInterviews = async () => {
@@ -59,7 +65,6 @@ export const OngoingInterviews = () => {
         id: doc.id,
       });
     });
-    console.log(requests);
     setOngoingRounds(requests);
   };
 
@@ -84,8 +89,32 @@ export const OngoingInterviews = () => {
         id: doc.id,
       });
     });
-    console.log(requests);
     setCandidateRequests(requests);
+  };
+
+  const getOfferedCandidates = async (status: any) => {
+    const companyId = profile.companyDetails.companyId;
+    const q = query(
+      collection(db, DOCUMENTS.INTERVIEWS),
+      where('active', '==', true),
+      where('companyDetails.companyId', '==', companyId),
+      where('status', '==', status),
+      where('overAllStatus', '==', OVER_ALL_STATUS.ONGOING_MAIN),
+      limit(5)
+    );
+
+    const querySnapshot = await getDocs(q);
+    const requests: any = [];
+    querySnapshot.forEach(doc => {
+      // doc.data() is never undefined for query doc snapshots
+      const data = doc.data();
+      requests.push({
+        ...data,
+        id: doc.id,
+      });
+    });
+    console.log(requests);
+    setOfferedCandidates(requests);
   };
 
   const nextRoundHandler = (data: any, status: any) => {
@@ -316,6 +345,71 @@ export const OngoingInterviews = () => {
       ),
     },
   ];
+  const offeredRequestColumns: ColumnsType<any> = [
+    {
+      title: 'Job Position',
+      dataIndex: 'jobPost',
+      key: 'jobPost',
+      render: (_, record: any) => (
+        <a
+          href={`${window.location.origin}${PATH.JOB_DETAILS}?id=${record.jobDetails.jobId}`}
+          target='_blank'
+          rel='noreferrer'
+        >
+          {record?.jobDetails?.jobPost}
+        </a>
+      ),
+    },
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+      render: (_, record: any) => (
+        <strong>
+          <a
+            href={`${window.location.origin}${PATH.INTERVIEWEE_DETAILS}?id=${record.intervieweeId}`}
+            target='_blank'
+            rel='noreferrer'
+          >
+            {record?.intervieweeDetails?.intervieweeName}
+          </a>
+        </strong>
+      ),
+    },
+    {
+      title: 'Status',
+      dataIndex: 'status',
+      key: 'status',
+      render: (_, record: any) => <Tag color='lime'>{record.status}</Tag>,
+    },
+    {
+      title: 'Contact',
+      dataIndex: 'contact',
+      key: 'contact',
+      render: (_, record: any) => (
+        <a href={`tel:${record?.intervieweeDetails?.intervieweeContact}`}>
+          {record?.intervieweeDetails?.intervieweeContact}
+        </a>
+      ),
+    },
+  ];
+
+  const customDot = (dot: any, { status, index }: any) => (
+    <Popover
+      content={
+        <span>
+          step {index + 1} status: {status}
+        </span>
+      }
+    >
+      {dot}
+    </Popover>
+  );
+
+  const offeredPageFIltersHandler = (filter: any) => {
+    getOfferedCandidates(filter);
+    setOfferPageFilter(filter);
+  };
 
   return (
     <>
@@ -395,6 +489,70 @@ export const OngoingInterviews = () => {
               <Table
                 columns={candidateRequestColumns}
                 dataSource={candidateRequests}
+              />
+            </TabPane>
+            <TabPane tab='Offered Requests' key='4'>
+              <div>
+                Filter With :{' '}
+                <Tag
+                  style={{ cursor: 'pointer' }}
+                  color={offerPageFilter === STATUS.OFFERED ? 'red' : 'grey'}
+                  onClick={() => offeredPageFIltersHandler(STATUS.OFFERED)}
+                >
+                  {STATUS.OFFERED}
+                </Tag>
+                <Tag
+                  style={{ cursor: 'pointer' }}
+                  color={
+                    offerPageFilter === STATUS.OFFER_ACCEPTED ? 'red' : 'grey'
+                  }
+                  onClick={() =>
+                    offeredPageFIltersHandler(STATUS.OFFER_ACCEPTED)
+                  }
+                >
+                  {STATUS.OFFER_ACCEPTED}
+                </Tag>
+                <Tag
+                  style={{ cursor: 'pointer' }}
+                  color={
+                    offerPageFilter === STATUS.OFFER_REJECTED ? 'red' : 'grey'
+                  }
+                  onClick={() =>
+                    offeredPageFIltersHandler(STATUS.OFFER_REJECTED)
+                  }
+                >
+                  {STATUS.OFFER_REJECTED}
+                </Tag>
+              </div>
+              <Table
+                columns={offeredRequestColumns}
+                dataSource={offeredCandidates}
+                expandable={{
+                  expandedRowRender: (record: any) => {
+                    const interviewProcess = JSON.parse(
+                      record.interviewProcessData
+                    );
+                    console.log(interviewProcess);
+                    return (
+                      <Steps
+                        progressDot={customDot}
+                        current={record.ongoingRoundData - 1}
+                        status='process'
+                      >
+                        {interviewProcess.rounds.map((e: any) => {
+                          return (
+                            <Step
+                              title={e.roundInfo}
+                              description={e.roundType}
+                            />
+                          );
+                        })}
+                      </Steps>
+                    );
+                  },
+                  rowExpandable: record => record.status !== 'REQUEST',
+                }}
+                rowKey='id'
               />
             </TabPane>
           </Tabs>

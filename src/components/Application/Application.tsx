@@ -1,4 +1,13 @@
-import { Badge, Popover, Space, Steps, Table, Tag } from 'antd';
+import {
+  Badge,
+  Button,
+  Popconfirm,
+  Popover,
+  Space,
+  Steps,
+  Table,
+  Tag,
+} from 'antd';
 import type { ColumnsType } from 'antd/lib/table';
 import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
@@ -10,6 +19,7 @@ import { STATUS, OVER_ALL_STATUS } from '../../constants/status';
 import { db } from '../../shared/firebase-config';
 import { PATH } from '../../constants/path';
 import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
+import { updateDocument } from '../../functions/updateDoc';
 
 export const Application = () => {
   const uid: any = localStorage.getItem('uid');
@@ -55,6 +65,134 @@ export const Application = () => {
       {dot}
     </Popover>
   );
+
+  const offerActionsHandler = (interviewId: any, status: any) => {
+    updateDocument(DOCUMENTS.INTERVIEWS, interviewId, {
+      status: status,
+    });
+  };
+
+  const columns: ColumnsType<any> = [
+    Table.EXPAND_COLUMN,
+    {
+      title: 'Company Name',
+      dataIndex: 'name',
+      key: 'name',
+      render: (_, record: any) => (
+        <div>{record.companyDetails.companyName}</div>
+      ),
+    },
+    {
+      title: 'Job Post',
+      dataIndex: 'jobPost',
+      key: 'jobPost',
+      render: (_, record: any) => (
+        <a
+          href={`${window.location.origin}${PATH.JOB_DETAILS}?id=${record.jobDetails.jobId}`}
+          target='_blank'
+          rel='noreferrer'
+        >
+          {record.jobDetails.jobPost}
+        </a>
+      ),
+    },
+    {
+      title: 'Ongoing Interview Round',
+      dataIndex: 'ongoingRound',
+      key: 'ongoingRound',
+      align: 'center',
+      width: 250,
+      render: (_, record: any) => {
+        if (record.ongoingRoundData === record.totalInterviewRounds) {
+          return (
+            <Tag color={'green'} key={'id'}>
+              Rounds Completed
+            </Tag>
+          );
+        } else {
+          return (
+            <Badge
+              count={record.ongoingRoundData ? record.ongoingRoundData : '-'}
+            ></Badge>
+          );
+        }
+      },
+    },
+    {
+      title: 'Total Interview Rounds',
+      dataIndex: 'rounds',
+      key: 'rounds',
+      render: (_, record: any) => (
+        <Badge
+          count={
+            record.totalInterviewRounds ? record.totalInterviewRounds : '-'
+          }
+        ></Badge>
+      ),
+      align: 'center',
+      width: 250,
+    },
+    {
+      title: 'Interview Status',
+      key: 'status',
+      dataIndex: 'status',
+      render: (_, { status, id }) => (
+        <>
+          <Tag color={'green'} key={id}>
+            {status}
+          </Tag>
+          {/* {tags.map(tag => {
+            let color = tag.length > 5 ? 'geekblue' : 'green';
+            if (tag === 'loser') {
+              color = 'volcano';
+            }
+            return (
+             
+            );
+          })} */}
+        </>
+      ),
+      align: 'center',
+      width: 150,
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (_, record: any) => {
+        if (record.status === STATUS.OFFERED) {
+          return (
+            <Space size='middle'>
+              <Popconfirm
+                title='Accept Offer?'
+                onConfirm={() => {
+                  offerActionsHandler(record.id, STATUS.OFFER_ACCEPTED);
+                }}
+                okText='Yes'
+                cancelText='No'
+              >
+                <Button type='primary'> Accept</Button>
+              </Popconfirm>
+              <Popconfirm
+                title='Reject Offer?'
+                onConfirm={() => {
+                  offerActionsHandler(record.id, STATUS.OFFER_REJECTED);
+                }}
+                okText='Yes'
+                cancelText='No'
+              >
+                <Button type='primary' danger>
+                  {' '}
+                  Reject
+                </Button>
+              </Popconfirm>
+            </Space>
+          );
+        } else {
+          return <div>No Actions</div>;
+        }
+      },
+    },
+  ];
 
   return (
     <>
@@ -151,117 +289,3 @@ export const Application = () => {
     </>
   );
 };
-
-interface DataType {
-  status?: string;
-  key: string;
-  name: string;
-  age: number;
-  address: string;
-  tags: string[];
-}
-
-const columns: ColumnsType<any> = [
-  Table.EXPAND_COLUMN,
-  {
-    title: 'Company Name',
-    dataIndex: 'name',
-    key: 'name',
-    render: (_, record: any) => <div>{record.companyDetails.companyName}</div>,
-  },
-  {
-    title: 'Job Post',
-    dataIndex: 'jobPost',
-    key: 'jobPost',
-    render: (_, record: any) => (
-      <a
-        href={`${window.location.origin}${PATH.JOB_DETAILS}?id=${record.jobDetails.jobId}`}
-        target='_blank'
-        rel='noreferrer'
-      >
-        {record.jobDetails.jobPost}
-      </a>
-    ),
-  },
-  {
-    title: 'Ongoing Interview Round',
-    dataIndex: 'ongoingRound',
-    key: 'ongoingRound',
-    render: (_, record: any) => (
-      <Badge
-        count={record.ongoingRoundData ? record.ongoingRoundData : '-'}
-      ></Badge>
-    ),
-    align: 'center',
-    width: 250,
-  },
-  {
-    title: 'Total Interview Rounds',
-    dataIndex: 'rounds',
-    key: 'rounds',
-    render: (_, record: any) => (
-      <Badge
-        count={record.totalInterviewRounds ? record.totalInterviewRounds : '-'}
-      ></Badge>
-    ),
-    align: 'center',
-    width: 250,
-  },
-  {
-    title: 'Interview Status',
-    key: 'status',
-    dataIndex: 'status',
-    render: (_, { status, id }) => (
-      <>
-        <Tag color={'green'} key={id}>
-          {status}
-        </Tag>
-        {/* {tags.map(tag => {
-          let color = tag.length > 5 ? 'geekblue' : 'green';
-          if (tag === 'loser') {
-            color = 'volcano';
-          }
-          return (
-           
-          );
-        })} */}
-      </>
-    ),
-    align: 'center',
-    width: 150,
-  },
-  {
-    title: 'Action',
-    key: 'action',
-    render: (_, record) => (
-      <Space size='middle'>
-        <a href='/'>Invite {record.name}</a>
-        <a href='/'>Delete</a>
-      </Space>
-    ),
-  },
-];
-
-const data: DataType[] = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
-  },
-];
