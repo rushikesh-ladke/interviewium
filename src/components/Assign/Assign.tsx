@@ -49,7 +49,6 @@ export const Assign = () => {
         id: doc.id,
       });
     });
-    console.log(requests, 'setCandidateAssign');
     setCandidateAssign(requests);
   };
 
@@ -73,7 +72,6 @@ export const Assign = () => {
         id: doc.id,
       });
     });
-    console.log(requests, 'setAuditorAssign');
     setAuditorAssign(requests);
   };
 
@@ -82,6 +80,10 @@ export const Assign = () => {
   };
 
   const createRound = async () => {
+    const roundNumber = interviewDetails.ongoingRoundData
+      ? interviewDetails.ongoingRoundData
+      : 1;
+
     await createInterviewRound({
       companyDetails: {
         ...interviewDetails.companyDetails,
@@ -101,6 +103,7 @@ export const Assign = () => {
         auditorMeetingLink: auditor.links.meetingLink,
       },
       HRComments: HRComment,
+      ongoingRoundData: roundNumber,
     });
     // assignHandler(interviewDetails.id, auditor.id);
     getCandidateToAssign();

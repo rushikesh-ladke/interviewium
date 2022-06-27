@@ -1,93 +1,156 @@
-import { Space, Table, Tag } from 'antd';
+import { Badge, Button, Space, Table, Tag, Tooltip } from 'antd';
 import type { ColumnsType } from 'antd/lib/table';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import ProfileImg from '../../images/avatar.svg';
+import { query, collection, where, limit, getDocs } from 'firebase/firestore';
+import { DOCUMENTS } from '../../constants/firebase-docs';
+import { db } from '../../shared/firebase-config';
+import { PATH } from '../../constants/path';
+import { GiveVerdict } from './modal/giveVerdict';
+import { STATUS } from '../../constants/status';
+import LinkIcon from '@mui/icons-material/Link';
+import AddReactionIcon from '@mui/icons-material/AddReaction';
 export const Interviews = () => {
-  interface DataType {
-    key: string;
-    name: string;
-    age: number;
-    address: string;
-    tags: string[];
-  }
+  const uid: any = localStorage.getItem('uid');
 
-  const columns: ColumnsType<DataType> = [
+  const [applicationData, setApplicationData] = useState([]);
+  const [bookSlotModalVisible, setBookSlotModalVisible] = useState(false);
+  const [roundDetails, setRoundDetails] = useState('');
+  useEffect(() => {
+    getApplicationData();
+  }, []);
+
+  const getApplicationData = async () => {
+    const q = query(
+      collection(db, DOCUMENTS.ROUNDS),
+      where('auditorDetails.auditorId', '==', uid),
+      where('status', '==', STATUS.BOOKED),
+      limit(5)
+    );
+
+    const querySnapshot = await getDocs(q);
+    const requests: any = [];
+    querySnapshot.forEach(doc => {
+      // doc.data() is never undefined for query doc snapshots
+      const data = doc.data();
+      requests.push({
+        ...data,
+        id: doc.id,
+      });
+    });
+    setApplicationData(requests);
+  };
+
+  const columns: ColumnsType<any> = [
     {
-      title: 'Name',
+      title: 'Candidate Name',
       dataIndex: 'name',
       key: 'name',
-      render: text => <a href='/'>{text}</a>,
+      render: (_, record: any) => (
+        <div>{record.intervieweeDetails.intervieweeName}</div>
+      ),
     },
     {
-      title: 'Age',
-      dataIndex: 'age',
-      key: 'age',
+      title: 'Interview Time and Date',
+      dataIndex: 'auditorName',
+      key: 'auditorName',
+      render: (_, record: any) => (
+        <Tag color='#f50'>{record.interviewTimeAndDate}</Tag>
+      ), //<div>{record.interviewTimeAndDate}</div>,
     },
     {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
+      title: 'Job Post',
+      dataIndex: 'jobPost',
+      key: 'jobPost',
+      render: (_, record: any) => (
+        <a
+          href={`${window.location.origin}${PATH.JOB_DETAILS}?id=${record.jobDetails.jobId}`}
+          target='_blank'
+          rel='noreferrer'
+        >
+          {record.jobDetails.jobPost}
+        </a>
+      ),
     },
     {
-      title: 'Tags',
-      key: 'tags',
-      dataIndex: 'tags',
-      render: (_, { tags }) => (
+      title: 'Interview Round Number',
+      dataIndex: 'rounds',
+      key: 'rounds',
+      render: (_, record: any) => (
+        <Tag color='volcano'>{record.ongoingRoundData}</Tag>
+      ),
+      align: 'center',
+      width: 250,
+    },
+    {
+      title: 'Interview Status',
+      key: 'status',
+      dataIndex: 'status',
+      render: (_, { status, id }) => (
         <>
-          {tags.map(tag => {
-            let color = tag.length > 5 ? 'geekblue' : 'green';
-            if (tag === 'loser') {
-              color = 'volcano';
-            }
-            return (
-              <Tag color={color} key={tag}>
-                {tag.toUpperCase()}
-              </Tag>
-            );
-          })}
+          <Tag color={'green'} key={id}>
+            {status}
+          </Tag>
+          {/* {tags.map(tag => {
+          let color = tag.length > 5 ? 'geekblue' : 'green';
+          if (tag === 'loser') {
+            color = 'volcano';
+          }
+          return (
+           
+          );
+        })} */}
         </>
       ),
+      align: 'center',
+      width: 150,
     },
     {
       title: 'Action',
       key: 'action',
       render: (_, record) => (
         <Space size='middle'>
-          <a href='/'>Invite {record.name}</a>
-          <a href='/'>Delete</a>
+          <Tooltip title='Meeting Link'>
+            <Button
+              type='dashed'
+              disabled={record.status === STATUS.BOOKED ? false : true}
+            >
+              <a
+                href={`${record.auditorDetails.auditorMeetingLink}`}
+                target='_blank'
+                rel='noreferrer'
+              >
+                <LinkIcon color='success' />
+              </a>
+            </Button>
+          </Tooltip>
+          <Tooltip title='Interview Verdict'>
+            <Button
+              type='dashed'
+              onClick={() => {
+                setBookSlotModalVisible(true);
+                setRoundDetails(record);
+              }}
+            >
+              <AddReactionIcon color='info' />
+            </Button>
+          </Tooltip>
         </Space>
       ),
-    },
-  ];
-
-  const data: DataType[] = [
-    {
-      key: '1',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-      tags: ['nice', 'developer'],
-    },
-    {
-      key: '2',
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park',
-      tags: ['loser'],
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park',
-      tags: ['cool', 'teacher'],
     },
   ];
 
   return (
     <>
       <div className={styles.appBody}>
+        {bookSlotModalVisible && (
+          <GiveVerdict
+            isModalVisible={bookSlotModalVisible}
+            setIsModalVisible={setBookSlotModalVisible}
+            roundDetails={roundDetails}
+          />
+        )}
         <div className='row'>
           <div className='col-lg-3'>
             <div className={styles.cards}>
@@ -141,13 +204,12 @@ export const Interviews = () => {
           </div>
         </div>
         <div className={styles.cards}>
-          {/* <div className={styles.tableHead}>
-            <div className={styles.sech1}>
-              <h4>All Customers</h4>
-            </div>
-          </div> */}
-
-          <Table columns={columns} dataSource={data} />
+          <Table
+            columns={columns}
+            dataSource={applicationData}
+            bordered
+            rowKey='id'
+          />
         </div>
       </div>
     </>

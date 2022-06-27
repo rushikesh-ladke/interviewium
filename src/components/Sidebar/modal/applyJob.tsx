@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Modal } from 'antd';
+import { Button, Empty, Modal } from 'antd';
 import { PATH } from '../../../constants/path';
 
 export const ApplyJobModal = (props: any) => {
@@ -31,6 +31,9 @@ export const ApplyJobModal = (props: any) => {
             </div>
           );
         })}
+        {props.jobId && props.jobId.length === 0 && (
+          <Empty description={'Recently, No Jobs added in the Inbox'} />
+        )}
       </ModalAntd>
     </div>
   );

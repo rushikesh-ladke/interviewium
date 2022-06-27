@@ -44,8 +44,8 @@ const IntervieweeCard = (props: any) => {
         </div>
       </div>
       <div className={styles.activeStatus}>
-        <TimelapseOutlinedIcon className={styles.time} />{' '}
-        {getDate(props?.e.updatedAt)}
+        <TimelapseOutlinedIcon className={styles.time} /> Ongoing Round{' '}
+        {props?.e.ongoingRoundData}
       </div>
       <div className='d-flex justify-content-center'>
         <img src={Avatar} alt='Profile' className={styles.profilePic} />

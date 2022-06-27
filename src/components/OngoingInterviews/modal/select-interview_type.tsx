@@ -36,7 +36,6 @@ export const SelectInterviewType = (props: any) => {
     );
     if (interviewTypes.data) {
       interviewTypes = JSON.parse(interviewTypes.data.roundsData);
-      console.log(interviewTypes);
       setInterviewTypes(interviewTypes);
       setSelectedType(interviewTypes[0]);
     }
@@ -58,7 +57,6 @@ export const SelectInterviewType = (props: any) => {
     });
     if (selectedAttribute.length === 1) {
       setSelectedType(selectedAttribute[0]);
-      console.log(selectedAttribute[0]);
     }
   };
 
@@ -69,7 +67,6 @@ export const SelectInterviewType = (props: any) => {
       interviewProcessData: convertSelectedType,
       HRComments: HRComments,
       totalInterviewRounds: selectedType.rounds.length,
-      totalInterviewRoundsRemaining: selectedType.rounds.length,
       acceptedHRId: userId,
     };
     updateStatus(acceptedInterviewData, id);
