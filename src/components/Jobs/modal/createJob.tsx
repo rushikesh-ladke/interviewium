@@ -43,7 +43,6 @@ export const CreateJob = ({
     getUserDetails();
   }, []);
   const onFinish = (values: any) => {
-    console.log(values);
     if (data && data.id) {
       const createJob = {
         ...values,

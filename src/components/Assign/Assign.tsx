@@ -49,7 +49,6 @@ export const Assign = () => {
         id: doc.id,
       });
     });
-    console.log(requests, 'setCandidateAssign');
     setCandidateAssign(requests);
   };
 
@@ -73,7 +72,6 @@ export const Assign = () => {
         id: doc.id,
       });
     });
-    console.log(requests, 'setAuditorAssign');
     setAuditorAssign(requests);
   };
 

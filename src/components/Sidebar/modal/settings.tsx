@@ -124,7 +124,6 @@ export const Settings = (props: any) => {
     let roundsData = JSON.stringify(fieldValuesData);
     postInterviewDetails({ roundsData: roundsData }, companyId);
     getInterviewRounds();
-    console.log('Received values of form:', fieldValuesData);
   };
   const types: any = [
     { label: 'Interview Type 1 - For Freshers', value: 'interview_type_1' },
@@ -141,7 +140,6 @@ export const Settings = (props: any) => {
     });
     slots = JSON.stringify({ slots: slots });
     createDocument(DOCUMENTS.AUDITOR_SLOTS, userId, { slots: slots });
-    console.log('Received values of form: ', slots);
   };
 
   return (

@@ -15,7 +15,6 @@ export const Dashboard = () => {
     );
     const userData: any = await getDoc(docRef);
     if (userData.exists()) {
-      console.log(userData.data());
       return {
         data: userData.data(),
         loaded: true,

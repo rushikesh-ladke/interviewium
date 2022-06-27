@@ -50,7 +50,6 @@ export const Application = () => {
         id: doc.id,
       });
     });
-    console.log(requests);
     setApplicationData(requests);
   };
 
@@ -265,7 +264,6 @@ export const Application = () => {
                 const interviewProcess = JSON.parse(
                   record.interviewProcessData
                 );
-                console.log(interviewProcess);
                 return (
                   <Steps
                     progressDot={customDot}

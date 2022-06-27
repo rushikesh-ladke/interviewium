@@ -29,7 +29,6 @@ export const createInterviewRound = async (data: any) => {
   const round: any = await addDoc(collection(db, DOCUMENTS.ROUNDS), {
     ...roundsData,
   });
-  console.log(round.id);
 
   await updateDoc(doc(db, DOCUMENTS.INTERVIEWS, data.interviewId), {
     roundIds: arrayUnion(round.id),

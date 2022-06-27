@@ -113,7 +113,6 @@ export const OngoingInterviews = () => {
         id: doc.id,
       });
     });
-    console.log(requests);
     setOfferedCandidates(requests);
   };
 
@@ -532,7 +531,6 @@ export const OngoingInterviews = () => {
                     const interviewProcess = JSON.parse(
                       record.interviewProcessData
                     );
-                    console.log(interviewProcess);
                     return (
                       <Steps
                         progressDot={customDot}
