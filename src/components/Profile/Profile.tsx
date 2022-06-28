@@ -15,11 +15,18 @@ import { getSingleDocument } from '../../functions/getUserProfile';
 import { DOCUMENTS } from '../../constants/firebase-docs';
 import { notification, Spin } from 'antd';
 import GroupsIcon from '@mui/icons-material/Groups';
+import { InitialProfileData } from './modal/initialProfile';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import { ROLES } from '../../constants/roles';
 
 export const Profile = () => {
   const [profileData, setProfileData] = useState<any>();
   const [load, setLoad] = useState(false);
+  const [initialProfileModalVisible, setInitialProfileModalVisible] =
+    useState(false);
+
   const userId = localStorage.getItem('uid');
+  const role = localStorage.getItem('role');
 
   useEffect(() => {
     getProfileData();
@@ -59,7 +66,14 @@ export const Profile = () => {
               {profileData?.profile?.firstName +
                 ' ' +
                 profileData?.profile?.lastName}
+              <span
+                style={{ padding: 5, color: 'blue', cursor: 'pointer' }}
+                onClick={() => setInitialProfileModalVisible(true)}
+              >
+                <ModeEditIcon className={styles.icon} />
+              </span>
             </h5>
+
             <p>{profileData?.currentPosition}</p>
             <div className={styles.otherDetails}>
               <div className={styles.sec1}>
@@ -91,16 +105,19 @@ export const Profile = () => {
           <div className='row'>
             <div className='col-lg-4'>
               <h5>On the web</h5>
-              <p>
-                <GroupsIcon className={styles.icon} />{' '}
-                <a
-                  href={profileData?.links?.meetingLink}
-                  target='_blank'
-                  rel='noreferrer'
-                >
-                  Joining Link
-                </a>
-              </p>
+              {role !== ROLES.INTERVIEWEE && (
+                <p>
+                  <GroupsIcon className={styles.icon} />{' '}
+                  <a
+                    href={profileData?.links?.meetingLink}
+                    target='_blank'
+                    rel='noreferrer'
+                  >
+                    Joining Link
+                  </a>
+                </p>
+              )}
+
               {/* <p>
                 <FacebookIcon className={styles.icon} /> Lorum Ipsum
               </p>
@@ -178,6 +195,13 @@ export const Profile = () => {
           </div> */}
         </div>
       </div>
+      <InitialProfileData
+        isModalVisible={initialProfileModalVisible}
+        setInitialProfileModalVisible={() =>
+          setInitialProfileModalVisible(false)
+        }
+        profileData={profileData}
+      />
     </>
   );
 };
