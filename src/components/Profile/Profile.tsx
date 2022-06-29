@@ -10,7 +10,50 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
+import { useEffect, useState } from 'react';
+import { getSingleDocument } from '../../functions/getUserProfile';
+import { DOCUMENTS } from '../../constants/firebase-docs';
+import { notification, Spin } from 'antd';
+import GroupsIcon from '@mui/icons-material/Groups';
+import { InitialProfileData } from './modal/initialProfile';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import { ROLES } from '../../constants/roles';
+
 export const Profile = () => {
+  const [profileData, setProfileData] = useState<any>();
+  const [load, setLoad] = useState(false);
+  const [initialProfileModalVisible, setInitialProfileModalVisible] =
+    useState(false);
+
+  const userId = localStorage.getItem('uid');
+  const role = localStorage.getItem('role');
+
+  useEffect(() => {
+    getProfileData();
+  }, []);
+
+  const getProfileData = async () => {
+    const profile = await getSingleDocument(userId, DOCUMENTS.USERS);
+    if (profile.loaded && profile.error === null) {
+      setProfileData(profile.data);
+      console.log(profile.data);
+      setLoad(true);
+    } else {
+      notification['error']({
+        message: 'Something went wrong',
+        description: 'Try Reloading the page',
+      });
+    }
+  };
+
+  if (!load) {
+    return (
+      <div className={styles.appBody}>
+        <Spin />
+      </div>
+    );
+  }
+
   return (
     <>
       <div className={styles.appBody}>
@@ -19,27 +62,38 @@ export const Profile = () => {
             <img src={ProfileImg} alt='profile-img' />
           </div>
           <div className={styles.profiledetails}>
-            <h5>Kate Velasswe</h5>
-            <p>Product Lead, CEO</p>
+            <h5>
+              {profileData?.profile?.firstName +
+                ' ' +
+                profileData?.profile?.lastName}
+              <span
+                style={{ padding: 5, color: 'blue', cursor: 'pointer' }}
+                onClick={() => setInitialProfileModalVisible(true)}
+              >
+                <ModeEditIcon className={styles.icon} />
+              </span>
+            </h5>
+
+            <p>{profileData?.currentPosition}</p>
             <div className={styles.otherDetails}>
               <div className={styles.sec1}>
                 <h6>
                   <LocationOnOutlinedIcon className={styles.icon} />
-                  Pune, MH
+                  {profileData?.profile?.location}
                 </h6>
                 <h6>
                   <CallOutlinedIcon className={styles.icon} />
-                  +91 6748239245
+                  {profileData?.profile?.contact}
                 </h6>
               </div>
               <div className={styles.sec1}>
                 <h6>
                   <PointOfSaleOutlinedIcon className={styles.icon} />
-                  Sales Department
+                  Portal Role : {profileData?.role}
                 </h6>
                 <h6>
                   <EmailOutlinedIcon className={styles.icon} />
-                  Demo@gmail.com
+                  {profileData?.email}
                 </h6>
               </div>
             </div>
@@ -51,20 +105,37 @@ export const Profile = () => {
           <div className='row'>
             <div className='col-lg-4'>
               <h5>On the web</h5>
-              <p>
-                <InstagramIcon className={styles.icon} /> Lorum Ipsum
-              </p>
-              <p>
+              {role !== ROLES.INTERVIEWEE && (
+                <p>
+                  <GroupsIcon className={styles.icon} />{' '}
+                  <a
+                    href={profileData?.links?.meetingLink}
+                    target='_blank'
+                    rel='noreferrer'
+                  >
+                    Joining Link
+                  </a>
+                </p>
+              )}
+
+              {/* <p>
                 <FacebookIcon className={styles.icon} /> Lorum Ipsum
               </p>
               <p>
                 <TwitterIcon className={styles.icon} /> Lorum Ipsum
-              </p>
+              </p> */}
               <p>
-                <LinkedInIcon className={styles.icon} /> Lorum Ipsum
+                <LinkedInIcon className={styles.icon} />{' '}
+                <a
+                  href={profileData?.links?.linkedin}
+                  target='_blank'
+                  rel='noreferrer'
+                >
+                  LinkedIn
+                </a>
               </p>
             </div>
-            <div className='col-lg-4'>
+            {/* <div className='col-lg-4'>
               <h5>About</h5>
               <p>
                 simply dummy text of the printing and typesetting industry.
@@ -76,8 +147,8 @@ export const Profile = () => {
                 in the 1960s with the release of Letraset sheets containing
                 Lorem Ipsum passages, and more recently with desktop publishing
               </p>
-            </div>
-            <div className='col-lg-4'>
+            </div> */}
+            {/* <div className='col-lg-4'>
               <h5>Skills</h5>
               <div className={styles.Badges}>
                 <div className={styles.section}>Lorum Ipsum</div>
@@ -87,9 +158,9 @@ export const Profile = () => {
                 <div className={styles.section}>Lorum Ipsum</div>
                 <div className={styles.section}>Lorum Ipsum</div>
               </div>
-            </div>
+            </div> */}
           </div>
-          <div className='row mt-4'>
+          {/* <div className='row mt-4'>
             <div className='col-lg-4'>
               <h5>Languages</h5>
               <div className={styles.Badges}>
@@ -121,9 +192,16 @@ export const Profile = () => {
                 <div className={styles.section}>Lorum Ipsum</div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
+      <InitialProfileData
+        isModalVisible={initialProfileModalVisible}
+        setInitialProfileModalVisible={() =>
+          setInitialProfileModalVisible(false)
+        }
+        profileData={profileData}
+      />
     </>
   );
 };

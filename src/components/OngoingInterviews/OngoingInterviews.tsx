@@ -40,9 +40,7 @@ export const OngoingInterviews = () => {
   const [offerPageFilter, setOfferPageFilter] = useState(STATUS.OFFERED);
 
   useEffect(() => {
-    getCandidateRequests();
     getRoundsInterviews();
-    getOfferedCandidates(`${STATUS.OFFERED}`);
   }, []);
 
   const getRoundsInterviews = async () => {
@@ -410,6 +408,19 @@ export const OngoingInterviews = () => {
     setOfferPageFilter(filter);
   };
 
+  const onChangeTabsHandler = (values: any) => {
+    if (values === '1') {
+      getRoundsInterviews();
+    }
+    if (values === '2') {
+    } else if (values === '3') {
+      getCandidateRequests();
+    } else if (values === '4') {
+      getOfferedCandidates(`${STATUS.OFFERED}`);
+    }
+    console.log(values);
+  };
+
   return (
     <>
       <div className={styles.appBody}>
@@ -471,7 +482,7 @@ export const OngoingInterviews = () => {
               <h4>All Customers</h4>
             </div>
           </div> */}
-          <Tabs defaultActiveKey='1' centered>
+          <Tabs defaultActiveKey='1' centered onChange={onChangeTabsHandler}>
             <TabPane tab='Interview Rounds' key='1'>
               <Table
                 columns={ongoingInterviewColumns}

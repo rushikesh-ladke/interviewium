@@ -102,7 +102,10 @@ export const Application = () => {
       align: 'center',
       width: 250,
       render: (_, record: any) => {
-        if (record.ongoingRoundData === record.totalInterviewRounds) {
+        if (
+          record.ongoingRoundData === record.totalInterviewRounds &&
+          record.ongoingRoundData
+        ) {
           return (
             <Tag color={'green'} key={'id'}>
               Rounds Completed
