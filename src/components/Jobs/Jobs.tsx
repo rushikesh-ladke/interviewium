@@ -16,6 +16,7 @@ import {
   Button,
   Popconfirm,
   Tooltip,
+  Empty,
 } from 'antd';
 import { CreateJob } from './modal/createJob';
 import { collection, getDocs, orderBy, query, where } from 'firebase/firestore';
@@ -266,8 +267,7 @@ export const Jobs = () => {
                 </div>
                 {/* Main cards */}
                 <div className={styles.companyList}>
-                  {jobsData &&
-                    jobsData.length > 0 &&
+                  {jobsData && jobsData.length > 0 ? (
                     jobsData.map((e: any) => {
                       return (
                         <div
@@ -380,7 +380,19 @@ export const Jobs = () => {
                           </div>
                         </div>
                       );
-                    })}
+                    })
+                  ) : (
+                    <div>
+                      {' '}
+                      <Empty
+                        image='https://firebasestorage.googleapis.com/v0/b/interviewium-dev.appspot.com/o/Saly-19.png?alt=media&token=5b9d2107-3854-4eb2-ab31-ac1f018b8084'
+                        imageStyle={{
+                          height: 340,
+                        }}
+                        description={<span>Add Jobs</span>}
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
