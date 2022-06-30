@@ -20,6 +20,7 @@ import Feedback from '../components/Feedback';
 import Application from '../components/Application';
 import JobDetails from '../components/JobDetails';
 import Register from '../components/Register';
+import PastInterviews from '../components/PastInterviews';
 
 /**
  * Top level application router
@@ -167,6 +168,16 @@ export const Router = () => {
           <AuthRoute roles={[ROLES.INTERVIEWEE, ROLES.INTERVIEWER]}>
             <MainLayout>
               <Feedback />
+            </MainLayout>
+          </AuthRoute>
+        }
+      />
+      <Route
+        path={PATH.PAST_INTERVIEWER}
+        element={
+          <AuthRoute roles={[ROLES.INTERVIEWER]}>
+            <MainLayout>
+              <PastInterviews />
             </MainLayout>
           </AuthRoute>
         }

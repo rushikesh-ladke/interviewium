@@ -5,6 +5,7 @@ import styles from '../../Sidebar/styles.module.scss';
 import { updateDocument } from '../../../functions/updateDoc';
 import { DOCUMENTS } from '../../../constants/firebase-docs';
 import { serverTimestamp } from 'firebase/firestore';
+import { updateSlot } from '../../../functions/updateSlots';
 
 export const GiveVerdict = (props: any) => {
   const ModalAntd: any = Modal;
@@ -21,6 +22,11 @@ export const GiveVerdict = (props: any) => {
       status: STATUS.STALE,
       updatedAt: serverTimestamp(),
     });
+    updateSlot(
+      props?.roundDetails?.auditorDetails?.auditorId,
+      DOCUMENTS.AUDITOR_SLOTS,
+      props?.roundDetails?.interviewTimeAndDate
+    );
     props?.setIsModalVisible(false);
   };
 

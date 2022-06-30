@@ -6,7 +6,7 @@ import { Empty, Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { PATH } from '../../constants/path';
 import { ROLES } from '../../constants/roles';
-export const Dashboard = () => {
+export const PastInterviews = () => {
   const navigate = useNavigate();
 
   const profile = getStringifiedLocalStorageData('_profile');
