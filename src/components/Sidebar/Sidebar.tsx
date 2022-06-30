@@ -306,14 +306,16 @@ export const Sidebar = () => {
           </ul>
         </aside>
         {/* all Modals start */}
-        <Feedback
-          isModalVisible={isModalVisible}
-          handleOk={() => feedbackHandler()}
-          handleCancel={() => {
-            showModal(setIsModalVisible, isModalVisible);
-          }}
-          setIsModalVisible={setIsModalVisible}
-        />
+        {isModalVisible && (
+          <Feedback
+            isModalVisible={isModalVisible}
+            handleOk={() => feedbackHandler()}
+            handleCancel={() => {
+              showModal(setIsModalVisible, isModalVisible);
+            }}
+            setIsModalVisible={setIsModalVisible}
+          />
+        )}
         <Logout
           isModalVisible={logoutModalVisible}
           handleOk={() => logoutHandler()}

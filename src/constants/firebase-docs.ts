@@ -6,5 +6,6 @@ export const DOCUMENTS = {
   ROUNDS: 'rounds',
   COMPANY_DOCUMENTS: 'companyDocuments',
   COMPANY_ROUNDS: 'companyRounds',
-  AUDITOR_SLOTS: 'auditorSlots'
+  AUDITOR_SLOTS: 'auditorSlots',
+  FEEDBACK: 'feedback',
 };

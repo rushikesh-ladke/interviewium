@@ -1,10 +1,26 @@
 import React from 'react';
-import { Modal } from 'antd';
+import { Button, Form, Input, Modal, Slider, Select } from 'antd';
 
 import styles from '../styles.module.scss';
+import { getStringifiedLocalStorageData } from '../../../shared/util';
+import { addDoc, collection } from 'firebase/firestore';
+import { DOCUMENTS } from '../../../constants/firebase-docs';
+import { db } from '../../../shared/firebase-config';
 
 export const Feedback = (props: any) => {
   const ModalAntd: any = Modal;
+  const [form] = Form.useForm();
+  const { Option } = Select;
+
+  const profile = getStringifiedLocalStorageData('_profile');
+
+  const onFinish = async (values: any) => {
+    await addDoc(collection(db, DOCUMENTS.FEEDBACK), {
+      ...values,
+      role: profile.role,
+      email: profile.email,
+    });
+  };
 
   return (
     <div>
@@ -18,31 +34,54 @@ export const Feedback = (props: any) => {
         <h5>
           <strong>Give feedback</strong>
         </h5>
-        <p>What do you think of the editing tool?</p>
-        <div className={styles.feedShare}>
-          <label className='form-label'>
-            Do you have any thoughts you'd like to share?
-          </label>
-          <textarea className='form-control'></textarea>
-        </div>
-
-        <label className='form-check-label mb-3'>
-          May we follow you up on your feedback?
-        </label>
-        <div className='mb-3 d-flex'>
-          <div>
-            <input type='radio' className='form-check-input' />
-            <label className='form-check-label'>Yes</label>
-          </div>
-          <div className='ms-5'>
-            <input type='radio' className='form-check-input' />
-            <label className='form-check-label'>No</label>
-          </div>
-        </div>
-        <div className='d-flex mt-5'>
-          <button className={styles.sendBtn}>Send</button>
-          <button className={styles.cancelBtn}>Cancel</button>
-        </div>
+        <p>What do you think of the management tool?</p>
+        <Form
+          name='feedback'
+          className='login-form'
+          initialValues={{ remember: true }}
+          onFinish={onFinish}
+          form={form}
+        >
+          <Form.Item
+            name='type'
+            rules={[{ required: true, message: 'required' }]}
+            hasFeedback
+          >
+            <Select defaultValue='' style={{ width: '100%' }}>
+              <Option value='feedback'>Feedback</Option>
+              <Option value='bug'>Bug</Option>
+              <Option value='featureRequest'>Feature Request</Option>
+            </Select>
+          </Form.Item>
+          <Form.Item name='rating'>
+            <Slider min={1} max={13} />
+          </Form.Item>
+          <Form.Item
+            name='location'
+            rules={[
+              { required: true, message: 'Please input your Address!' },
+              { min: 10, message: 'Please enter more than 5 characters' },
+            ]}
+            hasFeedback
+          >
+            <Input.TextArea placeholder='Please Enter Feedback here' />
+          </Form.Item>
+          <Form.Item
+            name='request'
+            rules={[{ required: true, message: 'required' }]}
+            hasFeedback
+          >
+            <Select defaultValue='' style={{ width: '100%' }}>
+              <Option value='mail'>Request For a follow-up mail</Option>
+              <Option value='noMail'>No need of follow-up mail</Option>
+            </Select>
+          </Form.Item>
+          <Form.Item>
+            <Button className={styles.signBtn} htmlType='submit'>
+              Send
+            </Button>
+          </Form.Item>
+        </Form>
       </ModalAntd>
     </div>
   );
