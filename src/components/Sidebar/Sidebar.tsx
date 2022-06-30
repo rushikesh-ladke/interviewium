@@ -150,8 +150,7 @@ export const Sidebar = () => {
                     onClick={() => navigate(PATH.PREVIOUS)}
                   >
                     <AppRegistrationOutlinedIcon className={styles.icons} />
-                    Previous
-                    <br /> Interviews
+                    Feedback
                   </li>
                 </div>
               </>
@@ -191,7 +190,7 @@ export const Sidebar = () => {
                     onClick={() => navigate(PATH.FEEDBACK)}
                   >
                     <AssignmentIndOutlinedIcon className={styles.icons} />
-                    Feedback
+                    Interview <br /> Rounds
                   </li>
                   <li
                     className={`col-6 ${
@@ -228,19 +227,6 @@ export const Sidebar = () => {
                   </li>
                   <li
                     className={`col-6 ${
-                      location?.pathname === PATH.FEEDBACK
-                        ? styles.active
-                        : null
-                    }`}
-                    onClick={() => navigate(PATH.FEEDBACK)}
-                  >
-                    <WorkOutlineOutlinedIcon className={styles.icons} />
-                    Feedback
-                  </li>
-                </div>
-                <div className='d-flex'>
-                  <li
-                    className={`col-6 ${
                       location?.pathname === PATH.INTERVIEWS
                         ? styles.active
                         : null
@@ -249,6 +235,20 @@ export const Sidebar = () => {
                   >
                     <AssignmentIndOutlinedIcon className={styles.icons} />
                     Interviews
+                  </li>
+                </div>
+                <div className='d-flex'>
+                  <li
+                    className={`col-6 ${
+                      location?.pathname === PATH.PAST_INTERVIEWER
+                        ? styles.active
+                        : null
+                    } `}
+                    onClick={() => navigate(PATH.PAST_INTERVIEWER)}
+                  >
+                    <AssignmentIndOutlinedIcon className={styles.icons} />
+                    Previous
+                    <br /> Interviews
                   </li>
                 </div>
               </>
