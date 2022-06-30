@@ -3,7 +3,7 @@ import { Badge, Button, Form, Input, Space, Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/lib/table';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
-import { query, collection, where, getDocs } from 'firebase/firestore';
+import { query, collection, where, getDocs, limit } from 'firebase/firestore';
 
 import styles from './styles.module.scss';
 import ProfileImg from '../../images/avatar.svg';
@@ -12,14 +12,18 @@ import { signUp } from '../Login/login-api';
 import { ROLES } from '../../constants/roles';
 import { postUserDetailsOnSignUp } from '../../functions/postUserDetailsOnSignUp';
 import useAuth from '../../hooks/useAuth';
+import { DOCUMENTS } from '../../constants/firebase-docs';
+import { STATUS } from '../../constants/status';
+import { getStringifiedLocalStorageData } from '../../shared/util';
 
 export const Interviewer = () => {
   const [form] = Form.useForm();
   const [HRform] = Form.useForm();
   const { auth }: any = useAuth();
   const userID: any = localStorage.getItem('uid');
+  const profile = getStringifiedLocalStorageData('_profile');
 
-  const [interviewers, setinterviewers] = useState([]);
+  const [associates, setAssociates] = useState([]);
   const [associate, setAssociate] = useState('');
   const [addInterviewer, setAddInterviewer] = useState(false);
   const [interviewerStatus, setInterviewerStatus] = useState('');
@@ -31,20 +35,29 @@ export const Interviewer = () => {
     getInterviewerData();
   }, []);
 
-  const getInterviewerData = () => {
+  const getInterviewerData = async () => {
     const q = query(
-      collection(db, 'interviewers'),
-      where('active', '==', true),
-      where('HRid', '==', userID)
+      collection(db, DOCUMENTS.USERS),
+      where(
+        'companyDetails.companyId',
+        '==',
+        profile?.companyDetails?.companyId
+      ),
+      limit(5)
     );
 
-    const interviewers: any = [];
-    getDocs(q).then(snapshot => {
-      snapshot.forEach((doc: any) => {
-        interviewers.push({ ...doc.data(), id: doc.id });
+    const querySnapshot = await getDocs(q);
+    const requests: any = [];
+    querySnapshot.forEach(doc => {
+      // doc.data() is never undefined for query doc snapshots
+      const data = doc.data();
+      requests.push({
+        ...data,
+        id: doc.id,
       });
-      setinterviewers(interviewers);
     });
+    setAssociates(requests);
+    console.log(requests);
   };
 
   const addAssociateHandler = async (
@@ -78,6 +91,54 @@ export const Interviewer = () => {
       }, 2000);
     }
   };
+
+  const columns: ColumnsType<any> = [
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+      render: (_, record: any) => (
+        <strong>
+          {record?.profile?.firstName} {record?.profile?.lastName}
+        </strong>
+      ),
+    },
+    {
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
+      render: (_, record: any) => <div>{record?.email}</div>,
+    },
+    {
+      title: 'Current Position',
+      dataIndex: 'currentPosition',
+      key: 'currentPosition',
+      render: (_, record: any) => <div>{record?.currentPosition}</div>,
+    },
+    {
+      title: 'Portal Role',
+      dataIndex: 'portalRole',
+      key: 'portalRole',
+      render: (_, record: any) => <div>{record?.role}</div>,
+    },
+    {
+      title: 'Active',
+      dataIndex: 'active',
+      key: 'active',
+      render: (_, record: any) => (
+        <Tag color='green'>{record?.active ? 'Active' : 'Idle'}</Tag>
+      ),
+      align: 'center',
+    },
+    {
+      title: 'On Boarding',
+      dataIndex: 'contact',
+      key: 'contact',
+      render: (_, record: any) => (
+        <Tag color='green'>{record?.ON_BOARDED ? 'Done' : 'Waiting'}</Tag>
+      ),
+    },
+  ];
 
   return (
     <>
@@ -299,66 +360,9 @@ export const Interviewer = () => {
           </div>
         </div>
         <div className={styles.cards}>
-          <Table columns={columns} dataSource={interviewers} />
+          <Table columns={columns} dataSource={associates} />
         </div>
       </div>
     </>
   );
 };
-
-interface DataType {
-  key: string;
-  name: string;
-  status: string;
-  slots: string;
-  tags: string[];
-}
-
-const columns: ColumnsType<DataType> = [
-  {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
-    render: text => <a href='/'>{text}</a>,
-  },
-  {
-    title: 'Todays Status',
-    dataIndex: 'status',
-    key: 'status',
-  },
-  {
-    title: 'Slots',
-    dataIndex: 'slots',
-    key: 'slots',
-  },
-  {
-    title: 'Tags',
-    key: 'tags',
-    dataIndex: 'tags',
-    render: (_, { tags }) => (
-      <>
-        {tags.map(tag => {
-          let color = tag.length > 5 ? 'geekblue' : 'green';
-          if (tag === 'loser') {
-            color = 'volcano';
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </>
-    ),
-  },
-  {
-    title: 'Action',
-    key: 'action',
-    render: (_, record) => (
-      <Space size='middle'>
-        <a href='/'>Invite</a>
-        <a href='/'>Delete</a>
-      </Space>
-    ),
-  },
-];
