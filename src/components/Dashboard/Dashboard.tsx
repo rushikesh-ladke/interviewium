@@ -1,45 +1,27 @@
 import styles from './styles.module.scss';
 import Avatar from '../../images/avatar.svg';
 import Rocket from '../../images/rocket.svg';
-import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
-import G_Logo from '../../images/g_logo.svg';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../../shared/firebase-config';
-import { DOCUMENTS } from '../../constants/firebase-docs';
+import { getStringifiedLocalStorageData } from '../../shared/util';
+import { Empty, Button } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import { PATH } from '../../constants/path';
 export const Dashboard = () => {
-  const checkQuery = async () => {
-    //getSingleDocument
-    const docRef: any = doc(
-      db,
-      `/companyDocuments/ziBSKwp7uOESg83J3ug1/rounds/rounds`
-    );
-    const userData: any = await getDoc(docRef);
-    if (userData.exists()) {
-      return {
-        data: userData.data(),
-        loaded: true,
-        error: null,
-      };
-    } else {
-      return {
-        data: null,
-        loaded: true,
-        error: 'User Profile doesnot Exists',
-      };
-    }
-  };
+  const navigate = useNavigate();
 
+  const profile = getStringifiedLocalStorageData('_profile');
   return (
     <div className={`${styles.appMain}`}>
       <div className={styles.appBody}>
         <div className='row'>
           <div className={`${styles.dashBleft} col-lg-8`}>
-            <h6 className={styles.profileName}>Hi John!</h6>
+            <h6 className={styles.profileName}>
+              Hi {profile?.profile?.firstName}!
+            </h6>
             <div className={styles.twoCards}>
               <div className={`${styles.Cone} ${styles.TCards}`}>
-                R&D for New Banking
+                Onboarding Process
                 <br />
-                Mobile App
+                made easy
                 <div className={styles.socialL}>
                   <img className={styles.avatar} src={Avatar} alt='img' />
                 </div>
@@ -47,8 +29,8 @@ export const Dashboard = () => {
               <div className={`${styles.Ctwo} ${styles.TCards}`}>
                 <div>
                   {' '}
-                  Create Signup
-                  <br /> Page
+                  Track Interviews
+                  <br /> with ease
                   <div className={styles.socialL}>
                     <img className={styles.avatar} src={Avatar} alt='img' />
                   </div>
@@ -56,9 +38,22 @@ export const Dashboard = () => {
                 <img className={styles.Rocket} src={Rocket} alt='img' />
               </div>
             </div>
-            <div className={styles.monthlyT}>
-              <h5>Monthly Tasks</h5>
-              <div className={styles.twoBtn}>
+            <div
+              className={`${styles.monthlyT} d-flex justify-content-center align-items-center`}
+            >
+              {/* <h5>Ongoing Interview Activities</h5> */}
+              <Empty
+                image='https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg'
+                imageStyle={{
+                  height: 60,
+                }}
+                description={<span>Coming Soon</span>}
+              >
+                <Button type='primary' onClick={() => navigate(PATH.ONGOING)}>
+                  Ongoing Interviews
+                </Button>
+              </Empty>
+              {/* <div className={styles.twoBtn}>
                 <button className={`${styles.ActiveBtn} ${styles.NewBtn}`}>
                   Archive
                 </button>
@@ -71,9 +66,9 @@ export const Dashboard = () => {
                   <AddOutlinedIcon className={styles.AddIcon} />
                   New
                 </button>
-              </div>
+              </div> */}
             </div>
-            <div className={styles.activeT}>
+            {/* <div className={styles.activeT}>
               <div className={styles.todayS}>
                 <h6>Today</h6>
                 <div className={styles.BelowSec}>
@@ -144,11 +139,24 @@ export const Dashboard = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
           <div className='col-lg-4'>
-            <div className={styles.trailMain}>
-              <div className={styles.trail}>
+            <div
+              className={`${styles.trailMain} d-flex justify-content-center align-items-center`}
+            >
+              <Empty
+                image='https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg'
+                imageStyle={{
+                  height: 60,
+                }}
+                description={<span>Coming Soon</span>}
+              >
+                <Button type='primary' onClick={() => navigate(PATH.ASSIGN)}>
+                  Assign Candidates
+                </Button>
+              </Empty>
+              {/* <div className={styles.trail}>
                 <h5>Activity</h5>
 
                 <div className={styles.mainTrail}>
@@ -220,7 +228,7 @@ export const Dashboard = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

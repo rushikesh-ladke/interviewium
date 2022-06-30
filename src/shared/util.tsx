@@ -12,3 +12,13 @@ export const saveToLocalStorage = (data: any) => {
     });
   }
 };
+
+export const getStringifiedLocalStorageData = (key: any) => {
+  let data: any = localStorage.getItem(key);
+  try {
+    return (data = JSON.parse(data));
+  } catch {
+    console.error('something went wrong in getStringifiedLocalStorageData');
+    return data;
+  }
+};
