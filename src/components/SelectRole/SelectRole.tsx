@@ -35,6 +35,7 @@ export const SelectRole = () => {
             <button
               className={styles.rolbtn}
               onClick={() => selectRoleHandler(ROLES.INTERVIEWER)}
+              disabled
             >
               Interviewer
             </button>

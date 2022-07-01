@@ -83,6 +83,7 @@ export const Interviewer = () => {
           HRid: userID,
         });
       }
+      getInterviewerData();
     } catch (error: any) {
       statusHandler('Email Already Exists');
       setTimeout(() => {
@@ -99,7 +100,8 @@ export const Interviewer = () => {
       key: 'name',
       render: (_, record: any) => (
         <strong>
-          {record?.profile?.firstName} {record?.profile?.lastName}
+          {record?.profile?.firstName ? record?.profile?.firstName : '-'}{' '}
+          {record?.profile?.lastName}
         </strong>
       ),
     },
@@ -113,7 +115,9 @@ export const Interviewer = () => {
       title: 'Current Position',
       dataIndex: 'currentPosition',
       key: 'currentPosition',
-      render: (_, record: any) => <div>{record?.currentPosition}</div>,
+      render: (_, record: any) => (
+        <div>{record?.currentPosition ? record?.currentPosition : '-'}</div>
+      ),
     },
     {
       title: 'Portal Role',
