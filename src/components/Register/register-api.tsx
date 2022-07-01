@@ -33,6 +33,7 @@ export const saveCompanyData = async (data: any) => {
       companyDetails: {
         companyId: docRef.id,
         headHR: true,
+        companyName: data.companyName,
       },
     });
     return {

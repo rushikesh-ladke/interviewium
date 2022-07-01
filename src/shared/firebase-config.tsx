@@ -1,7 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 
-import { firebaseConfig } from '../env/env.prod';
+import { firebaseConfig } from '../env/env.dev';
 import { getFirestore } from 'firebase/firestore';
 import 'firebase/firestore';
 const app: any = initializeApp(firebaseConfig);
