@@ -70,7 +70,6 @@ export const SelectInterviewType = (props: any) => {
       acceptedHRId: userId,
     };
     updateStatus(acceptedInterviewData, id);
-    props.getCandidateRequests();
   };
 
   return (
@@ -118,6 +117,7 @@ export const SelectInterviewType = (props: any) => {
                 onClick={() => {
                   confirmAccept(props?.candidateViewed?.id);
                   props?.setIsModalVisible(false);
+                  props.getCandidateRequests();
                 }}
               >
                 Accept the Candidate
