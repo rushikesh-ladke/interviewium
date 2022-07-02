@@ -7,7 +7,6 @@ import {
   Popconfirm,
   Popover,
   Typography,
-  Tooltip,
   Steps,
 } from 'antd';
 import type { ColumnsType } from 'antd/lib/table';
