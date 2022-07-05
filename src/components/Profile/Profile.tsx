@@ -18,7 +18,8 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import { InitialProfileData } from './modal/initialProfile';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { ROLES } from '../../constants/roles';
-
+import { PATH } from '../../constants/path';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 export const Profile = () => {
   const [profileData, setProfileData] = useState<any>();
   const [load, setLoad] = useState(false);
@@ -105,6 +106,16 @@ export const Profile = () => {
           <div className='row'>
             <div className='col-lg-4'>
               <h5>On the web</h5>
+              <p>
+                <AutoAwesomeIcon className={styles.icon} />{' '}
+                <a
+                  href={`${window.location.origin}${PATH.RESUME}?id=${userId}`}
+                  target='_blank'
+                  rel='noreferrer'
+                >
+                  Edit Your Resume
+                </a>
+              </p>
               {role !== ROLES.INTERVIEWEE && (
                 <p>
                   <GroupsIcon className={styles.icon} />{' '}

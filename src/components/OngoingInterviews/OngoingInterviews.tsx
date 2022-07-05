@@ -166,7 +166,7 @@ export const OngoingInterviews = () => {
       render: (_, record: any) => (
         <strong>
           <a
-            href={`${window.location.origin}${PATH.INTERVIEWEE_DETAILS}?id=${record.intervieweeId}`}
+            href={`${window.location.origin}${PATH.RESUME}?id=${record.intervieweeId}`}
             target='_blank'
             rel='noreferrer'
           >
@@ -277,7 +277,7 @@ export const OngoingInterviews = () => {
       render: (_, record: any) => (
         <strong>
           <a
-            href={`${window.location.origin}${PATH.INTERVIEWEE_DETAILS}?id=${record.intervieweeId}`}
+            href={`${window.location.origin}${PATH.RESUME}?id=${record.intervieweeId}`}
             target='_blank'
             rel='noreferrer'
           >
@@ -363,7 +363,7 @@ export const OngoingInterviews = () => {
       render: (_, record: any) => (
         <strong>
           <a
-            href={`${window.location.origin}${PATH.INTERVIEWEE_DETAILS}?id=${record.intervieweeId}`}
+            href={`${window.location.origin}${PATH.RESUME}?id=${record.intervieweeId}`}
             target='_blank'
             rel='noreferrer'
           >

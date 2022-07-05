@@ -11,7 +11,7 @@ import { DOCUMENTS } from '../../constants/firebase-docs';
 import { useSearchParams } from 'react-router-dom';
 import { createDocument } from '../../functions/setDoc';
 
-export const IntervieweeDetails = () => {
+export const ResumePage = () => {
   const [searchParams] = useSearchParams();
   const { Paragraph } = Typography;
   const userId = localStorage.getItem('uid');
