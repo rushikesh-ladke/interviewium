@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Badge, Button, Form, Input, Space, Table, Tag } from 'antd';
+import {
+  Badge,
+  Button,
+  Form,
+  Input,
+  Popconfirm,
+  Space,
+  Table,
+  Tag,
+} from 'antd';
 import type { ColumnsType } from 'antd/lib/table';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
@@ -15,7 +24,8 @@ import useAuth from '../../hooks/useAuth';
 import { DOCUMENTS } from '../../constants/firebase-docs';
 import { STATUS } from '../../constants/status';
 import { getStringifiedLocalStorageData } from '../../shared/util';
-
+import { updateDocument } from '../../functions/updateDoc';
+import PanToolAltIcon from '@mui/icons-material/PanToolAlt';
 export const Interviewer = () => {
   const [form] = Form.useForm();
   const [HRform] = Form.useForm();
@@ -93,6 +103,14 @@ export const Interviewer = () => {
     }
   };
 
+  const confirm = (record: any) => {
+    const active = !record?.active;
+    updateDocument(DOCUMENTS.USERS, record.id, {
+      active: active,
+    });
+    getInterviewerData();
+  };
+
   const columns: ColumnsType<any> = [
     {
       title: 'Name',
@@ -126,11 +144,36 @@ export const Interviewer = () => {
       render: (_, record: any) => <div>{record?.role}</div>,
     },
     {
-      title: 'Active',
+      title: (
+        <div>
+          Active
+          <PanToolAltIcon color='info' />
+        </div>
+      ),
       dataIndex: 'active',
       key: 'active',
       render: (_, record: any) => (
-        <Tag color='green'>{record?.active ? 'Active' : 'Idle'}</Tag>
+        <Popconfirm
+          title={
+            <div>
+              Are you sure you want to move{' '}
+              <strong>
+                {record?.profile?.firstName
+                  ? record?.profile?.firstName
+                  : record?.email}{' '}
+              </strong>
+              to{' '}
+              {record?.active ? <strong>Idle</strong> : <strong>Active</strong>}{' '}
+              state?
+            </div>
+          }
+          onConfirm={() => confirm(record)}
+          okText='Yes'
+          cancelText='No'
+        >
+          {' '}
+          <Tag color='green'>{record?.active ? 'Active' : 'Idle'}</Tag>
+        </Popconfirm>
       ),
       align: 'center',
     },

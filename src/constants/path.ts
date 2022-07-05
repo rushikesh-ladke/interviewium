@@ -14,7 +14,7 @@ export const PATH = {
   INTERVIEWS: '/interviews',
   FEEDBACK: '/feedback',
   PROFILE: '/profile',
-  INTERVIEWEE_DETAILS: '/interviewee-details',
+  RESUME: '/resume',
   DASHBOARD: '/dashboard',
   APPLICATION: '/application',
   SELECT_ROLE: '/select-role',

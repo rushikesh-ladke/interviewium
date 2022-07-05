@@ -1,6 +1,6 @@
 import Assign from '../components/Assign';
 import Dashboard from '../components/Dashboard';
-import IntervieweeDetails from '../components/IntervieweeDetails';
+import ResumePage from '../components/ResumePage';
 import Home from '../components/Home';
 import Missing from '../components/Missing';
 import { PATH } from '../constants/path';
@@ -103,12 +103,10 @@ export const Router = () => {
         }
       />
       <Route
-        path={PATH.INTERVIEWEE_DETAILS}
+        path={PATH.RESUME}
         element={
-          <AuthRoute roles={[ROLES.HR]}>
-            <MainLayout>
-              <IntervieweeDetails />
-            </MainLayout>
+          <AuthRoute roles={[ROLES.INTERVIEWEE, ROLES.HR, ROLES.INTERVIEWER]}>
+            <ResumePage />
           </AuthRoute>
         }
       />

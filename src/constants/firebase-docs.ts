@@ -8,4 +8,7 @@ export const DOCUMENTS = {
   COMPANY_ROUNDS: 'companyRounds',
   AUDITOR_SLOTS: 'auditorSlots',
   FEEDBACK: 'feedback',
+  COMPANY_STATS: 'companyStats',
+  USER_STATS: 'userStats',
+  RESUME: 'resume'
 };
