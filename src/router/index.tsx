@@ -105,10 +105,8 @@ export const Router = () => {
       <Route
         path={PATH.INTERVIEWEE_DETAILS}
         element={
-          <AuthRoute roles={[ROLES.HR]}>
-            <MainLayout>
-              <IntervieweeDetails />
-            </MainLayout>
+          <AuthRoute roles={[ROLES.INTERVIEWEE, ROLES.HR, ROLES.INTERVIEWER]}>
+            <IntervieweeDetails />
           </AuthRoute>
         }
       />
