@@ -1,204 +1,211 @@
 .appMain {
-    display: flex;
-    .header {
-        .c_link {
-            img {
-                width: 100px;
-            }
-        }
-        .aside {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            transition: width 0.3s, left 0.3s;
-            z-index: 600;
-            width: 220px;
-            top: 0;
-            padding: 20px 0;
-            background-color: #4285f4;
-            ul {
-                list-style: none;
-                padding: 0 20px;
-                margin-bottom: 5px;
-                h6 {
-                    color: #fff;
-                    font-weight: 800;
-                    margin-bottom: 20px;
-                }
-                li {
-                    text-align: center;
-                    cursor: pointer;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    margin-bottom: 18px;
-                    color: #fff;
-                    font-weight: 700;
-                    font-size: 12px;
-                    &.active {
-                        color: #f7cc1b;
-                        .icons {
-                            background-color: #f7cc1b;
-                        }
-                    }
-                    &:hover {
-                        color: #f7cc1b;
-                        .icons {
-                            background-color: #f7cc1b;
-                        }
-                    }
-                    .icons {
-                        margin-bottom: 8px;
-                        border: none;
-                        padding: 8px;
-                        width: 38px;
-                        height: 38px;
-                        background: #cec7c780;
-                        border-radius: 5px;
-                        fill: #fff;
-                    }
-                }
-                .boxMain {
-                    width: 100%;
-                    margin: 0 auto;
-                    height: 150px;
-                    border-radius: 8px;
-                    background-color: #ffffff9c;
-                }
-            }
-        }
+  display: flex;
+  .header {
+    .c_link {
+      img {
+        width: 100px;
+      }
     }
-    .appBody {
+    .aside {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      transition: width 0.3s, left 0.3s;
+      z-index: 600;
+      width: 220px;
+      top: 0;
+      padding: 20px 0;
+      background-color: #4285f4;
+      ul {
+        list-style: none;
+        padding: 0 20px;
+        margin-bottom: 5px;
+        h6 {
+          color: #fff;
+          font-weight: 800;
+          margin-bottom: 20px;
+        }
+        li {
+          text-align: center;
+          cursor: pointer;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin-bottom: 18px;
+          color: #fff;
+          font-weight: 700;
+          font-size: 12px;
+          &.active {
+            color: #f7cc1b;
+            .icons {
+              background-color: #f7cc1b;
+            }
+          }
+          &:hover {
+            color: #f7cc1b;
+            .icons {
+              background-color: #f7cc1b;
+            }
+          }
+          .icons {
+            margin-bottom: 8px;
+            border: none;
+            padding: 8px;
+            width: 38px;
+            height: 38px;
+            background: #cec7c780;
+            border-radius: 5px;
+            fill: #fff;
+          }
+        }
+        .boxMain {
+          width: 100%;
+          margin: 0 auto;
+          height: 150px;
+          border-radius: 8px;
+          background-color: #ffffff9c;
+        }
+      }
+    }
+  }
+  .appBody {
+    width: 100%;
+    padding: 20px 20px 20px 240px;
+    overflow-x: hidden;
+
+    .fixedButton {
+      position: fixed;
+      top: 92vh;
+      left: 46vw;
+    }
+
+    .DetailsMain {
+      .userAvatar {
+        width: 130px;
+        border: 1px solid #f0f0f0;
+        border-radius: 5px;
+      }
+      .UserName {
+        font-weight: 700;
+        color: #3c3c3c;
+        margin: 40px 0 20px;
+      }
+      .userPoint {
+        font-size: 16px;
+        color: #3c3c3c;
+        border-left: 3px solid #3c3c3c;
+        padding-left: 20px;
+        margin-bottom: 30px;
+      }
+      .videoN {
         width: 100%;
-        padding: 20px 20px 20px 240px;
-        overflow-x: hidden;
-        .DetailsMain {
-            .userAvatar {
-                width: 130px;
-                border: 1px solid #f0f0f0;
-                border-radius: 5px;
+      }
+      .roleInfo {
+        h5 {
+          font-weight: 600;
+          color: #3c3c3c;
+        }
+        h6 {
+          font-weight: 400;
+          color: #989898;
+        }
+        p {
+          font-size: 16px;
+        }
+      }
+      .TopSkills {
+        h2 {
+          font-weight: 600;
+          color: #3c3c3c;
+          margin-bottom: 30px;
+          .icon {
+            width: 42px;
+            height: 42px;
+            fill: #3c3c3c;
+            margin-right: 10px;
+          }
+        }
+        .info {
+          margin-bottom: 25px;
+          h4 {
+            font-weight: 600;
+            color: #3c3c3c;
+          }
+          h6 {
+            font-weight: 400;
+            color: #989898;
+          }
+          p {
+            font-size: 16px;
+            color: #3c3c3c;
+          }
+        }
+      }
+      .StackExp {
+        margin-top: 40px;
+        h2 {
+          font-weight: 600;
+          color: #3c3c3c;
+          margin-bottom: 20px;
+        }
+        h6 {
+          color: #7c7c7c;
+          margin-bottom: 10px;
+          strong {
+            color: #3c3c3c;
+          }
+        }
+      }
+      .edu {
+        margin: 40px 0;
+        h2 {
+          font-weight: 600;
+          color: #3c3c3c;
+          margin-bottom: 20px;
+        }
+        p {
+          font-size: 16px;
+          color: #3c3c3c;
+          margin-bottom: 5px;
+        }
+      }
+      .profExp {
+        margin: 40px 0;
+        h2 {
+          font-weight: 600;
+          color: #3c3c3c;
+          margin-bottom: 0;
+        }
+        .info {
+          margin-top: 25px;
+          h5 {
+            font-weight: 600;
+            color: #3c3c3c;
+          }
+          h6 {
+            font-weight: 400;
+            color: #989898;
+          }
+          p {
+            font-size: 16px;
+            color: #3c3c3c;
+          }
+          .infoStack {
+            p {
+              font-size: 16px;
+              font-weight: 600;
+              color: #3c3c3c;
             }
-            .UserName {
-                font-weight: 700;
-                color: #3c3c3c;
-                margin: 40px 0 20px;
-            }
-            .userPoint {
+            ul {
+              li {
                 font-size: 16px;
                 color: #3c3c3c;
-                border-left: 3px solid #3c3c3c;
-                padding-left: 20px;
-                margin-bottom: 30px;
+                margin-bottom: 8px;
+              }
             }
-            .videoN {
-                width: 100%;
-            }
-            .roleInfo {
-                h5 {
-                    font-weight: 600;
-                    color: #3c3c3c;
-                }
-                h6 {
-                    font-weight: 400;
-                    color: #989898;
-                }
-                p {
-                    font-size: 16px;
-                }
-            }
-            .TopSkills {
-                h2 {
-                    font-weight: 600;
-                    color: #3c3c3c;
-                    margin-bottom: 30px;
-                    .icon {
-                        width: 42px;
-                        height: 42px;
-                        fill: #3c3c3c;
-                        margin-right: 10px;
-                    }
-                }
-                .info {
-                    margin-bottom: 25px;
-                    h4 {
-                        font-weight: 600;
-                        color: #3c3c3c;
-                    }
-                    h6 {
-                        font-weight: 400;
-                        color: #989898;
-                    }
-                    p {
-                        font-size: 16px;
-                        color: #3c3c3c;
-                    }
-                }
-            }
-            .StackExp {
-                margin-top: 40px;
-                h2 {
-                    font-weight: 600;
-                    color: #3c3c3c;
-                    margin-bottom: 20px;
-                }
-                h6 {
-                    color: #7c7c7c;
-                    margin-bottom: 10px;
-                    strong {
-                        color: #3c3c3c;
-                    }
-                }
-            }
-            .edu {
-                margin: 40px 0;
-                h2 {
-                    font-weight: 600;
-                    color: #3c3c3c;
-                    margin-bottom: 20px;
-                }
-                p {
-                    font-size: 16px;
-                    color: #3c3c3c;
-                    margin-bottom: 5px;
-                }
-            }
-            .profExp {
-                margin: 40px 0;
-                h2 {
-                    font-weight: 600;
-                    color: #3c3c3c;
-                    margin-bottom: 0;
-                }
-                .info {
-                    margin-top: 25px;
-                    h5 {
-                        font-weight: 600;
-                        color: #3c3c3c;
-                    }
-                    h6 {
-                        font-weight: 400;
-                        color: #989898;
-                    }
-                    p {
-                        font-size: 16px;
-                        color: #3c3c3c;
-                    }
-                    .infoStack {
-                        p {
-                            font-size: 16px;
-                            font-weight: 600;
-                            color: #3c3c3c;
-                        }
-                        ul {
-                            li {
-                                font-size: 16px;
-                                color: #3c3c3c;
-                                margin-bottom: 8px;
-                            }
-                        }
-                    }
-                }
-            }
+          }
         }
+      }
     }
+  }
 }

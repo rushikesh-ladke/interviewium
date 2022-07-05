@@ -10,4 +10,5 @@ export const DOCUMENTS = {
   FEEDBACK: 'feedback',
   COMPANY_STATS: 'companyStats',
   USER_STATS: 'userStats',
+  RESUME: 'resume'
 };
