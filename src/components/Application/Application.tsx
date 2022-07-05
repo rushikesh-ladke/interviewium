@@ -12,13 +12,11 @@ import type { ColumnsType } from 'antd/lib/table';
 import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import ProfileImg from '../../images/avatar.svg';
-import { profile } from 'console';
 import { query, collection, where, limit, getDocs } from 'firebase/firestore';
 import { DOCUMENTS } from '../../constants/firebase-docs';
 import { STATUS, OVER_ALL_STATUS } from '../../constants/status';
 import { db } from '../../shared/firebase-config';
 import { PATH } from '../../constants/path';
-import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
 import { updateDocument } from '../../functions/updateDoc';
 
 export const Application = () => {

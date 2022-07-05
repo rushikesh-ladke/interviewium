@@ -25,6 +25,7 @@ export const InitialProfileData = (props: any) => {
         ...auth,
         profile: profile?.data,
       });
+      localStorage.setItem('_profile', JSON.stringify(profile?.data));
     } else {
       navigate(PATH.LOGIN);
     }

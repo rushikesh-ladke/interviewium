@@ -4,12 +4,12 @@ import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import CallOutlinedIcon from '@mui/icons-material/CallOutlined';
 import PointOfSaleOutlinedIcon from '@mui/icons-material/PointOfSaleOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import TwitterIcon from '@mui/icons-material/Twitter';
+// import InstagramIcon from '@mui/icons-material/Instagram';
+// import FacebookIcon from '@mui/icons-material/Facebook';
+// import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
-import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
+// import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
+// import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import { useEffect, useState } from 'react';
 import { getSingleDocument } from '../../functions/getUserProfile';
 import { DOCUMENTS } from '../../constants/firebase-docs';
@@ -18,7 +18,8 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import { InitialProfileData } from './modal/initialProfile';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { ROLES } from '../../constants/roles';
-
+import { PATH } from '../../constants/path';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 export const Profile = () => {
   const [profileData, setProfileData] = useState<any>();
   const [load, setLoad] = useState(false);
@@ -105,6 +106,16 @@ export const Profile = () => {
           <div className='row'>
             <div className='col-lg-4'>
               <h5>On the web</h5>
+              <p>
+                <AutoAwesomeIcon className={styles.icon} />{' '}
+                <a
+                  href={`${window.location.origin}${PATH.RESUME}?id=${userId}`}
+                  target='_blank'
+                  rel='noreferrer'
+                >
+                  Edit Your Resume
+                </a>
+              </p>
               {role !== ROLES.INTERVIEWEE && (
                 <p>
                   <GroupsIcon className={styles.icon} />{' '}

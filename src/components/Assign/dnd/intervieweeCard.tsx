@@ -21,13 +21,6 @@ const IntervieweeCard = (props: any) => {
     }),
   }));
 
-  const getDate = (serverDate: any) => {
-    let some = serverDate.toDate();
-    some =
-      some.getDate() + ' ' + some.toLocaleString('default', { month: 'long' });
-    return some;
-  };
-
   return (
     <div className={styles.studentCard} ref={drag} id={props?.index}>
       {/* style={{color : isDragging ? '#FF3F3F' : 'blue'}} */}

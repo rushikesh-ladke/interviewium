@@ -13,6 +13,7 @@ import { SliderMarks } from 'antd/lib/slider';
 import { serverTimestamp } from 'firebase/firestore';
 import { useState, useEffect } from 'react';
 import useAuth from '../../../hooks/useAuth';
+import { getStringifiedLocalStorageData } from '../../../shared/util';
 import { createUpdateJob, updateJob } from '../jobs-api';
 import styles from '../styles.module.scss';
 
@@ -27,6 +28,7 @@ export const CreateJob = ({
   const ModalAntd: any = Modal;
 
   const userID: any = localStorage.getItem('uid');
+  const profile: any = getStringifiedLocalStorageData('_profile');
 
   const { auth } = useAuth();
   const { Option } = Select;
@@ -78,7 +80,7 @@ export const CreateJob = ({
       email = '';
     }
     setHREmail(email?.email);
-    setCompanyName('Interviewium');
+    setCompanyName(profile?.companyDetails?.companyName);
   };
 
   const marks: SliderMarks = {

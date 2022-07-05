@@ -22,3 +22,10 @@ export const getStringifiedLocalStorageData = (key: any) => {
     return data;
   }
 };
+
+export const getDate = (serverDate: any) => {
+  let some = serverDate.toDate();
+  some =
+    some.getDate() + ' ' + some.toLocaleString('default', { month: 'long' });
+  return some;
+};

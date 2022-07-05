@@ -1,5 +1,4 @@
-import { doc, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore';
-import { DOCUMENTS } from '../../constants/firebase-docs';
+import { doc, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { db } from '../../shared/firebase-config';
 
 export const addProfileData = async (values: any, newDocId: any) => {
